@@ -72,7 +72,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		if (auId>0&&addUserSessionId(String.valueOf(auId))) {
 			return "true";
 		}else {
-			throw new ServiceException(CommonMethod.initExceptionDesc(6));
+			throw new IllegalArgumentException(CommonMethod.initExceptionDesc(6));
 		}
 		
 	}
