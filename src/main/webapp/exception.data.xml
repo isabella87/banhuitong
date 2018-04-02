@@ -1,0 +1,11 @@
+<List>  
+  
+<exception>  
+    <id>0</id>  
+    <desc>服务端错误，请联系后台管理人员！</desc>  
+</exception>  
+<exception>  
+    <id>1</id>  
+    <desc>您未登录，请您登录！</desc>  
+</exception>  
+</List>  

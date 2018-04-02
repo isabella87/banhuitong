@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.bht</groupId>
+  <artifactId>banhuitong</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>banhuitong</name>
+
+  <properties>
+    <!-- Convenience property to set the GWT version -->
+    <gwtVersion>2.7.0</gwtVersion>
+
+    <!-- GWT needs at least java 1.6 -->
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <catalina.home>C:\tomcat</catalina.home>
+    
+	<maven.resources.overwrite>true</maven.resources.overwrite>  
+	
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt</artifactId>
+        <version>${gwtVersion}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjrt</artifactId>
+	    <version>1.8.13</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+	<dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpclient</artifactId>
+	    <version>4.5.2</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+	<dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpcore</artifactId>
+	    <version>4.4.4</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
+	<dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpmime</artifactId>
+	    <version>4.5.2</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/com.cloudhopper.proxool/proxool -->
+	<dependency>
+	    <groupId>com.cloudhopper.proxool</groupId>
+	    <artifactId>proxool</artifactId>
+	    <version>0.9.1</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/com.cloudhopper.proxool/proxool-cglib -->
+	<dependency>
+	    <groupId>com.cloudhopper.proxool</groupId>
+	    <artifactId>proxool-cglib</artifactId>
+	    <version>0.9.1</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+	<dependency>
+	    <groupId>com.alibaba</groupId>
+	    <artifactId>fastjson</artifactId>
+	    <version>1.2.10</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi-scratchpad</artifactId>
+	    <version>3.10.1</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+	<dependency>
+	    <groupId>commons-logging</groupId>
+	    <artifactId>commons-logging</artifactId>
+	    <version>1.1.1</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-lang3</artifactId>
+	    <version>3.3.2</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+	<dependency>
+	    <groupId>commons-codec</groupId>
+	    <artifactId>commons-codec</artifactId>
+	    <version>1.9</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+	<dependency>
+	    <groupId>log4j</groupId>
+	    <artifactId>log4j</artifactId>
+	    <version>1.2.17</version>
+	</dependency>
+    
+    <!-- https://mvnrepository.com/artifact/com.google.code.kaptcha/kaptcha -->
+	<dependency>
+	    <groupId>com.google.code.kaptcha</groupId>
+	    <artifactId>kaptcha</artifactId>
+	    <version>2.3</version>
+	</dependency>
+    
+    <dependency>
+		<groupId>org.xx.armory</groupId>
+		<artifactId>armory</artifactId>
+		<version>1.0.0</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/armory.jar</systemPath>
+	</dependency>
+	
+	<dependency>
+		<groupId>oracle</groupId>
+		<artifactId>oracle</artifactId>
+		<version>1.0.0</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ojdbc7_g.jar</systemPath>
+	</dependency>
+	
+	<dependency>
+		<groupId>com.smartgwt</groupId>
+		<artifactId>smartgwt</artifactId>
+		<version>2.5</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/smartgwt.jar</systemPath>
+	</dependency>
+	
+	<dependency>
+		<groupId>com.smartgwt</groupId>
+		<artifactId>smartgwt-skins</artifactId>
+		<version>2.5</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/smartgwt-skins.jar</systemPath>
+	</dependency>
+	
+  </dependencies>
+
+  <build>
+    <finalName>banhuitong</finalName>
+    <!-- Output classes directly into the webapp, so that IDEs and "mvn process-classes" update them in DevMode -->
+    <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
+
+    <plugins>
+	
+      <!-- GWT Maven Plugin -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>2.7.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>test</goal>
+              <goal>generateAsync</goal>
+            </goals>
+          </execution>
+        </executions>
+        <!-- Plugin configuration. There are many available options, see 
+          gwt-maven-plugin documentation at codehaus.org -->
+        <configuration>
+          <runTarget>index.html</runTarget>
+          <modules>
+            <module>com.bht.banhuitong.MainFrame</module>
+          </modules>
+        </configuration>
+      </plugin>
+      
+      <!-- 将打好的war包，copy到固定目录 -->
+	  <plugin>
+	  	<groupId>org.apache.maven.plugins</groupId>
+		 <artifactId>maven-resources-plugin</artifactId>
+		 <version>2.7</version>
+		 <executions>
+			 <execution>
+			     <id>copy-resources</id>
+			     <!-- here the phase you need -->
+			     <phase>package</phase>
+			     <goals>
+			        <goal>copy-resources</goal>
+			     </goals>
+			     <configuration>
+			         <maven.resources.overwrite>true</maven.resources.overwrite> 
+			         <outputDirectory>${catalina.home}/webapps</outputDirectory>
+			         <resources>          
+			             <resource>
+			                 	 <directory>${project.build.directory}</directory>
+			                  	 <includes>
+							  		<include>banhuitong.war</include>
+							  	</includes> 
+			                 <!-- <filtering>true</filtering> -->
+			            	 </resource>
+			        	 </resources>              
+			    	</configuration>            
+				</execution>
+			</executions>
+		</plugin>
+  	</plugins>
+  </build>
+
+</project>
