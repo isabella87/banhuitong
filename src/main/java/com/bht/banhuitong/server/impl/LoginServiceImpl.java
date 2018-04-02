@@ -71,9 +71,10 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		long auId = accountDbService.checkLogin(loginName, pwd);
 		if (auId>0&&addUserSessionId(String.valueOf(auId))) {
 			return "true";
+		}else {
+			throw new ServiceException(CommonMethod.initExceptionDesc(6));
 		}
-		return "false";
-
+		
 	}
 	
 	/**
