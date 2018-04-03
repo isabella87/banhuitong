@@ -20,6 +20,12 @@ ssh -T git@github.com
 
 ​	例如：url=	https://isabella87:760810ssg@github.com/isabella87/xrsrv.git
 
+5，设置配置文件中用户基本信息
+
+git config --global user.name "isabella87"
+
+git config --global user.email  429509577@qq.com
+
 
 
 二，同步文件阶段：
@@ -75,3 +81,6 @@ git push -u origin master
 ​	git clone url  
 
 例如 git clone https://github.com/isabella87/banhuitong.git
+
+
+
