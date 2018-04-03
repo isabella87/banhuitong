@@ -26,6 +26,8 @@ git config --global user.name "isabella87"
 
 git config --global user.email  429509577@qq.com
 
+6，注意文件“.gitignore”，系统会根据该文件的设置忽略一些文件或者文件夹。（会出现无法识别新加文件的情况）
+
 
 
 二，同步文件阶段：
