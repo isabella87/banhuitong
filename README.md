@@ -40,7 +40,7 @@ git init
 
 3，运行以下命令与远程仓库建立连接，其中isabella87是我再git官网的用户名，xrsrv是某个仓库的名称。
 
-git remote add origin git@github.com:isabella87/xrsrv.git
+git remote add origin git@github.com:isabella87/xrsrv.git  （此处的origin为命名的id名，可以在同一机器上或者不同机器上创建多个实现协同开发）
 
 4，运行以下命令，同步一次本地与远程仓库中的内容。运行完本地会多一个README.md文件。
 
