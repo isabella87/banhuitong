@@ -181,7 +181,7 @@ public class MainPrjPortlet2 extends BasePortlet{
         
         HLayout searchPanel= new HLayout();
         searchPanel.setWidth(MainFrame.window.getWidth()-12);
-        searchPanel.setHeight(50);
+        searchPanel.setHeight(80);
         
 		final TextItem searchKeyItem = new TextItem();
 		searchKeyItem.setTitle("关键字");
@@ -201,10 +201,11 @@ public class MainPrjPortlet2 extends BasePortlet{
 //		searchForm.setWidth(searchForm.getParent().getOffsetWidth());
 		searchForm.setNumCols(8);
 		searchForm.setFields(timeTypeItem,startDateItem,endDateItem,prjTypeItem,prjStatusItem,searchKeyTypeItem,searchKeyItem);
+		
 		searchPanel.addMembers(searchForm,searchDataButton);
 		sPanel.add(searchPanel);
 		
-        this.addMembers(searchPanel);
+        this.addMember(searchPanel);
         this.addItem(countryGrid);
 		
 		searchDataButton.addClickHandler(new ClickHandler() {  
