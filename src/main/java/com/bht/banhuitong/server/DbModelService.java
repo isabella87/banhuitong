@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * The client-side stub for the RPC service.
  */
-@RemoteServiceRelativePath("dbmodel")
+@RemoteServiceRelativePath("action/dbmodel")
 public interface DbModelService extends RemoteService {
 	boolean createTable(String tableName, Map<String, String> tableFieldsMap,Map<String, String> columnCommentsParamMap);
 	int updateTableInfo(Map<String,String> paramMap) throws IllegalArgumentException;

@@ -8,7 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * The client-side stub for the RPC service.
  */
-@RemoteServiceRelativePath("login")
+@RemoteServiceRelativePath("action/login")
 public interface LoginService extends RemoteService {
 	/**
 	 * 验证登录名及密码

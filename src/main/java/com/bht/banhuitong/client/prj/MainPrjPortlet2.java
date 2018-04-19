@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bht.banhuitong.client.BaseFrame;
 import com.bht.banhuitong.client.MainFrame;
 import com.bht.banhuitong.server.PrjService;
 import com.bht.banhuitong.server.PrjServiceAsync;
@@ -29,7 +30,7 @@ import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
-public class MainPrjPortlet2 extends BasePortlet{
+public class MainPrjPortlet2 extends BaseGridPortlet{
 
 	private int hBarValue = 0;
 	
@@ -117,7 +118,7 @@ public class MainPrjPortlet2 extends BasePortlet{
 		final ListGrid countryGrid = new ListGrid();  
 		countryGrid.setHeight100(); 
         countryGrid.setWidth100();  
-        countryGrid.setTop(20);  
+        countryGrid.setTop(50);  
         countryGrid.setLeft(5);
         countryGrid.setShowAllRecords(true);  
         countryGrid.setShowEmptyMessage(true);  
@@ -180,7 +181,7 @@ public class MainPrjPortlet2 extends BasePortlet{
         
         HLayout searchPanel= new HLayout();
         searchPanel.setWidth(MainFrame.window.getWidth()-12);
-        searchPanel.setHeight(40);
+        searchPanel.setHeight(50);
         
 		final TextItem searchKeyItem = new TextItem();
 		searchKeyItem.setTitle("关键字");
@@ -195,15 +196,16 @@ public class MainPrjPortlet2 extends BasePortlet{
 		scrollCanvas.addChild(sPanel);
 		
 		DynamicForm searchForm = new DynamicForm();
-		searchForm.setWidth(500);
+		searchForm.setWidth(1200);
+		searchForm.setHeight(50);
 //		searchForm.setWidth(searchForm.getParent().getOffsetWidth());
-		searchForm.setNumCols(4);
+		searchForm.setNumCols(8);
 		searchForm.setFields(timeTypeItem,startDateItem,endDateItem,prjTypeItem,prjStatusItem,searchKeyTypeItem,searchKeyItem);
 		searchPanel.addMembers(searchForm,searchDataButton);
 		sPanel.add(searchPanel);
 		
-        portlet.addMembers(scrollCanvas);
-		portlet.addItem(countryGrid);
+        this.addMembers(searchPanel);
+        this.addItem(countryGrid);
 		
 		searchDataButton.addClickHandler(new ClickHandler() {  
             public void onClick(ClickEvent event) {  
@@ -239,7 +241,7 @@ public class MainPrjPortlet2 extends BasePortlet{
             	
             	//TODO 
 				hBarValue = 0;
-				hBar.setPercentDone(hBarValue);
+				BaseFrame.hBar.setPercentDone(hBarValue);
 				
 				new Timer() {  
 		             public void run() {  
@@ -273,24 +275,24 @@ public class MainPrjPortlet2 extends BasePortlet{
 										} else {
 											countryGrid.setData(new ListGridRecord[] {});
 											countryGrid.setData(getRecords(result));
-			
+											retListGrid = countryGrid;
 										}
 									}
 									hBarValue=100;
 								}
 			            	});
 						}
-						headerHBarLabel.setContents("");
-						headerHBarLabel.setContents("正在接收数据......");
-		                hBar.setPercentDone(hBarValue); 
-		                hBarLabel.setContents(hBarValue+"%");
+						BaseFrame.headerHBarLabel.setContents("");
+						BaseFrame.headerHBarLabel.setContents("正在接收数据......");
+						BaseFrame.hBar.setPercentDone(hBarValue); 
+		                BaseFrame.hBarLabel.setContents(hBarValue+"%");
 		                
 						if(hBarValue!=100)  {
 		                    schedule(5 + (int) (1 * Math.random()));  
 		                }else {
-		                	headerHBarLabel.setContents("就绪");
-		                	hBar.destroy();
-		               	 	hBarLabel.destroy();
+		                	BaseFrame.headerHBarLabel.setContents("就绪");
+		                	BaseFrame.hBar.destroy();
+		                	BaseFrame.hBarLabel.destroy();
 		                }
 				//*********
 		        	}  
@@ -301,12 +303,12 @@ public class MainPrjPortlet2 extends BasePortlet{
 		 		vlayout.setTop(3);
 		 		vlayout.setHeight(22); 
 		 		HLayout hLayout = new HLayout();
-		 		hLayout.addMember(headerHBarLabel);
-		 		hLayout.addMember(hBar);
-		 		hLayout.addMember(hBarLabel);
+		 		hLayout.addMember(BaseFrame.headerHBarLabel);
+		 		hLayout.addMember(BaseFrame.hBar);
+		 		hLayout.addMember(BaseFrame.hBarLabel);
 		 		vlayout.addMember(hLayout);
 		 		
-				endCanvas.addChild(vlayout);
+		 		BaseFrame.endCanvas.addChild(vlayout);
             }  
         }); 
 	}

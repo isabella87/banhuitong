@@ -21,26 +21,25 @@ import com.smartgwt.client.widgets.grid.events.ChangedEvent;
 import com.smartgwt.client.widgets.grid.events.ChangedHandler;
 import com.smartgwt.client.widgets.layout.Portlet;
 
-public class BasePortlet extends BaseFrame{
+public class BaseGridPortlet extends Portlet {
 	
 	protected static List<String> emptyArrayList = new ArrayList<String>();
 	ListGrid retListGrid = new ListGrid();	
 	
+	
 	public ListGrid getRetListGrid() {
 		return retListGrid;
 	}
-	
-	Portlet portlet = new Portlet();
 
-	public BasePortlet(String title) {
-		this.portlet.setTitle(title);
-		this.portlet.setShowCloseConfirmationMessage(false);
+	public BaseGridPortlet(String title) {
+		this.setTitle(title);
+		this.setShowCloseConfirmationMessage(false);
 		init();
 		registClickEvent();
 	}
 	
 	private void registClickEvent() {
-		portlet.addClickHandler(new ClickHandler() {
+		this.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -48,12 +47,12 @@ public class BasePortlet extends BaseFrame{
 				portlet.bringToFront();
 			}
 		});
-		portlet.addCloseClickHandler(new CloseClickHandler() {
+		this.addCloseClickHandler(new CloseClickHandler() {
 
 			@Override
 			public void onCloseClick(CloseClickEvent event) {
-				new BaseFrame().delPortlet(portlet.getTitle());
-//				BaseFrame.winValuesMap.remove(portlet.getTitle());
+				BaseGridPortlet obj = (BaseGridPortlet) event.getSource();
+				new BaseFrame().delPortlet(obj.getTitle());
 			}
 			
 		});
@@ -63,7 +62,7 @@ public class BasePortlet extends BaseFrame{
 
 	}
 	
-	public BasePortlet getPortlet() {
+	public BaseGridPortlet getPortlet() {
 		return this;
 	}
 	
@@ -156,10 +155,10 @@ public class BasePortlet extends BaseFrame{
 			if(Integer.valueOf(errorCode)==1) {//如果是未登录状态，则重新打开登录页面
 				new LoginWindow().init(); 
 			}else {
-				SC.say(exceMap.get(Integer.valueOf(errorCode)));
+				SC.say(BaseFrame.exceMap.get(Integer.valueOf(errorCode)));
 			}
 		}else {
-			SC.say(exceMap.get(0));
+			SC.say(BaseFrame.exceMap.get(0));
 		}
 	}
 	

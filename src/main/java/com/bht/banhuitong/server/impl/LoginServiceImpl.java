@@ -64,7 +64,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		String captchaCode = paramMap.get("captcha-code");
 		
 		if(captchaCode==null||captchaCode.isEmpty()||!captchaCode.equals(captchaSessionMap.get(getThreadLocalRequest().getSession().getId()))) {
-			throw new ServiceException(CommonMethod.initExceptionDesc(4));
+			throw new IllegalArgumentException(CommonMethod.initExceptionDesc(4));
 		};
 				
 		AccountDbServiceImpl accountDbService = new AccountDbServiceImpl();

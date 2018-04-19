@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * The client-side stub for the RPC service.
  */
-@RemoteServiceRelativePath("account")
+@RemoteServiceRelativePath("action/account")
 public interface AccountService extends RemoteService {
 
 	List<Map<String, String>> getAccountInfo() throws Exception;

@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bht.banhuitong.client.BaseFrame;
 import com.bht.banhuitong.client.MainFrame;
 import com.bht.banhuitong.server.DbModelService;
 import com.bht.banhuitong.server.DbModelServiceAsync;
@@ -40,7 +41,7 @@ import com.smartgwt.client.widgets.menu.MenuItemSeparator;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 
-public class MainPrjPortlet extends BasePortlet {
+public class MainPrjPortlet extends BaseGridPortlet {
 
 	private int hBarValue = 0;
 	
@@ -204,7 +205,7 @@ public class MainPrjPortlet extends BasePortlet {
 		searchForm.setFields(timeTypeItem, startDateItem, endDateItem, prjTypeItem, prjStatusItem, searchKeyTypeItem,
 				searchKeyItem);
 
-		portlet.addItem(listGrid);
+		this.addItem(listGrid);
 
 		Menu menu = new Menu();
 		MenuItem searchMenu = new MenuItem("搜索");
@@ -215,7 +216,7 @@ public class MainPrjPortlet extends BasePortlet {
 		MenuItem searchCondMenu = new MenuItem("设置搜索条件");
 		menu.setItems(searchMenu, printerMenu, separator, searchCondMenu,createTableMenu);
 
-		portlet.setContextMenu(menu);
+		this.setContextMenu(menu);
 
 		conWind.addCloseClickHandler(new CloseClickHandler() {
 
@@ -336,7 +337,7 @@ public class MainPrjPortlet extends BasePortlet {
 				
 				//TODO 
 				hBarValue = 0;
-				hBar.setPercentDone(hBarValue);
+				BaseFrame.hBar.setPercentDone(hBarValue);
 
 				new Timer() {  
 		             public void run() {  
@@ -367,6 +368,7 @@ public class MainPrjPortlet extends BasePortlet {
 										} else {
 											listGrid.setData(new ListGridRecord[] {});
 											listGrid.setData(getRecords(result));
+											retListGrid = listGrid;
 										}
 									}
 									
@@ -375,17 +377,17 @@ public class MainPrjPortlet extends BasePortlet {
 							});
 						}
 						
-						 headerHBarLabel.setContents("");
-						 headerHBarLabel.setContents("正在接收数据......");
-		                 hBar.setPercentDone(hBarValue); 
-		                 hBarLabel.setContents(hBarValue+"%");
+						BaseFrame.headerHBarLabel.setContents("");
+						BaseFrame.headerHBarLabel.setContents("正在接收数据......");
+						BaseFrame.hBar.setPercentDone(hBarValue); 
+						BaseFrame.hBarLabel.setContents(hBarValue+"%");
 		                 
 						if(hBarValue!=100)  {
 		                     schedule(5 + (int) (1 * Math.random()));  
 		                 }else {
-		                	 hBar.destroy();
-		                	 hBarLabel.destroy();
-		                	 headerHBarLabel.setContents("就绪");
+		                	 BaseFrame.hBar.destroy();
+		                	 BaseFrame.hBarLabel.destroy();
+		                	 BaseFrame.headerHBarLabel.setContents("就绪");
 		                 }
 				//*********
 		         	}  
@@ -396,12 +398,12 @@ public class MainPrjPortlet extends BasePortlet {
 		  		vlayout.setTop(3);
 		  		vlayout.setHeight(22); 
 		  		HLayout hLayout = new HLayout();
-		  		hLayout.addMember(headerHBarLabel);
-		  		hLayout.addMember(hBar);
-		  		hLayout.addMember(hBarLabel);
+		  		hLayout.addMember(BaseFrame.headerHBarLabel);
+		  		hLayout.addMember(BaseFrame.hBar);
+		  		hLayout.addMember(BaseFrame.hBarLabel);
 		  		vlayout.addMember(hLayout);
 		  		
-				endCanvas.addChild(vlayout);
+		  		BaseFrame.endCanvas.addChild(vlayout);
 			}
 		});
 		listGrid.redraw();

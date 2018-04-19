@@ -5,7 +5,7 @@ import com.smartgwt.client.types.OperatorId;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 
-public class CreditPrjPortlet extends BasePortlet{
+public class CreditPrjPortlet extends BaseGridPortlet{
 	private static String portletTitleName = "系统建模 -filter";
 	private CreditPrjPortlet portletInstance;
 
@@ -46,7 +46,7 @@ public class CreditPrjPortlet extends BasePortlet{
         countryGrid.setAllowFilterOperators(true);  
         countryGrid.setCriteria(criteria);  
       
-        portlet.addItem(countryGrid);
+        this.addItem(countryGrid);
 	}
 	
 }

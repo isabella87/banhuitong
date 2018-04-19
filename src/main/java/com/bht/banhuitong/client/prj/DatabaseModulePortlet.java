@@ -6,8 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.bht.banhuitong.server.DbModelServiceAsync;
 import com.bht.banhuitong.server.DbModelService;
+import com.bht.banhuitong.server.DbModelServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.types.ListGridEditEvent;
@@ -31,7 +31,7 @@ import com.smartgwt.client.widgets.menu.MenuItemSeparator;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 
-public class DatabaseModulePortlet extends BasePortlet{
+public class DatabaseModulePortlet extends BaseGridPortlet{
 
 	public static Map<String, String> dbTableModelFieldItems = new LinkedHashMap<String, String>();
 	private static List<String> candbTableModelEditFieldItems = new ArrayList<String>();
@@ -552,7 +552,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 							} else {
 								dbTableModelListGrid.setData(new ListGridRecord[] {});
 								dbTableModelListGrid.setData(getRecords(result,dbTableModelFieldItems));
-
+								retListGrid = dbTableModelListGrid;
 							}
 						}
 						
@@ -749,7 +749,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 		yzmForm.setEdgeMarginSize(1);
 		
 		
-		portlet.addItem(mainLayout);
+		this.addItem(mainLayout);
         
 	}
 	/**
@@ -788,4 +788,5 @@ public class DatabaseModulePortlet extends BasePortlet{
 		}
 		return record;
 	}
+
 }

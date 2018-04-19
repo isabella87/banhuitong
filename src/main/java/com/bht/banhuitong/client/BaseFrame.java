@@ -1,9 +1,12 @@
 package com.bht.banhuitong.client;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import com.bht.banhuitong.client.prj.BaseGridPortlet;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.widgets.Canvas;
@@ -21,13 +24,13 @@ public class BaseFrame {
 	static RootPanel rootPanel;
 	protected static Canvas canvasMain = new Canvas();
 	protected static Label loginNameLabel = new Label();
-	protected static Canvas endCanvas = new Canvas();
+	public static Canvas endCanvas = new Canvas();
 	
 	public static Map<Integer,String> exceMap = new HashMap<Integer,String>();
 	static {
 		exceMap.put(0, "服务器端错误，请联系后台管理员！");
 	}
-	public static Map<String, Portlet> portlets = new LinkedHashMap<String, Portlet>();
+	public static LinkedHashMap<String, BaseGridPortlet> portlets = new LinkedHashMap<String, BaseGridPortlet>();
 	public static Map<String, String> winValuesMap = new LinkedHashMap<String, String>();
 	
 	/**
@@ -118,7 +121,7 @@ public class BaseFrame {
 	 * @param <T>
 	 * @param class1
 	 */
-	public <T> void changeMainCanvas(Class<T> class1, Portlet portlet) {
+	public <T> void changeMainCanvas(Class<T> class1, BaseGridPortlet portlet) {
 
 		initMainCanvas();
 
@@ -129,7 +132,9 @@ public class BaseFrame {
 			portlets.get(portlet.getTitle()).setWidth(MainFrame.window.getWidth() - 12);
 			portlets.get(portlet.getTitle()).setTop(0);
 			portlets.get(portlet.getTitle()).setLeft(0);
+			putPortlet(class1, portlets.get(portlet.getTitle()));
 			portlets.get(portlet.getTitle()).bringToFront();
+			canvasMain.addChild(portlets.get(portlet.getTitle()));
 			canvasMain.redraw();
 		} else {
 			portlet.setHeight(MainFrame.window.getHeight() - 76);
@@ -149,7 +154,7 @@ public class BaseFrame {
 			public void onClick(ClickEvent event) {
 				Object object = event.getSource();
 				if (object instanceof BaseFrame) {
-					Portlet portlet = (Portlet) object;
+					BaseGridPortlet portlet = (BaseGridPortlet) object;
 					portlets.put(portlet.getTitle(), portlet);
 				}
 			}
@@ -161,7 +166,7 @@ public class BaseFrame {
 			public void onDragMove(DragMoveEvent event) {
 				Object object = event.getSource();
 				if (object instanceof BaseFrame) {
-					Portlet portlet = (Portlet) object;
+					BaseGridPortlet portlet = (BaseGridPortlet) object;
 					portlets.put(portlet.getTitle(), portlet);
 				}
 			}
@@ -169,7 +174,7 @@ public class BaseFrame {
 		});
 	}
 
-	public Map<String, Portlet> getPortlets() {
+	public Map<String, BaseGridPortlet> getPortlets() {
 		return portlets;
 	}
 
@@ -282,7 +287,7 @@ public class BaseFrame {
 		initEndCanvas();
 	}
 
-	public <T> Long putPortlet(Class<T> class1, Portlet portlet) {
+	public <T> Long putPortlet(Class<T> class1, BaseGridPortlet portlet) {
 		if (portlets.get(portlet.getTitle()) != null) {
 			delPortlet(portlet.getTitle());
 		}
@@ -294,5 +299,14 @@ public class BaseFrame {
 		canvasMain.removeChild(portlets.get(key));
 		portlets.remove(key);
 		return 1;
+	}
+	
+	public <K, V> Entry<K, V> getTail(LinkedHashMap<K, V> map) {
+	    Iterator<Entry<K, V>> iterator = map.entrySet().iterator();
+	    Entry<K, V> tail = null;
+	    while (iterator.hasNext()) {
+	        tail = iterator.next();
+	    }
+	    return tail;
 	}
 }

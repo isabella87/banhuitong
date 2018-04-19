@@ -3,14 +3,23 @@
 
 # Log file
 *.log
+banhuitong.iml
 
 # BlueJ files
 *.ctxt
+.project
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
 # Package Files #
+.settings
+.idea
+.externalToolBuilders
+gwt-unitCache
+log
+target
+war
 target
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml

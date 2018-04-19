@@ -20,10 +20,10 @@
     <filter-mapping>
         <filter-name>securityFilter</filter-name>
          <!-- “/*”表示拦截所有的请求 -->
-         <url-pattern>/*</url-pattern>
+         <url-pattern>/banhuitong/action/*</url-pattern>    <!-- 上传，下载跳过过滤拦截，避免request被二次读取，内容清空的情况 -->
     </filter-mapping>
     
-  <!-- Servlets -->
+  <!-- 登录等系统业务服务  Servlets -->
   <servlet>
   	<servlet-name>StartupServlet</servlet-name>
   	<servlet-class>com.bht.banhuitong.StartupServlet</servlet-class>
@@ -37,7 +37,7 @@
   
   <servlet-mapping>
     <servlet-name>loginServlet</servlet-name>
-    <url-pattern>/banhuitong/login</url-pattern>
+    <url-pattern>/banhuitong/action/login</url-pattern>  
   </servlet-mapping>
  
  <servlet>
@@ -47,7 +47,7 @@
   
   <servlet-mapping>
     <servlet-name>accountServlet</servlet-name>
-    <url-pattern>/banhuitong/account</url-pattern>
+    <url-pattern>/banhuitong/action/account</url-pattern>
   </servlet-mapping>
   
    <servlet>
@@ -57,7 +57,7 @@
   
   <servlet-mapping>
     <servlet-name>prjServlet</servlet-name>
-    <url-pattern>/banhuitong/prj</url-pattern>
+    <url-pattern>/banhuitong/action/prj</url-pattern>
   </servlet-mapping>
    
    <servlet>
@@ -67,7 +67,28 @@
   
   <servlet-mapping>
     <servlet-name>dbModelServlet</servlet-name>
-    <url-pattern>/banhuitong/dbmodel</url-pattern>
+    <url-pattern>/banhuitong/action/dbmodel</url-pattern>
+  </servlet-mapping>
+ 
+ <!-- 上传及下载 --> 
+  <servlet>
+    <servlet-name>uploadServlet</servlet-name>
+    <servlet-class>com.bht.banhuitong.UploadServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>uploadServlet</servlet-name>
+    <url-pattern>/banhuitong/upload</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>downloadServlet</servlet-name>
+    <servlet-class>com.bht.banhuitong.DownloadServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>downloadServlet</servlet-name>
+    <url-pattern>/banhuitong/download</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

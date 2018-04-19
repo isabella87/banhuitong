@@ -5,7 +5,7 @@ public class Urls {
 	/**
 	 * "http://www.banbank.com" "http://192.168.11.114"
 	 */
-	public static final String ROOT_URL = "http://192.168.11.190:8889";
+	public static final String ROOT_URL = "http://localhost:8889";
 	public static final String QUERY_INVESTORS_URL = ROOT_URL + "/p2psrv/mgr/crm/investors";
 	public static final String QUERY_ENT_URL = ROOT_URL + "/p2psrv/mgr/prj/ent-projs";
 	public static final String LOGIN_URL = ROOT_URL + "/p2psrv/security/signin";

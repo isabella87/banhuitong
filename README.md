@@ -84,5 +84,4 @@ git push -u origin master
 
 例如 git clone https://github.com/isabella87/banhuitong.git
 
-
-
+小心由于加了servlet安全过滤，request被读取一遍。 再用request时没有的之前的body内容。  注意避让！！！！！！

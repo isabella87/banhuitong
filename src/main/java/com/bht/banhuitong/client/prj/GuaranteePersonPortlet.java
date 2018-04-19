@@ -4,7 +4,7 @@ import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 
-public class GuaranteePersonPortlet extends BasePortlet{
+public class GuaranteePersonPortlet extends BaseGridPortlet{
 	private static String portletTitleName = "基础数据 -项担保个人";
 	private GuaranteePersonPortlet portletInstance;
 
@@ -37,7 +37,7 @@ public class GuaranteePersonPortlet extends BasePortlet{
 		
 		yzmForm.setFields(yzmItem);
 		
-		portlet.addChild(yzmForm);
+		this.addChild(yzmForm);
         
 	}
 	
