@@ -19,6 +19,7 @@ import com.smartgwt.client.widgets.events.CloseClickEvent;
 import com.smartgwt.client.widgets.events.CloseClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.layout.HLayout;
+import com.smartgwt.client.widgets.layout.VLayout;
 
 public class UploadWindow extends Window {
 
@@ -39,13 +40,14 @@ public class UploadWindow extends Window {
 			}
 		});
 		DynamicForm form = new DynamicForm();
-		form.setHeight(50);
-		form.setWidth(300);
+		form.setHeight(30);
+		form.setWidth(200);
 		form.setPadding(10);
 		form.setLayoutAlign(VerticalAlignment.BOTTOM);
 		form.setEdgeMarginSize(10);
 
 		final FileUpload fileUpload = new FileUpload();
+		fileUpload.setHeight("30px");
 		final FormPanel formpanel = new FormPanel();
 
 		IButton okButton = new IButton("确认");
@@ -53,6 +55,7 @@ public class UploadWindow extends Window {
 		okButton.setHeight(25);
 
 		fileUpload.setName("uploadFormElement");
+		formpanel.setHeight("30px");
 		formpanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formpanel.setMethod(FormPanel.METHOD_POST);
 		formpanel.setAction(GWT.getModuleBaseURL() + "upload");
@@ -66,7 +69,6 @@ public class UploadWindow extends Window {
 		formpanel.addSubmitHandler(new SubmitHandler() {
 			public void onSubmit(SubmitEvent event) {
 				if (fileUpload.getFilename().length() == 0) {
-					SC.say("请选择一个文件上传！");
 					errorLabel.setContents("请选择一个文件上传！");
 					event.cancel();
 				}
@@ -75,28 +77,42 @@ public class UploadWindow extends Window {
 		});
 		formpanel.addSubmitCompleteHandler(new SubmitCompleteHandler() {
 			public void onSubmitComplete(SubmitCompleteEvent event) {
+				destroy();
 				SC.say("上传成功！");
 			}
 		});
 
-		errorLabel.setWidth(100);
+		Label spaceLable = new Label();
+		spaceLable.setWidth(150);
+		spaceLable.setHeight(20);
+		
+		errorLabel.setWidth(150);
+		errorLabel.setHeight(20);
 		errorLabel.setStyleName("serverResponseLabelError");
 		HLayout buttonLayout = new HLayout();
 		buttonLayout.setMembersMargin(20);
 		buttonLayout.setWidth(200);
 		buttonLayout.setHeight(30);
-		buttonLayout.addMembers(errorLabel, okButton);
+		buttonLayout.addMembers(spaceLable, okButton);
 
-		form.addChild(fileUpload);
-		form.addChild(buttonLayout);
+		form.addChild(formpanel);
+
+		VLayout vLayout = new VLayout();
+		vLayout.setHeight(80);
+		vLayout.addMembers(form, errorLabel,buttonLayout);
 
 		HLayout hLayout = new HLayout();
-
+		hLayout.setLeft(20);
+		hLayout.setHeight(80);
+		hLayout.setWidth(200);
+		
 		Img img = new Img("ban_logo.png");
+		
+		img.setTop(20);
 		img.setWidth(60);
 		img.setHeight(60);
 
-		hLayout.addMembers(img, form);
+		hLayout.addMembers(vLayout);
 
 		this.addItem(hLayout);
 		this.draw();
