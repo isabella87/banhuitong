@@ -41,7 +41,7 @@ import com.smartgwt.client.widgets.menu.MenuItemSeparator;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 
-public class MainPrjPortlet extends BaseGridPortlet {
+public class MainPrjPortlet extends BasePortlet {
 
 	private int hBarValue = 0;
 	

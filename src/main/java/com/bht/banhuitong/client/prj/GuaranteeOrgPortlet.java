@@ -4,7 +4,7 @@ import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 
-public class GuaranteeOrgPortlet extends BaseGridPortlet{
+public class GuaranteeOrgPortlet extends BasePortlet{
 	private static String portletTitleName = "基础数据 -项担保机构";
 	private GuaranteeOrgPortlet portletInstance;
 

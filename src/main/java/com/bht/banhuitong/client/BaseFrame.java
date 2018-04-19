@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.bht.banhuitong.client.prj.BaseGridPortlet;
+import com.bht.banhuitong.client.prj.BasePortlet;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.widgets.Canvas;
@@ -30,7 +30,7 @@ public class BaseFrame {
 	static {
 		exceMap.put(0, "服务器端错误，请联系后台管理员！");
 	}
-	public static LinkedHashMap<String, BaseGridPortlet> portlets = new LinkedHashMap<String, BaseGridPortlet>();
+	public static LinkedHashMap<String, BasePortlet> portlets = new LinkedHashMap<String, BasePortlet>();
 	public static Map<String, String> winValuesMap = new LinkedHashMap<String, String>();
 	
 	/**
@@ -121,7 +121,7 @@ public class BaseFrame {
 	 * @param <T>
 	 * @param class1
 	 */
-	public <T> void changeMainCanvas(Class<T> class1, BaseGridPortlet portlet) {
+	public <T> void changeMainCanvas(Class<T> class1, BasePortlet portlet) {
 
 		initMainCanvas();
 
@@ -154,7 +154,7 @@ public class BaseFrame {
 			public void onClick(ClickEvent event) {
 				Object object = event.getSource();
 				if (object instanceof BaseFrame) {
-					BaseGridPortlet portlet = (BaseGridPortlet) object;
+					BasePortlet portlet = (BasePortlet) object;
 					portlets.put(portlet.getTitle(), portlet);
 				}
 			}
@@ -166,7 +166,7 @@ public class BaseFrame {
 			public void onDragMove(DragMoveEvent event) {
 				Object object = event.getSource();
 				if (object instanceof BaseFrame) {
-					BaseGridPortlet portlet = (BaseGridPortlet) object;
+					BasePortlet portlet = (BasePortlet) object;
 					portlets.put(portlet.getTitle(), portlet);
 				}
 			}
@@ -174,7 +174,7 @@ public class BaseFrame {
 		});
 	}
 
-	public Map<String, BaseGridPortlet> getPortlets() {
+	public Map<String, BasePortlet> getPortlets() {
 		return portlets;
 	}
 
@@ -287,7 +287,7 @@ public class BaseFrame {
 		initEndCanvas();
 	}
 
-	public <T> Long putPortlet(Class<T> class1, BaseGridPortlet portlet) {
+	public <T> Long putPortlet(Class<T> class1, BasePortlet portlet) {
 		if (portlets.get(portlet.getTitle()) != null) {
 			delPortlet(portlet.getTitle());
 		}

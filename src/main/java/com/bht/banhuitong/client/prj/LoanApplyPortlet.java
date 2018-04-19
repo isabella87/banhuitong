@@ -30,7 +30,7 @@ public class LoanApplyPortlet extends BasePortlet{
 		
 		yzmForm.setFields(yzmItem);
 		
-		portlet.addChild(yzmForm);
+		this.addChild(yzmForm);
         
 	}
 

@@ -1,6 +1,6 @@
 package com.bht.banhuitong.client;
 
-import com.bht.banhuitong.client.prj.BaseGridPortlet;
+import com.bht.banhuitong.client.prj.BasePortlet;
 import com.bht.banhuitong.client.prj.CreditPrjPortlet;
 import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
 import com.bht.banhuitong.client.prj.GuaranteeOrgPortlet;
@@ -319,7 +319,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 					SC.say("请打开数据查询列表，并查询打印数据！");
 				}
 				
-				BaseGridPortlet portlet = getTail(portlets).getValue();
+				BasePortlet portlet = getTail(portlets).getValue();
 				ListGrid listGrid = portlet.getRetListGrid();
 				if(listGrid == null||listGrid.getRecordList() == null||listGrid.getRecordList().getLength()<=1) {
 					SC.say("请查询需要打印数据！");

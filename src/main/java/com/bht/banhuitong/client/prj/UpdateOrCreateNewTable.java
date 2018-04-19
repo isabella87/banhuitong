@@ -105,7 +105,7 @@ public class UpdateOrCreateNewTable extends Window {
 		tableListGrid.setHeight(400);
 		tableListGrid.setCanRemoveRecords(true);
 		
-		new BaseGridPortlet("").initListGridFields(tableListGrid, tableFieldItems, tableFieldItems.keySet());
+		new BasePortlet("").initListGridFields(tableListGrid, tableFieldItems, tableFieldItems.keySet());
 		
 		tableListGrid.setCanEdit(true); 
 //		tableListGrid.setSelectionAppearance(SelectionAppearance.CHECKBOX);  

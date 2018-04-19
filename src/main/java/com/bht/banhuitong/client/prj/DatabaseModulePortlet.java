@@ -31,7 +31,7 @@ import com.smartgwt.client.widgets.menu.MenuItemSeparator;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 
-public class DatabaseModulePortlet extends BaseGridPortlet{
+public class DatabaseModulePortlet extends BasePortlet{
 
 	public static Map<String, String> dbTableModelFieldItems = new LinkedHashMap<String, String>();
 	private static List<String> candbTableModelEditFieldItems = new ArrayList<String>();

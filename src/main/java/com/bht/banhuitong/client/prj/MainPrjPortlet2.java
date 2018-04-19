@@ -30,7 +30,7 @@ import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
-public class MainPrjPortlet2 extends BaseGridPortlet{
+public class MainPrjPortlet2 extends BasePortlet{
 
 	private int hBarValue = 0;
 	
