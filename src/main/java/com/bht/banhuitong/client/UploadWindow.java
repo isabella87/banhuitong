@@ -40,14 +40,14 @@ public class UploadWindow extends Window {
 			}
 		});
 		DynamicForm form = new DynamicForm();
-		form.setHeight(30);
-		form.setWidth(200);
+		form.setHeight(40);
+		form.setWidth(300);
 		form.setPadding(10);
 		form.setLayoutAlign(VerticalAlignment.BOTTOM);
 		form.setEdgeMarginSize(10);
 
 		final FileUpload fileUpload = new FileUpload();
-		fileUpload.setHeight("30px");
+		fileUpload.setHeight("40px");
 		final FormPanel formpanel = new FormPanel();
 
 		IButton okButton = new IButton("确认");
@@ -55,7 +55,7 @@ public class UploadWindow extends Window {
 		okButton.setHeight(25);
 
 		fileUpload.setName("uploadFormElement");
-		formpanel.setHeight("30px");
+		formpanel.setHeight("40px");
 		formpanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formpanel.setMethod(FormPanel.METHOD_POST);
 		formpanel.setAction(GWT.getModuleBaseURL() + "upload");
@@ -83,28 +83,28 @@ public class UploadWindow extends Window {
 		});
 
 		Label spaceLable = new Label();
-		spaceLable.setWidth(150);
+		spaceLable.setWidth(220);
 		spaceLable.setHeight(20);
 		
 		errorLabel.setWidth(150);
-		errorLabel.setHeight(20);
+		errorLabel.setHeight(30);
 		errorLabel.setStyleName("serverResponseLabelError");
 		HLayout buttonLayout = new HLayout();
 		buttonLayout.setMembersMargin(20);
-		buttonLayout.setWidth(200);
+		buttonLayout.setWidth(300);
 		buttonLayout.setHeight(30);
 		buttonLayout.addMembers(spaceLable, okButton);
 
 		form.addChild(formpanel);
 
 		VLayout vLayout = new VLayout();
-		vLayout.setHeight(80);
+		vLayout.setHeight(100);
 		vLayout.addMembers(form, errorLabel,buttonLayout);
 
 		HLayout hLayout = new HLayout();
 		hLayout.setLeft(20);
-		hLayout.setHeight(80);
-		hLayout.setWidth(200);
+		hLayout.setHeight(100);
+		hLayout.setWidth(300);
 		
 		Img img = new Img("ban_logo.png");
 		
