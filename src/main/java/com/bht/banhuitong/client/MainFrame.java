@@ -1,8 +1,5 @@
 package com.bht.banhuitong.client;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.bht.banhuitong.client.prj.BaseGridPortlet;
 import com.bht.banhuitong.client.prj.CreditPrjPortlet;
 import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
@@ -15,6 +12,8 @@ import com.bht.banhuitong.server.LoginServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.Canvas;
@@ -335,7 +334,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				window.destroy();
+				SC.say("导出是啥意思呢？");
 			}
 		});
 
@@ -344,7 +343,8 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				window.destroy();
+				String filename = "20180419000001.xls";
+				download(filename);
 			}
 		});
 
@@ -367,4 +367,13 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 		return menuLayout;
 	}
 
+	
+	void download( String filename ) {  
+       
+        Frame frame = new Frame( GWT.getModuleBaseURL() + "download?filename=" + filename );  
+        frame.setVisible( false );  
+        frame.setSize( "0px", "0px" );  
+        RootPanel.get().add( frame );  
+    }  
+	
 }
