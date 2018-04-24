@@ -3,6 +3,7 @@ package com.bht.banhuitong.server;
 import java.util.List;
 import java.util.Map;
 
+import com.bht.banhuitong.BusinessAnnotation;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -11,7 +12,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("action/account")
 public interface AccountService extends RemoteService {
-
+	
+	@BusinessAnnotation(serviceno=1,recordLog= true)
 	List<Map<String, String>> getAccountInfo() throws Exception;
 	
 }

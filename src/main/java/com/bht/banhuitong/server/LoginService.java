@@ -2,6 +2,7 @@ package com.bht.banhuitong.server;
 
 import java.util.Map;
 
+import com.bht.banhuitong.BusinessAnnotation;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -17,10 +18,12 @@ public interface LoginService extends RemoteService {
 	 * @return 登录名
 	 * @throws IllegalArgumentException
 	 */
+	@BusinessAnnotation(recordLog= true)
 	String login(Map<String,String> paramMap) throws IllegalArgumentException;
 	
 	String getExcepStr() throws IllegalArgumentException;
 	
+	@BusinessAnnotation(recordLog= true)
 	String loginImmediately(Map<String,String> paramMap) throws IllegalArgumentException;
 
 	String getImageByte() throws IllegalArgumentException;

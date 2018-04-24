@@ -49,16 +49,16 @@ public class SecurityFilter implements Filter {
 		int moduleValue = getModuleValue(requestWrapper.getServletPath());
 		
 		// 设置基本上下文信息，并增加以下判断：增加超时判断
-		if(moduleValue!=PermsValue.LOGIN) {
+		if(moduleValue!=ModuleType.LOGIN) {
 //			commonAssert(requestWrapper);
 		}
 					
 		switch (moduleValue) {
-		case PermsValue.LOGIN:
+		case ModuleType.LOGIN:
 			break;
-		case PermsValue.ACCOUNT:
-		case PermsValue.PRJ:
-		case PermsValue.DBMODEL:
+		case ModuleType.ACCOUNT:
+		case ModuleType.PRJ:
+		case ModuleType.DBMODEL:
 			AuthenticationToken token = userSessionMap.get(requestWrapper.getSession().getId());
 			// 1.判断是否登录；
 			if (token==null||token.isGuest() || token.getUserId().isEmpty()) {

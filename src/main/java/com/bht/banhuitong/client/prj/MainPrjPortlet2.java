@@ -120,8 +120,10 @@ public class MainPrjPortlet2 extends BasePortlet{
         countryGrid.setWidth100();  
         countryGrid.setTop(50);  
         countryGrid.setLeft(5);
+        countryGrid.setCanSelectCells(true);
         countryGrid.setShowAllRecords(true);  
         countryGrid.setShowEmptyMessage(true);  
+        countryGrid.setCanDragSelect(true);
         countryGrid.setEmptyMessage("请点击<b>搜索</b>按钮查询数据！");  
         countryGrid.setSelectionAppearance(SelectionAppearance.CHECKBOX); 
 		

@@ -1,6 +1,6 @@
 package com.bht.banhuitong.filter;
 
-public interface PermsValue {
+public interface ModuleType {
 
 	public final int LOGIN = 0;
 	public final int ACCOUNT = 1;

@@ -20,4 +20,10 @@ public @interface BusinessAnnotation {
 	 * @return
 	 */
 	boolean recordLog() default false;
+	
+	/**
+	 * 服务需要，每个模块单独排名（凡是返回List<Map<String,String>>的服务都需要定义此列，一遍下载定位服务）
+	 * @return
+	 */
+	int serviceno() default 0;
 }

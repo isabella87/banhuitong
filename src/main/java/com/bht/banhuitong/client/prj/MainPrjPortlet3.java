@@ -53,7 +53,7 @@ import com.smartgwt.client.widgets.menu.MenuItemSeparator;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 
-public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smartgwt.client.widgets.events.ClickHandler{
+public class MainPrjPortlet3 extends BasePortlet implements ClickHandler,com.smartgwt.client.widgets.events.ClickHandler{
 
 	private int hBarValue = 0;
 	
@@ -68,11 +68,11 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
 	private static LinkedHashMap<String, String> timeTypeItems = new LinkedHashMap<String, String>();
 	private static LinkedHashMap<String, String> searchKeyItems = new LinkedHashMap<String, String>();
 	private static String portletTitleName = "系统建模 -项目1";
-	private MainPrjPortlet portletInstance;
+	private MainPrjPortlet3 portletInstance;
 
-	public MainPrjPortlet getInstance() {
+	public MainPrjPortlet3 getInstance() {
 		if (portletInstance == null) {
-			portletInstance = new MainPrjPortlet();
+			portletInstance = new MainPrjPortlet3();
 		}
 		return portletInstance;
 	}
@@ -238,7 +238,7 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
 
 	}
 
-	public MainPrjPortlet() {
+	public MainPrjPortlet3() {
 		super(portletTitleName);
 	}
 

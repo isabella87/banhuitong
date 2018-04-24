@@ -3,6 +3,7 @@ package com.bht.banhuitong.client;
 import com.bht.banhuitong.client.prj.BasePortlet;
 import com.bht.banhuitong.client.prj.CreditPrjPortlet;
 import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
+import com.bht.banhuitong.client.prj.ExportDialog;
 import com.bht.banhuitong.client.prj.GuaranteeOrgPortlet;
 import com.bht.banhuitong.client.prj.GuaranteePersonPortlet;
 import com.bht.banhuitong.client.prj.MainPrjPortlet;
@@ -334,7 +335,21 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				SC.say("导出是啥意思呢？");
+				if(portlets ==null||portlets.isEmpty()) {
+					SC.say("请打开数据查询列表，并查询打印数据！");
+				}
+				
+				BasePortlet portlet = getTail(portlets).getValue();
+				ListGrid listGrid = portlet.getRetListGrid();
+				if(listGrid == null||listGrid.getRecordList() == null||listGrid.getRecordList().getLength()<=1) {
+					SC.say("请查询需要打印数据！");
+				}
+				
+				boolean isAll = false;
+				if(portlet.getRetListGrid().getSelectedRecords().length<=0) {
+					isAll = true;
+				}
+				new ExportDialog(isAll,portlet.getRetListGrid()).draw();  
 			}
 		});
 
@@ -343,8 +358,9 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				String filename = "20180419000001.xls";
-				download(filename);
+				BasePortlet portlet = getTail(portlets).getValue();
+				
+				download(portlet);
 			}
 		});
 
@@ -368,9 +384,11 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 	}
 
 	
-	void download( String filename ) {  
-       
-        Frame frame = new Frame( GWT.getModuleBaseURL() + "download?filename=" + filename );  
+	void download(BasePortlet portlet ) {  
+		String title = portlet.getTitle(); //通过解析获取以下两个字段
+		String moduletype = "2" ;
+		String serviceno = "2";
+        Frame frame = new Frame( GWT.getModuleBaseURL() + "datadownload?moduletype="+moduletype+"&serviceno="+serviceno );  
         frame.setVisible( false );  
         frame.setSize( "0px", "0px" );  
         RootPanel.get().add( frame );  

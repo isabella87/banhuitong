@@ -26,7 +26,6 @@ public class BasePortlet extends Portlet {
 	protected static List<String> emptyArrayList = new ArrayList<String>();
 	ListGrid retListGrid = new ListGrid();	
 	
-	
 	public ListGrid getRetListGrid() {
 		return retListGrid;
 	}

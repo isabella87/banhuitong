@@ -20,9 +20,9 @@ public interface PrjService extends RemoteService {
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	@BusinessAnnotation(perm=60012,recordLog= true)
+	@BusinessAnnotation(serviceno=1,perm=60012,recordLog= true)
 	List<Map<String,Object>> queryPrjList(Map<String,String> paramMap) throws IllegalArgumentException;
 	
-	@BusinessAnnotation(perm=10002 ,recordLog= true)
+	@BusinessAnnotation(serviceno=2,perm=10002 ,recordLog= true)
 	List<Map<String,String>> queryPrjList2(Map<String,String> paramMap) throws IllegalArgumentException;
 }
