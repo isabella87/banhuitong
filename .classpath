@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="com/bht/banhuitong/excel/" kind="src" output="target/banhuisys-0.0.1-SNAPSHOT/WEB-INF/classes" path="src/main/java">
+	<classpathentry excluding="com/bht/banhuitong/excel/" kind="src" output="target/banhuitong-0.0.1-SNAPSHOT/WEB-INF/classes" path="src/main/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/banhuisys-0.0.1-SNAPSHOT/WEB-INF/classes" path="target/generated-sources/gwt">
+	<classpathentry kind="src" output="target/banhuitong-0.0.1-SNAPSHOT/WEB-INF/classes" path="target/generated-sources/gwt">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/banhuisys-0.0.1-SNAPSHOT/WEB-INF/classes" path="src/main/resources">
+	<classpathentry excluding="**" kind="src" output="target/banhuitong-0.0.1-SNAPSHOT/WEB-INF/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
@@ -35,5 +35,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="target/banhuisys-0.0.1-SNAPSHOT/WEB-INF/classes"/>
+	<classpathentry kind="output" path="target/banhuitong-0.0.1-SNAPSHOT/WEB-INF/classes"/>
 </classpath>

@@ -1,6 +1,5 @@
 package com.bht.banhuitong.client.prj;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -17,28 +16,19 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.data.AdvancedCriteria;
-import com.smartgwt.client.data.Record;
-import com.smartgwt.client.data.TextExportSettings;
-import com.smartgwt.client.types.Alignment;
-import com.smartgwt.client.types.EscapingMode;
 import com.smartgwt.client.types.ListGridEditEvent;
 import com.smartgwt.client.types.OperatorId;
 import com.smartgwt.client.types.SelectionAppearance;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.Canvas;
-import com.smartgwt.client.widgets.Dialog;
 import com.smartgwt.client.widgets.Window;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.CloseClickEvent;
 import com.smartgwt.client.widgets.events.CloseClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
-import com.smartgwt.client.widgets.form.fields.ButtonItem;
 import com.smartgwt.client.widgets.form.fields.ComboBoxItem;
 import com.smartgwt.client.widgets.form.fields.DateItem;
-import com.smartgwt.client.widgets.form.fields.FormItem;
-import com.smartgwt.client.widgets.form.fields.StaticTextItem;
-import com.smartgwt.client.widgets.form.fields.TextAreaItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
@@ -77,7 +67,7 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
 		return portletInstance;
 	}
 
-	private class MyDialog extends Dialog implements   
+	/*private class MyDialog extends Dialog implements   
 	  
     com.smartgwt.client.widgets.form.fields.events.ClickHandler {  
 
@@ -175,7 +165,7 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
         this.textArea.setValue(sb.toString());  
         this.textArea.selectValue();  
     }  
-};
+};*/
 
 	/**
 	 * items key值与服务返回map中的key一一对应
@@ -379,7 +369,14 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
 			@Override
 			public void onClick(MenuItemClickEvent event) {
 				//TODO 
-				new MyDialog().draw();
+//				new MyDialog().draw();
+				BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
+				ListGrid listGrid = portlet.getRetListGrid();
+				if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
+					SC.say("请查询需要打印数据！");
+				}else {
+					new ExportDialog(false,listGrid).draw();
+				}
 			}
 		});
 
@@ -587,7 +584,14 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
 	
 	 
     public void onClick(MenuItemClickEvent event) {  
-        new MyDialog().draw();  
+//        new MyDialog().draw();  
+    	BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
+		ListGrid listGrid = portlet.getRetListGrid();
+		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
+			SC.say("请查询需要打印数据！");
+		}else {
+			new ExportDialog(false,listGrid);
+		}
     }  
   
     public void onCellContextClick(CellContextClickEvent event) {  
@@ -597,7 +601,14 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
 
 	@Override
 	public void onClick(ClickEvent event) {
-		new MyDialog().draw();  
+//		new MyDialog().draw();  
+		BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
+		ListGrid listGrid = portlet.getRetListGrid();
+		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
+			SC.say("请查询需要打印数据！");
+		}else {
+			new ExportDialog(false,listGrid);
+		}
 	}  
     
 }

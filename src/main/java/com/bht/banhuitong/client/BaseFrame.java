@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.bht.banhuitong.client.prj.BasePortlet;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Label;
@@ -301,7 +303,7 @@ public class BaseFrame {
 		return 1;
 	}
 	
-	public <K, V> Entry<K, V> getTail(LinkedHashMap<K, V> map) {
+	public static <K, V> Entry<K, V> getTail(LinkedHashMap<K, V> map) {
 	    Iterator<Entry<K, V>> iterator = map.entrySet().iterator();
 	    Entry<K, V> tail = null;
 	    while (iterator.hasNext()) {
@@ -309,4 +311,24 @@ public class BaseFrame {
 	    }
 	    return tail;
 	}
+	
+	public static void  export(BasePortlet portlet) {
+		String title = portlet.getTitle(); // 通过解析获取以下两个字段
+		String moduletype = "2";
+		String serviceno = "2";
+		Frame frame = new Frame(
+				GWT.getModuleBaseURL() + "datadownload?moduletype=" + moduletype + "&serviceno=" + serviceno);
+		frame.setVisible(false);
+		frame.setSize("0px", "0px");
+		RootPanel.get().add(frame);
+	}
+	
+	void download(String filename) {
+
+		Frame frame = new Frame(GWT.getModuleBaseURL() + "download?filename=" + filename);
+		frame.setVisible(false);
+		frame.setSize("0px", "0px");
+		RootPanel.get().add(frame);
+	}
+
 }

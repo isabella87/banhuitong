@@ -2,11 +2,14 @@ package com.bht.banhuitong.client.prj;
 
 import java.util.ArrayList;
 
+import com.bht.banhuitong.client.BaseFrame;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.Dialog;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Label;
+import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.StaticTextItem;
@@ -73,13 +76,32 @@ public class ExportDialog extends Dialog implements
 		button.setAlign(Alignment.CENTER);
 		button.setTitle("Done");
 //		button.addClickHandler(this);
+		final Dialog dialog = this;
+		
+		button.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				dialog.markForDestroy();
+				dialog.hide();
+			}
+		});
 		
 		IButton downloadButton = new IButton();  //buttonItem
 //		downloadButton.setName("download");
 		downloadButton.setAlign(Alignment.CENTER);
-		downloadButton.setTitle("下载");
+		downloadButton.setTitle("导出");
 //		downloadButton.addClickHandler(this);
 		
+		downloadButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
+				BaseFrame.export(portlet);
+			}
+		});
+			
 		Label spaceLabel = new Label();
 		spaceLabel.setWidth(150);
 		
@@ -151,4 +173,5 @@ public class ExportDialog extends Dialog implements
 		this.textArea.setValue(sb.toString());
 		this.textArea.selectValue();
 	}
+	
 }

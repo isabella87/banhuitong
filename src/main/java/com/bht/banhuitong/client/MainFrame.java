@@ -13,8 +13,6 @@ import com.bht.banhuitong.server.LoginServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.Canvas;
@@ -316,13 +314,13 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				if(portlets ==null||portlets.isEmpty()) {
+				if (portlets == null || portlets.isEmpty()) {
 					SC.say("请打开数据查询列表，并查询打印数据！");
 				}
-				
+
 				BasePortlet portlet = getTail(portlets).getValue();
 				ListGrid listGrid = portlet.getRetListGrid();
-				if(listGrid == null||listGrid.getRecordList() == null||listGrid.getRecordList().getLength()<=1) {
+				if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
 					SC.say("请查询需要打印数据！");
 				}
 				Object[] objects = { listGrid };
@@ -330,26 +328,28 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			}
 		});
 
-		MenuItem exportMenuItem = new MenuItem("导出", "", "Ctrl+E");
+		MenuItem exportMenuItem = new MenuItem("导出全部", "", "Ctrl+E");
 		exportMenuItem.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				if(portlets ==null||portlets.isEmpty()) {
+				if (portlets == null || portlets.isEmpty()) {
 					SC.say("请打开数据查询列表，并查询打印数据！");
 				}
-				
+
 				BasePortlet portlet = getTail(portlets).getValue();
 				ListGrid listGrid = portlet.getRetListGrid();
-				if(listGrid == null||listGrid.getRecordList() == null||listGrid.getRecordList().getLength()<=1) {
+				if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
 					SC.say("请查询需要打印数据！");
 				}
-				
+
 				boolean isAll = false;
-				if(portlet.getRetListGrid().getSelectedRecords().length<=0) {
+				if (portlet.getRetListGrid().getSelectedRecords().length <= 0) {
 					isAll = true;
 				}
-				new ExportDialog(isAll,portlet.getRetListGrid()).draw();  
+				new ExportDialog(isAll, portlet.getRetListGrid()).draw();
+
+				 export(portlet);
 			}
 		});
 
@@ -358,9 +358,9 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				BasePortlet portlet = getTail(portlets).getValue();
-				
-				download(portlet);
+
+				String filename = "20180419000001.xls";
+				download(filename);
 			}
 		});
 
@@ -373,7 +373,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			}
 		});
 
-		helpMenu.setItems(aboutMenuItem, separator,printMenuItem, exportMenuItem, downloadMenuItem, uploadMenuItem);
+		helpMenu.setItems(aboutMenuItem, separator, printMenuItem, exportMenuItem, downloadMenuItem, uploadMenuItem);
 		IMenuButton helpMenuButton = new IMenuButton("帮助", helpMenu);
 
 		menuLayout.setHeight(20);
@@ -382,16 +382,4 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 		menuLayout.addMembers(sysMenuButton, prjMenuButton, winMenuButton, helpMenuButton);
 		return menuLayout;
 	}
-
-	
-	void download(BasePortlet portlet ) {  
-		String title = portlet.getTitle(); //通过解析获取以下两个字段
-		String moduletype = "2" ;
-		String serviceno = "2";
-        Frame frame = new Frame( GWT.getModuleBaseURL() + "datadownload?moduletype="+moduletype+"&serviceno="+serviceno );  
-        frame.setVisible( false );  
-        frame.setSize( "0px", "0px" );  
-        RootPanel.get().add( frame );  
-    }  
-	
 }
