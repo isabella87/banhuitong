@@ -23,7 +23,6 @@ import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Window;
-import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.CloseClickEvent;
 import com.smartgwt.client.widgets.events.CloseClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
@@ -32,7 +31,6 @@ import com.smartgwt.client.widgets.form.fields.DateItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
-import com.smartgwt.client.widgets.grid.events.CellContextClickEvent;
 import com.smartgwt.client.widgets.grid.events.CellDoubleClickEvent;
 import com.smartgwt.client.widgets.grid.events.CellDoubleClickHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
@@ -43,14 +41,13 @@ import com.smartgwt.client.widgets.menu.MenuItemSeparator;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 
-public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smartgwt.client.widgets.events.ClickHandler{
+public class MainPrjPortlet extends BasePortlet {
 
 	private int hBarValue = 0;
 	
 	private static Window conWind = new Window();
 	private final PrjServiceAsync prjService = GWT.create(PrjService.class);
 	private final DbModelServiceAsync dbModelService = GWT.create(DbModelService.class);
-	private ListGrid grid = new ListGrid();
 	private static Map<String, String> prjFieldItems = new LinkedHashMap<String, String>();
 	private static LinkedHashMap<String, String> prjTypeItems = new LinkedHashMap<String, String>();
 	private static LinkedHashMap<String, String> prjStatusItems = new LinkedHashMap<String, String>();
@@ -316,7 +313,6 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
 		MenuItem searchMenu = new MenuItem("搜索");
 		MenuItem printerMenu = new MenuItem("打印");
 		MenuItem exportExlMenu = new MenuItem("导出Excel");
-		exportExlMenu.addClickHandler(this);
 		MenuItem createTableMenu = new MenuItem("创建数据库");
 		MenuItemSeparator separator = new MenuItemSeparator();
 		MenuItem searchCondMenu = new MenuItem("设置搜索条件");
@@ -480,7 +476,6 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
 											listGrid.setData(new ListGridRecord[] {});
 											listGrid.setData(getRecords(result));
 											retListGrid = listGrid;
-										grid = listGrid;
 										}
 									}
 									
@@ -574,41 +569,4 @@ public class MainPrjPortlet extends BasePortlet implements ClickHandler,com.smar
 		}
 		return record;
 	}
-	
-	/*public void onClick(MenuItemClickEvent event) {  
-//		if(event.getItem().getTitle().equals("导出Excel")) {
-			
-			this.new MyDialog().draw();  
-//		}
-    } */
-	
-	 
-    public void onClick(MenuItemClickEvent event) {  
-//        new MyDialog().draw();  
-    	BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
-		ListGrid listGrid = portlet.getRetListGrid();
-		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
-			SC.say("请查询需要打印数据！");
-		}else {
-			new ExportDialog(false,listGrid);
-		}
-    }  
-  
-    public void onCellContextClick(CellContextClickEvent event) {  
-        Menu menu = this.grid.getContextMenu();  
-        menu.showContextMenu();  
-    }
-
-	@Override
-	public void onClick(ClickEvent event) {
-//		new MyDialog().draw();  
-		BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
-		ListGrid listGrid = portlet.getRetListGrid();
-		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
-			SC.say("请查询需要打印数据！");
-		}else {
-			new ExportDialog(false,listGrid);
-		}
-	}  
-    
 }
