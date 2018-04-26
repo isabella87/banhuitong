@@ -43,9 +43,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 	private static List<String> cansysTableEditFieldItems = new ArrayList<String>();
 	private static final DbModelServiceAsync dbModelService = GWT.create(DbModelService.class);
 	private String  lastClickSmiIds = "";
-	
-	public static ListGrid dbTableModelListGrid = null;
-	
+
 	private ListGridRecord  lastDbTableModelListGridRecord;
 	private ListGridRecord  lastsysModuleListGridRecord;
 	private ListGridRecord  lastsysTableListGridRecord;
@@ -133,7 +131,8 @@ public class DatabaseModulePortlet extends BasePortlet{
         bottomLayout.setShowResizeBar(true);
         
 		final ListGrid dbTableModelListGrid = new ListGrid();
-		
+//        dbTableModelListGrid = new ListGrid();
+        
 		dbTableModelListGrid.setHeight100();
 		dbTableModelListGrid.setWidth100();
 		dbTableModelListGrid.setTop(20);
@@ -302,6 +301,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 			}
 		});
         
+        
         tablePrinterMenu.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -311,6 +311,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 				Canvas.showPrintPreview(objects, null, "表信息", null);
 			}
 		});
+        
         
         addTableModelMenu.addClickHandler(new ClickHandler() {
         				@Override
@@ -527,6 +528,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 			}
         });
         
+        //TODO 
         dbTableModelSearchMenu.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -739,7 +741,6 @@ public class DatabaseModulePortlet extends BasePortlet{
         	}
         });
         
-        
 		DynamicForm yzmForm = new DynamicForm();
 		yzmForm.setTop(30);
 		yzmForm.setHeight(30);
@@ -788,5 +789,6 @@ public class DatabaseModulePortlet extends BasePortlet{
 		}
 		return record;
 	}
+	
 
 }

@@ -68,7 +68,7 @@ public class SecurityFilter implements Filter {
 			BusinessAnnotation busiAnntation = getBusinessAnnotation(requestWrapper);
 			
 			// 2，增加权限过滤
-			if (busiAnntation!=null && !queryPermValueByUserIdAndperm(busiAnntation.perm(), token.getUserId())) {
+			if (busiAnntation!=null && busiAnntation.perm()!=0 && !queryPermValueByUserIdAndperm(busiAnntation.perm(), token.getUserId())) {
 				throw new ServiceException(CommonMethod.initExceptionDesc(2));
 			}
 			

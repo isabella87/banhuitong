@@ -42,7 +42,7 @@ public class ExportDialog extends Dialog implements
 	 */
 	public ExportDialog(boolean isAll, ListGrid listGrid) {
 		this.grid = listGrid;
-		final int WIDTH = 525;
+		final int WIDTH = 400;
 		final int HEIGHT = 300;
 
 		final String GUIDANCE = "Press Ctrl-C (Command-C on Mac) or right click (Option-click on Mac) on the selected text to copy values, then paste into Excel.  Note that values in columns that are dates or numbers are correctly understood as dates and numbers in Excel.";
@@ -72,7 +72,7 @@ public class ExportDialog extends Dialog implements
 		this.textArea = area;
 
 		IButton button = new IButton();
-//		button.setName("done");
+		button.setWidth(130);
 		button.setAlign(Alignment.CENTER);
 		button.setTitle("Done");
 //		button.addClickHandler(this);
@@ -88,10 +88,9 @@ public class ExportDialog extends Dialog implements
 		});
 		
 		IButton downloadButton = new IButton();  //buttonItem
-//		downloadButton.setName("download");
+		downloadButton.setWidth(130);
 		downloadButton.setAlign(Alignment.CENTER);
 		downloadButton.setTitle("导出");
-//		downloadButton.addClickHandler(this);
 		
 		downloadButton.addClickHandler(new ClickHandler() {
 
@@ -103,9 +102,12 @@ public class ExportDialog extends Dialog implements
 		});
 			
 		Label spaceLabel = new Label();
-		spaceLabel.setWidth(150);
+		spaceLabel.setWidth(100);
 		
 		HLayout hLayout = new HLayout();
+		hLayout.setMargin(20);
+		hLayout.setWidth(400);
+		hLayout.setHeight(30);
 		hLayout.addMembers(button,spaceLabel,downloadButton);
 		
 		DynamicForm form = new DynamicForm();

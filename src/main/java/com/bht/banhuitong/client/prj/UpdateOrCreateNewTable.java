@@ -5,8 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.bht.banhuitong.server.DbModelServiceAsync;
+import com.bht.banhuitong.client.BaseFrame;
 import com.bht.banhuitong.server.DbModelService;
+import com.bht.banhuitong.server.DbModelServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.types.Alignment;
@@ -31,7 +32,6 @@ import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 public class UpdateOrCreateNewTable extends Window {
 
 	private String tableName;
-	private Map<String, String> baseParamMap = new HashMap<String, String>();
 	public UpdateOrCreateNewTable(String tableName) {
 		super();
 		this.tableName = tableName;
@@ -270,36 +270,12 @@ public class UpdateOrCreateNewTable extends Window {
 					public void onSuccess(Boolean result) {
 						if (result) {
 							destroy();
-							DatabaseModulePortlet databaseModulePortlet = new DatabaseModulePortlet().getInstance();
-							final ListGrid dbTableModelListGrid = databaseModulePortlet.dbTableModelListGrid;
-							if(dbTableModelListGrid!=null) {
-								dbModelService.queryCurDbUserTablesInfo(baseParamMap, new AsyncCallback<List<Map<String, String>>>(){
-
-									@Override
-									public void onFailure(Throwable caught) {
-										SC.say(caught.getMessage());
-									}
-
-									@Override
-									public void onSuccess(List<Map<String, String>> result) {
-										if (result == null || result.isEmpty()) {
-											dbTableModelListGrid.setData(new ListGridRecord[] {});
-//											SC.say("没有符合条件的数据！");
-										} else {
-											Object rpcExceptionMessage = result.get(0).get("error");
-											if (rpcExceptionMessage != null) {
-												SC.say(rpcExceptionMessage.toString());
-											} else {
-												dbTableModelListGrid.setData(new ListGridRecord[] {});
-												dbTableModelListGrid.setData(getRecords(result,DatabaseModulePortlet.dbTableModelFieldItems));
-
-											}
-										}
-										
-									}
-									
-								});
-							}
+							
+							//方法一：直接重新加载全屏
+							BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
+							new BaseFrame().delPortlet(portlet.getTitle());
+							new BaseFrame().changeMainCanvas(DatabaseModulePortlet.class, new DatabaseModulePortlet().getPortlet());
+							
 							
 							SC.say("创建成功！");
 						} else {

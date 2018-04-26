@@ -348,8 +348,29 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 					isAll = true;
 				}
 				new ExportDialog(isAll, portlet.getRetListGrid()).draw();
+			}
+		});
+		
+		MenuItem clientExportMenuItem = new MenuItem("客户端导出", "", "Ctrl+C");
+		clientExportMenuItem.addClickHandler(new ClickHandler() {
 
-				 export(portlet);
+			@Override
+			public void onClick(MenuItemClickEvent event) {
+				if (portlets == null || portlets.isEmpty()) {
+					SC.say("请打开数据查询列表，并查询打印数据！");
+				}
+
+				BasePortlet portlet = getTail(portlets).getValue();
+				ListGrid listGrid = portlet.getRetListGrid();
+				if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
+					SC.say("请查询需要打印数据！");
+				}
+
+				boolean isAll = false;
+				if (portlet.getRetListGrid().getSelectedRecords().length <= 0) {
+					isAll = true;
+				}
+				new ExportDialog(isAll, portlet.getRetListGrid()).draw();
 			}
 		});
 
@@ -373,7 +394,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			}
 		});
 
-		helpMenu.setItems(aboutMenuItem, separator, printMenuItem, exportMenuItem, downloadMenuItem, uploadMenuItem);
+		helpMenu.setItems(aboutMenuItem, separator, printMenuItem, exportMenuItem,clientExportMenuItem, downloadMenuItem, uploadMenuItem);
 		IMenuButton helpMenuButton = new IMenuButton("帮助", helpMenu);
 
 		menuLayout.setHeight(20);
