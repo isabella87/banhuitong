@@ -1,6 +1,7 @@
 package com.bht.banhuitong.client;
 
-import com.bht.banhuitong.client.prj.BasePortlet;
+import com.bht.banhuitong.client.files.FileModulePortlet;
+import com.bht.banhuitong.client.prj.ClientExportDialog;
 import com.bht.banhuitong.client.prj.CreditPrjPortlet;
 import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
 import com.bht.banhuitong.client.prj.ExportDialog;
@@ -146,7 +147,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			@Override
 			public void onClick(MenuItemClickEvent event) {
 				// window.addItem(new MainPrjPortlet().getInstance().getPortlet());
-				changeMainCanvas(MainPrjPortlet.class, new MainPrjPortlet().getInstance().getPortlet());
+				changeMainCanvas(new MainPrjPortlet().getInstance().getPortlet());
 			}
 
 		});
@@ -157,7 +158,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			@Override
 			public void onClick(MenuItemClickEvent event) {
 				// window.addItem(new MainPrjPortlet2().getInstance().getPortlet());
-				changeMainCanvas(MainPrjPortlet2.class, new MainPrjPortlet2().getInstance().getPortlet());
+				changeMainCanvas(new MainPrjPortlet2().getInstance().getPortlet());
 			}
 
 		});
@@ -167,7 +168,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				changeMainCanvas(CreditPrjPortlet.class, new CreditPrjPortlet().getInstance().getPortlet());
+				changeMainCanvas(new CreditPrjPortlet().getInstance().getPortlet());
 
 			}
 
@@ -178,7 +179,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				changeMainCanvas(DatabaseModulePortlet.class, new DatabaseModulePortlet().getPortlet());
+				changeMainCanvas(new DatabaseModulePortlet().getPortlet());
 
 			}
 
@@ -204,7 +205,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				changeMainCanvas(GuaranteePersonPortlet.class, new GuaranteePersonPortlet().getPortlet());
+				changeMainCanvas(new GuaranteePersonPortlet().getPortlet());
 
 			}
 
@@ -214,7 +215,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				changeMainCanvas(GuaranteeOrgPortlet.class, new GuaranteeOrgPortlet().getPortlet());
+				changeMainCanvas(new GuaranteeOrgPortlet().getPortlet());
 
 			}
 
@@ -298,6 +299,20 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 		winMenu.setItems(win1, win2, win3, win4, win5);
 		IMenuButton winMenuButton = new IMenuButton("窗口", winMenu);
 
+		//文件系统
+		Menu fileMenu = new Menu();
+		MenuItem fileMenuItem = new MenuItem("文件系统", "", "Ctrl+F");
+		fileMenuItem.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(MenuItemClickEvent event) {
+				changeMainCanvas(new FileModulePortlet().getInstance().getPortlet());
+			}
+		});
+		
+		fileMenu.setItems(fileMenuItem);
+		IMenuButton fileButtonMenu = new IMenuButton("文件",fileMenu);
+		
 		Menu helpMenu = new Menu();
 
 		MenuItem aboutMenuItem = new MenuItem("关于...", "", "Ctrl+A");
@@ -370,37 +385,17 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 				if (portlet.getRetListGrid().getSelectedRecords().length <= 0) {
 					isAll = true;
 				}
-				new ExportDialog(isAll, portlet.getRetListGrid()).draw();
+				new ClientExportDialog(isAll, portlet.getRetListGrid()).draw();
 			}
 		});
 
-		MenuItem downloadMenuItem = new MenuItem("下载", "", "Ctrl+D");
-		downloadMenuItem.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(MenuItemClickEvent event) {
-
-				String filename = "20180419000001.xls";
-				download(filename);
-			}
-		});
-
-		MenuItem uploadMenuItem = new MenuItem("上传", "", "Ctrl+U");
-		uploadMenuItem.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(MenuItemClickEvent event) {
-				new UploadWindow().init();
-			}
-		});
-
-		helpMenu.setItems(aboutMenuItem, separator, printMenuItem, exportMenuItem,clientExportMenuItem, downloadMenuItem, uploadMenuItem);
+		helpMenu.setItems(aboutMenuItem, separator, printMenuItem, exportMenuItem,clientExportMenuItem);
 		IMenuButton helpMenuButton = new IMenuButton("帮助", helpMenu);
-
+		
 		menuLayout.setHeight(20);
 		menuLayout.setLayoutAlign(Alignment.LEFT);
 
-		menuLayout.addMembers(sysMenuButton, prjMenuButton, winMenuButton, helpMenuButton);
+		menuLayout.addMembers(sysMenuButton, prjMenuButton, fileButtonMenu, winMenuButton, helpMenuButton);
 		return menuLayout;
 	}
 }

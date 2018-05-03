@@ -1,5 +1,6 @@
 package com.bht.banhuitong.client.prj;
 
+import com.bht.banhuitong.client.BasePortlet;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.TextItem;

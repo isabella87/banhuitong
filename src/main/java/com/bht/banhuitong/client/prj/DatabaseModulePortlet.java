@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bht.banhuitong.client.BasePortlet;
 import com.bht.banhuitong.server.DbModelService;
 import com.bht.banhuitong.server.DbModelServiceAsync;
 import com.google.gwt.core.client.GWT;

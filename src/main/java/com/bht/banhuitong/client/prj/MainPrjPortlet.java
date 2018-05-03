@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bht.banhuitong.client.BaseFrame;
+import com.bht.banhuitong.client.BasePortlet;
 import com.bht.banhuitong.client.MainFrame;
 import com.bht.banhuitong.server.DbModelService;
 import com.bht.banhuitong.server.DbModelServiceAsync;
@@ -63,106 +64,6 @@ public class MainPrjPortlet extends BasePortlet {
 		}
 		return portletInstance;
 	}
-
-	/*private class MyDialog extends Dialog implements   
-	  
-    com.smartgwt.client.widgets.form.fields.events.ClickHandler {  
-
-    private DynamicForm form;  
-
-    private TextAreaItem textArea;  
-
-    public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {  
-        this.removeItem(this.form);  
-        this.markForDestroy();  
-        this.hide();  
-    };  
-
-    public MyDialog() {  
-          
-        final int WIDTH = 525;  
-        final int HEIGHT = 300;  
-
-        final String GUIDANCE = "Press Ctrl-C (Command-C on Mac) or right click (Option-click on Mac) on the selected text to copy values, then paste into Excel.  Note that values in columns that are dates or numbers are correctly understood as dates and numbers in Excel.";  
-
-        int[][] cells = grid.getCellSelection().getSelectedCells();  
-        if (cells == null || cells.length == 0) return;  
-
-        ArrayList<String> fieldNames = new ArrayList<String>();  
-
-        int firstRow = cells[0][0];  
-        for (int i = 0; i < cells.length; i++) {  
-            if (cells[i][0] != firstRow) break;  
-            fieldNames.add(grid.getFieldName(cells[i][1]));  
-        }  
-
-        TextExportSettings settings = new TextExportSettings();  
-        settings.setFieldList(fieldNames.toArray(new String[0]));  
-        settings.setFieldSeparator("\t");  
-        settings.setEscapingMode(EscapingMode.DOUBLE);  
-
-        StaticTextItem label = new StaticTextItem();  
-        label.setName("label");  
-        label.setShowTitle(false);  
-        label.setValue(GUIDANCE);  
-
-        TextAreaItem area = new TextAreaItem();  
-        area.setName("textArea");  
-        area.setShowTitle(false);  
-        area.setCanEdit(true);  
-        area.setHeight("*");  
-        area.setWidth("*");  
-        this.textArea = area;  
-
-        ButtonItem button = new ButtonItem();  
-        button.setName("done");  
-        button.setAlign(Alignment.CENTER);  
-        button.setTitle("Done");  
-        button.addClickHandler(this);  
-      
-        DynamicForm form = new DynamicForm();  
-        form.setNumCols(1);  
-        form.setWidth(WIDTH);  
-        form.setHeight(HEIGHT);  
-        form.setAutoFocus(true);  
-        form.setFields(new FormItem[]{ label, this.textArea, button });  
-        this.form = form;  
-
-        this.setAutoSize(true);  
-        this.setShowToolbar(false);  
-        this.setCanDragReposition(true);  
-        this.setTitle("Copy Cells");  
-        this.setShowModalMask(true);  
-        this.setIsModal(true);  
-        this.addItem(form);  
-
-        StringBuffer sb = new StringBuffer();
-        
-        Record[] records = grid.getSelectedRecords();  
-        
-        for (int i = 0; i < records.length; i++) {  
-        	
-            int index = grid.getRecordIndex((ListGridRecord)records[i]);  
-            if (index >= 0) records[i] = grid.getEditedRecord(index);  
-            
-            if(i==0) {
-            	for(int j = 0;j<  fieldNames.size();j++) {
-                	
-                	sb.append("\"").append(prjFieldItems.get(fieldNames.get(j))).append("\"").append("	");
-                }	
-            	sb.append("\n");
-            }
-            
-            for(int j = 0;j<  fieldNames.size();j++) {
-            	
-            	sb.append("\"").append(records[i].getAttributeAsString(fieldNames.get(j))).append("\"").append("	");
-            }
-            sb.append("\n");
-        }  
-        this.textArea.setValue(sb.toString());  
-        this.textArea.selectValue();  
-    }  
-};*/
 
 	/**
 	 * items key值与服务返回map中的key一一对应

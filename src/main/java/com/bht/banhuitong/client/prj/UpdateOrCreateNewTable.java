@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bht.banhuitong.client.BaseFrame;
+import com.bht.banhuitong.client.BasePortlet;
 import com.bht.banhuitong.server.DbModelService;
 import com.bht.banhuitong.server.DbModelServiceAsync;
 import com.google.gwt.core.client.GWT;
@@ -137,7 +138,6 @@ public class UpdateOrCreateNewTable extends Window {
 //								SC.say("say hi! length is"+records.length);
 							}
 						}
-	   				
 	   			}
 	           	
 	           });
@@ -274,7 +274,7 @@ public class UpdateOrCreateNewTable extends Window {
 							//方法一：直接重新加载全屏
 							BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
 							new BaseFrame().delPortlet(portlet.getTitle());
-							new BaseFrame().changeMainCanvas(DatabaseModulePortlet.class, new DatabaseModulePortlet().getPortlet());
+							new BaseFrame().changeMainCanvas(new DatabaseModulePortlet().getPortlet());
 							
 							
 							SC.say("创建成功！");

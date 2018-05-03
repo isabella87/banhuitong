@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bht.banhuitong.client.BaseFrame;
+import com.bht.banhuitong.client.BasePortlet;
 import com.bht.banhuitong.client.MainFrame;
 import com.bht.banhuitong.server.PrjService;
 import com.bht.banhuitong.server.PrjServiceAsync;

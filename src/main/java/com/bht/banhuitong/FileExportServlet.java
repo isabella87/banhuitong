@@ -20,10 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.bht.banhuitong.fileUtils.Export2File;
 import com.bht.banhuitong.filter.ModuleType;
 import com.bht.banhuitong.server.DbModelService;
-import com.bht.banhuitong.server.PrjService;
 import com.bht.banhuitong.server.impl.PrjServiceImpl;
 
-public class DataDownloadServlet extends HttpServlet {
+public class FileExportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

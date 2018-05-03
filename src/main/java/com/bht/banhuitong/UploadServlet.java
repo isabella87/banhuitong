@@ -23,7 +23,8 @@ public class UploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		String filePath = request.getParameter("filepath");
+		
 		response.setContentType("text/html");
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
@@ -43,11 +44,13 @@ public class UploadServlet extends HttpServlet {
 		while (iter.hasNext()) {
 			FileItem item = (FileItem) iter.next();
 
-			String savePath = getServletContext().getRealPath("/files");
+			if(filePath==null||filePath.trim().isEmpty()) {
+				filePath = getServletContext().getRealPath("/files");
+			}
 
 			String filename = item.getName();
 
-			File file = new File(savePath, filename.substring(filename.lastIndexOf(File.separator) + 1));
+			File file = new File(filePath, filename.substring(filename.lastIndexOf(File.separator) + 1));
 
 			try {
 				item.write(file);

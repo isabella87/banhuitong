@@ -1,4 +1,4 @@
-package com.bht.banhuitong.client.prj;
+package com.bht.banhuitong.client;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,15 +6,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.bht.banhuitong.client.BaseFrame;
-import com.bht.banhuitong.client.LoginWindow;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.smartgwt.client.types.ListGridFieldType;
 import com.smartgwt.client.util.SC;
-import com.smartgwt.client.widgets.events.ClickEvent;
-import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.CloseClickEvent;
 import com.smartgwt.client.widgets.events.CloseClickHandler;
+import com.smartgwt.client.widgets.events.DoubleClickEvent;
+import com.smartgwt.client.widgets.events.DoubleClickHandler;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.events.ChangedEvent;
@@ -24,7 +22,7 @@ import com.smartgwt.client.widgets.layout.Portlet;
 public class BasePortlet extends Portlet {
 	
 	protected static List<String> emptyArrayList = new ArrayList<String>();
-	ListGrid retListGrid = new ListGrid();	
+	public ListGrid retListGrid = new ListGrid();	
 	
 	public ListGrid getRetListGrid() {
 		return retListGrid;
@@ -33,19 +31,27 @@ public class BasePortlet extends Portlet {
 	public BasePortlet(String title) {
 		this.setTitle(title);
 		this.setShowCloseConfirmationMessage(false);
+		
 		init();
 		registClickEvent();
 	}
 	
 	private void registClickEvent() {
-		this.addClickHandler(new ClickHandler() {
+		
+		this.addDoubleClickHandler(new DoubleClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onDoubleClick(DoubleClickEvent event) {
 				Portlet portlet = (Portlet)event.getSource();
-				portlet.bringToFront();
+				
+				BasePortlet basePortlet = BaseFrame.portlets.get(portlet.getTitle());
+				
+				new BaseFrame().changeMainCanvas(basePortlet);
+				
 			}
+			
 		});
+		
 		this.addCloseClickHandler(new CloseClickHandler() {
 
 			@Override

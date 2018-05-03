@@ -15,6 +15,8 @@ public final class Configuration {
 	public static final Map<String, String> PROPERTIES = new HashMap<String, String>();
 
 	public static String excepStr;
+	public static String rootPath;
+
 	/**
 	 * 
 	 */

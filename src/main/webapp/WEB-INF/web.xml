@@ -69,6 +69,16 @@
     <servlet-name>dbModelServlet</servlet-name>
     <url-pattern>/banhuitong/action/dbmodel</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>filesServlet</servlet-name>
+    <servlet-class>com.bht.banhuitong.server.impl.FileServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>filesServlet</servlet-name>
+    <url-pattern>/banhuitong/action/files</url-pattern>
+  </servlet-mapping>
  
  <!-- 上传及下载 --> 
   <servlet>
@@ -93,7 +103,7 @@
   
    <servlet>
     <servlet-name>datadownloadServlet</servlet-name>
-    <servlet-class>com.bht.banhuitong.DataDownloadServlet</servlet-class>
+    <servlet-class>com.bht.banhuitong.FileExportServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>

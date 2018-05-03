@@ -25,6 +25,11 @@ public class UploadWindow extends Window {
 
 	private Label errorLabel = new Label();
 
+	private String path ;
+	
+	public UploadWindow(String path) {
+		this.path = path;
+	}
 	public void init() {
 
 		this.setAutoSize(true);
@@ -58,7 +63,7 @@ public class UploadWindow extends Window {
 		formpanel.setHeight("40px");
 		formpanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formpanel.setMethod(FormPanel.METHOD_POST);
-		formpanel.setAction(GWT.getModuleBaseURL() + "upload");
+		formpanel.setAction(GWT.getModuleBaseURL() + "upload?filepath="+path);
 		formpanel.setWidget(fileUpload);
 
 		okButton.addClickHandler(new ClickHandler() {

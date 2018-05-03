@@ -53,6 +53,7 @@
   <source path='shared'/>
   <source path='common'/>
   <source path='server'/>
+  <source path='fileUtils'/>
   
   <!-- allow Super Dev Mode -->
   <add-linker name="xsiframe"/>

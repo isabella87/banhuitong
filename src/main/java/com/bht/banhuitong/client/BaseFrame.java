@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.bht.banhuitong.client.prj.BasePortlet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Frame;
@@ -123,7 +122,7 @@ public class BaseFrame {
 	 * @param <T>
 	 * @param class1
 	 */
-	public <T> void changeMainCanvas(Class<T> class1, BasePortlet portlet) {
+	public <T> void changeMainCanvas(BasePortlet portlet) {
 
 		initMainCanvas();
 
@@ -134,14 +133,14 @@ public class BaseFrame {
 			portlets.get(portlet.getTitle()).setWidth(MainFrame.window.getWidth() - 12);
 			portlets.get(portlet.getTitle()).setTop(0);
 			portlets.get(portlet.getTitle()).setLeft(0);
-			putPortlet(class1, portlets.get(portlet.getTitle()));
+			putPortlet(portlets.get(portlet.getTitle()));
 			portlets.get(portlet.getTitle()).bringToFront();
 			canvasMain.addChild(portlets.get(portlet.getTitle()));
 			canvasMain.redraw();
 		} else {
 			portlet.setHeight(MainFrame.window.getHeight() - 76);
 			portlet.setWidth(MainFrame.window.getWidth() - 12);
-			putPortlet(class1, portlet);
+			putPortlet(portlet);
 			canvasMain.addChild(portlet);
 			portlet.bringToFront();
 
@@ -232,8 +231,8 @@ public class BaseFrame {
 		int i = 0;
 		for (Portlet portlet : portlets.values()) {
 			portlet.setWidth(MainFrame.window.getWidth() - 13);
-			portlet.setHeight((MainFrame.window.getHeight() - 76) - i * 25);
-			portlet.setTop(i * 25);
+			portlet.setHeight((MainFrame.window.getHeight() - 76) - i * 20);
+			portlet.setTop(i * 20);
 			portlet.setLeft(0);
 			portlet.bringToFront();
 			i++;
@@ -289,7 +288,7 @@ public class BaseFrame {
 		initEndCanvas();
 	}
 
-	public <T> Long putPortlet(Class<T> class1, BasePortlet portlet) {
+	public <T> Long putPortlet(BasePortlet portlet) {
 		if (portlets.get(portlet.getTitle()) != null) {
 			delPortlet(portlet.getTitle());
 		}
@@ -323,7 +322,7 @@ public class BaseFrame {
 		RootPanel.get().add(frame);
 	}
 	
-	void download(String filename) {
+	public void download(String filename) {
 
 		Frame frame = new Frame(GWT.getModuleBaseURL() + "download?filename=" + filename);
 		frame.setVisible(false);
