@@ -55,7 +55,7 @@ public class MainPrjPortlet extends BasePortlet {
 	private static LinkedHashMap<String, String> prjSignStatusItems = new LinkedHashMap<String, String>();
 	private static LinkedHashMap<String, String> timeTypeItems = new LinkedHashMap<String, String>();
 	private static LinkedHashMap<String, String> searchKeyItems = new LinkedHashMap<String, String>();
-	private static String portletTitleName = "系统建模 -项目1";
+	public static String portletTitleName = "系统建模 -项目1";
 	private MainPrjPortlet portletInstance;
 
 	public MainPrjPortlet getInstance() {
@@ -272,7 +272,7 @@ public class MainPrjPortlet extends BasePortlet {
 				if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
 					SC.say("请查询需要打印数据！");
 				}else {
-					new ExportDialog(false,listGrid).draw();
+					new ExportDialog(false,listGrid);
 				}
 			}
 		});

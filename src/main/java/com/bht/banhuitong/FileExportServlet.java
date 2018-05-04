@@ -17,9 +17,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bht.banhuitong.annotation.BusinessAnnotation;
 import com.bht.banhuitong.fileUtils.Export2File;
 import com.bht.banhuitong.filter.ModuleType;
-import com.bht.banhuitong.server.DbModelService;
+import com.bht.banhuitong.server.impl.DbModelServiceImpl;
 import com.bht.banhuitong.server.impl.PrjServiceImpl;
 
 public class FileExportServlet extends HttpServlet {
@@ -48,13 +49,14 @@ public class FileExportServlet extends HttpServlet {
 //			clazz = service.getClass();
 			break;
 		case ModuleType.DBMODEL:
-			clazz = DbModelService.class;
+			clazz = DbModelServiceImpl.class;
 			break;
 		}
 		Map<String, String> args = new HashMap<String, String>();
 		data = getServiceData(clazz, serviceno, args);
-
-		filename = new Export2File().export(filepath, "xls", data); // 以要求格式文件将数据保存在服务端
+		String endName = "_"+moduletype+"_"+serviceno;
+		
+		filename = new Export2File().export(filepath,endName, "xls", data); // 以要求格式文件将数据保存在服务端
 
 		File file = new File(filepath + File.separator + filename);
 

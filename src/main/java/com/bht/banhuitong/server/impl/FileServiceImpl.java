@@ -91,11 +91,12 @@ public class FileServiceImpl extends RemoteServiceServlet implements FileService
 
 	@Override
 	public boolean createDir(String[] dirs) {
-		String path = Configuration.rootPath;
-		for (String dir : dirs) {
-			path += File.separator + dir;
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0;i<dirs.length;i++) {
+			sb.append(i!=0? File.separator:"").append(dirs[i]);
+			logger.info("param is :" + dirs[i]);
 		}
-		File file = new File(path);
+		File file = new File(sb.toString());
 
 		return file.mkdir();
 	}

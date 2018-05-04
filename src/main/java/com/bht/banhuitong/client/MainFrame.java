@@ -1,7 +1,6 @@
 package com.bht.banhuitong.client;
 
 import com.bht.banhuitong.client.files.FileModulePortlet;
-import com.bht.banhuitong.client.prj.ClientExportDialog;
 import com.bht.banhuitong.client.prj.CreditPrjPortlet;
 import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
 import com.bht.banhuitong.client.prj.ExportDialog;
@@ -343,53 +342,30 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			}
 		});
 
-		MenuItem exportMenuItem = new MenuItem("导出全部", "", "Ctrl+E");
+		MenuItem exportMenuItem = new MenuItem("导出", "", "Ctrl+E");
 		exportMenuItem.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
 				if (portlets == null || portlets.isEmpty()) {
-					SC.say("请打开数据查询列表，并查询打印数据！");
+					SC.say("请打开数据查询列表，并查询导出数据！");
 				}
 
 				BasePortlet portlet = getTail(portlets).getValue();
 				ListGrid listGrid = portlet.getRetListGrid();
 				if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
-					SC.say("请查询需要打印数据！");
+					SC.say("请查询需要导出数据！");
 				}
 
 				boolean isAll = false;
 				if (portlet.getRetListGrid().getSelectedRecords().length <= 0) {
 					isAll = true;
 				}
-				new ExportDialog(isAll, portlet.getRetListGrid()).draw();
+				new ExportDialog(isAll, portlet.getRetListGrid());
 			}
 		});
 		
-		MenuItem clientExportMenuItem = new MenuItem("客户端导出", "", "Ctrl+C");
-		clientExportMenuItem.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(MenuItemClickEvent event) {
-				if (portlets == null || portlets.isEmpty()) {
-					SC.say("请打开数据查询列表，并查询打印数据！");
-				}
-
-				BasePortlet portlet = getTail(portlets).getValue();
-				ListGrid listGrid = portlet.getRetListGrid();
-				if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
-					SC.say("请查询需要打印数据！");
-				}
-
-				boolean isAll = false;
-				if (portlet.getRetListGrid().getSelectedRecords().length <= 0) {
-					isAll = true;
-				}
-				new ClientExportDialog(isAll, portlet.getRetListGrid()).draw();
-			}
-		});
-
-		helpMenu.setItems(aboutMenuItem, separator, printMenuItem, exportMenuItem,clientExportMenuItem);
+		helpMenu.setItems(aboutMenuItem, separator, printMenuItem, exportMenuItem);
 		IMenuButton helpMenuButton = new IMenuButton("帮助", helpMenu);
 		
 		menuLayout.setHeight(20);

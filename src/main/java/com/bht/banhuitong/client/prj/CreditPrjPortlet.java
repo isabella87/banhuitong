@@ -14,7 +14,7 @@ import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 
 public class CreditPrjPortlet extends BasePortlet{
-	private static String portletTitleName = "系统建模 -filter";
+	public static String portletTitleName = "系统建模 -filter";
 	private CreditPrjPortlet portletInstance;
 
 	public CreditPrjPortlet getInstance() {

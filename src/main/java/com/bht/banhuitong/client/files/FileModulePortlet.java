@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.bht.banhuitong.client.BaseFrame;
 import com.bht.banhuitong.client.BasePortlet;
-import com.bht.banhuitong.client.UploadWindow;
 import com.bht.banhuitong.server.FileService;
 import com.bht.banhuitong.server.FileServiceAsync;
 import com.google.gwt.core.client.GWT;
@@ -27,6 +26,7 @@ import com.smartgwt.client.widgets.layout.SectionStackSection;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.menu.Menu;
 import com.smartgwt.client.widgets.menu.MenuItem;
+import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 import com.smartgwt.client.widgets.tree.Tree;
 import com.smartgwt.client.widgets.tree.TreeGrid;
@@ -81,7 +81,7 @@ public class FileModulePortlet extends BasePortlet {
 		dirsTree.setCanDrag(true);
 		dirsTree.setWidth100();
 		dirsTree.setHeight100();
-		dirsTree.setShowConnectors(true); 
+		dirsTree.setShowConnectors(true);
 
 		final ListGrid fileListGrid = new ListGrid();
 		fileListGrid.setHeight100();
@@ -218,7 +218,7 @@ public class FileModulePortlet extends BasePortlet {
 				});
 			}
 		});
-		
+
 		Menu treeMenu = new Menu();
 
 		MenuItem addTreeMenu = new MenuItem("新增");
@@ -229,6 +229,17 @@ public class FileModulePortlet extends BasePortlet {
 		treeMenu.setItems(addTreeMenu, delTreeMenu);
 
 		dirsTree.setContextMenu(treeMenu);
+
+		addTreeMenu.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(MenuItemClickEvent event) {
+				TreeNode treeNode = dirsTree.getSelectedRecord();
+				String allPath = treeNode.getAttribute("urlLink");
+				String pName = treeNode.getName();
+				new CreateDirWindow(pName, allPath).init();
+			}
+		});
 
 		delTreeMenu.addClickHandler(new com.smartgwt.client.widgets.menu.events.ClickHandler() {
 
@@ -415,13 +426,8 @@ public class FileModulePortlet extends BasePortlet {
 
 				treeNodeList.add(treeNode);
 			}
-
 		}
-		/*TreeNode treeNode = new TreeNode();
-		treeNode.setIcon("actions/add.png");
-		treeNode.set_canEdit(true);
-		treeNodeList.add(treeNode);*/
-		
+
 		parentTreeNode.setChildren(treeNodeList.toArray(new TreeNode[treeNodeList.size()]));
 
 		for (TreeNode tn : treeNodeList) {

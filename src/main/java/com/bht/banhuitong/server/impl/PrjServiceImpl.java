@@ -104,6 +104,9 @@ public class PrjServiceImpl extends BaseServiceServlet implements PrjService {
 		if (str.startsWith("\"")){
 			str = str.substring(1, str.length() - 1);
 		}
+		if(str ==null) {
+			str = "";
+		}
 		return str;
 	}
 

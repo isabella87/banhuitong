@@ -1,4 +1,4 @@
-package com.bht.banhuitong;
+package com.bht.banhuitong.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

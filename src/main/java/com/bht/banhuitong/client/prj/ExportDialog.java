@@ -44,6 +44,8 @@ public class ExportDialog extends Dialog implements
 	 */
 	public ExportDialog(boolean isAll, ListGrid listGrid) {
 		this.grid = listGrid;
+		this.grid.setCanSelectCells(true);
+		this.grid.setCanDragSelect(true);
 		final int WIDTH = 400;
 		final int HEIGHT = 300;
 
@@ -53,12 +55,6 @@ public class ExportDialog extends Dialog implements
 		if (cells == null || cells.length == 0) {
 			// return;
 		}
-		/*
-		 * TextExportSettings settings = new TextExportSettings();
-		 * settings.setFieldList(fieldNames.toArray(new String[0]));
-		 * settings.setFieldSeparator("\t");
-		 * settings.setEscapingMode(EscapingMode.DOUBLE);
-		 */
 
 		StaticTextItem label = new StaticTextItem();
 		label.setName("label");
@@ -91,7 +87,7 @@ public class ExportDialog extends Dialog implements
 		IButton downloadButton = new IButton(); // buttonItem
 		downloadButton.setWidth(130);
 		downloadButton.setAlign(Alignment.CENTER);
-		downloadButton.setTitle("导出");
+		downloadButton.setTitle("下载全部");
 
 		downloadButton.addClickHandler(new ClickHandler() {
 
@@ -139,8 +135,12 @@ public class ExportDialog extends Dialog implements
 
 			ListGridField[] fields = grid.getFields();
 			for (ListGridField field : fields) {
-				fieldNames.add(field.getName());
-				fieldTitles.add(field.getTitle());
+				String fieldName = field.getName();
+				String fieldTitle = field.getTitle();
+				if(fieldName!=null&&!fieldName.isEmpty()&&fieldTitle!=null&&!fieldTitle.isEmpty()) {
+					fieldNames.add(field.getName());
+					fieldTitles.add(field.getTitle());
+				}
 			}
 		} else {
 			int firstRow = cells[0][0];
@@ -151,7 +151,7 @@ public class ExportDialog extends Dialog implements
 				fieldTitles.add(grid.getField(grid.getFieldName(cells[i][1])).getTitle());
 			}
 		}
-
+		
 		for (int i = 0; i < records.length; i++) {
 
 			int index = grid.getRecordIndex((ListGridRecord) records[i]);
@@ -174,24 +174,7 @@ public class ExportDialog extends Dialog implements
 		}
 		this.textArea.setValue(sb.toString());
 		this.textArea.selectValue();
-		
+		this.draw();
 	}
-	
-	/**
-	 * 刚方法不好用，ActiveXObject仅能在IE浏览器使用。
-	 */
-	public static native void saveAs() /*-{
-		var strFile = "c:\\liehuo.net.txt";
-		var objFSO = new ActiveXObject("Scripting.FileSystemObject");
-		// 检查文件是否存在
-		if (!objFSO.FileExists(strFile)){
-		// 创建文本文件
-		var objStream = objFSO.CreateTextFile(strFile, true);
-		document.write("创建文本文件: " + strFile + "<br>");
-		objStream.Close();  // 关闭文件
-		}else{
-			document.write("文本文件: " + strFile + "已经存在<br>");
-		}
-	}-*/;
 
 }

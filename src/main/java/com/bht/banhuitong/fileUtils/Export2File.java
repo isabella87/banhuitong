@@ -29,12 +29,12 @@ public class Export2File {
 
 	private String exportSytle;// 为xls等
 
-	public String initFileName() {
+	public String initFileName(String endName) {
 		String filename = new java.sql.Timestamp(new Date().getTime()).toString();
-		filename = filename.replace("-", "").replace(":", "").replace(".", "_").replace(" ", "");
+		filename = filename.replace("-", "").replace(":", "").replace(".", "").replace(" ", "");
 		File file = new File(rootPath);
 		file.mkdir();
-		filename = filename + "." + exportSytle;
+		filename = filename +endName + "." + exportSytle;
 		fileName = rootPath + File.separator + filename;
 		try {
 			fileName = new String(fileName.getBytes("UTF-8"));
@@ -51,10 +51,10 @@ public class Export2File {
 	 * @throws FileNotFoundException
 	 * @throws SQLException
 	 */
-	public String export(String rootPath,String exportSytle, List<Map<String, String>> data) {
+	public String export(String rootPath,String moduleAndServiceno,String exportSytle, List<Map<String, String>> data) {
 		this.exportSytle = exportSytle;
 		this.rootPath = rootPath;
-		String filename = initFileName();
+		String filename = initFileName(moduleAndServiceno);
 		OutputStream output;
 		try {
 			output = new FileOutputStream(fileName, true);
@@ -62,7 +62,7 @@ public class Export2File {
 			BufferedOutputStream bufferedOutPut = new BufferedOutputStream(output);
 			HSSFWorkbook wb = new HSSFWorkbook();
 
-			restructSheet(wb, new SheetElement("1", "name", "title"), data);
+			restructSheet(wb, new SheetElement("1", moduleAndServiceno, "title"), data);
 			bufferedOutPut.flush();
 			wb.write(bufferedOutPut);
 			bufferedOutPut.close();
@@ -117,9 +117,9 @@ public class Export2File {
 			Map<String, String> map = data.get(0);
 
 			// 创建报表头部
-			exportExcel.createNormalHead(sheetTitle, map.size()-1);
+//			exportExcel.createNormalHead(sheetTitle, map.size()-1);
 			// 定义第一行
-			HSSFRow row1 = sheet.createRow(1);
+			HSSFRow row1 = sheet.createRow(0);
 			HSSFCell cell1 = row1.createCell(0);
 
 			// 第一行第一列
@@ -137,11 +137,11 @@ public class Export2File {
 				Map<String, String> maps = data.get(i);
 				j = 0;
 
-				HSSFRow row = sheet.createRow(i + 2);
+				HSSFRow row = sheet.createRow(i + 1);
 				for (String value : maps.values()) {
 					HSSFCell cell = row.createCell(j);
 					cell.setCellStyle(cellStyle);
-					cell.setCellValue(new HSSFRichTextString(value));
+					cell.setCellValue(new HSSFRichTextString(value==null||value.isEmpty()?"":value));
 					j++;
 				}
 			}
@@ -168,6 +168,6 @@ public class Export2File {
 		data.add(mapData);
 		data.add(mapData2);
 
-		new Export2File().export("d:\\exportdata","xls", data);
+		new Export2File().export("d:\\exportdata","_2_2","xls", data);
 	}
 }

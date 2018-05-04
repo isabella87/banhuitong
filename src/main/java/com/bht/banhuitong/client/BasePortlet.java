@@ -3,9 +3,13 @@ package com.bht.banhuitong.client;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
+import com.bht.banhuitong.client.prj.MainPrjPortlet;
+import com.bht.banhuitong.client.prj.MainPrjPortlet2;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.smartgwt.client.types.ListGridFieldType;
 import com.smartgwt.client.util.SC;
@@ -22,8 +26,19 @@ import com.smartgwt.client.widgets.layout.Portlet;
 public class BasePortlet extends Portlet {
 	
 	protected static List<String> emptyArrayList = new ArrayList<String>();
-	public ListGrid retListGrid = new ListGrid();	
+	public ListGrid retListGrid = new ListGrid();
 	
+	/**
+	 * 需要被导出全部查询数据的界面都要做此设置,主键为界面标题，值为服务模块和服务序列组成的字符串,需要与服务端对应,形如：“module,serviceno”
+	 */
+	public static Map<String,String> msAndTitleMap = new HashMap<String,String>(); 
+	
+	static {
+		msAndTitleMap.put(MainPrjPortlet.portletTitleName,"2,1");
+		msAndTitleMap.put(MainPrjPortlet2.portletTitleName,"2,2");
+		msAndTitleMap.put(DatabaseModulePortlet.portletTitleName,"3,4");
+		
+	}
 	public ListGrid getRetListGrid() {
 		return retListGrid;
 	}

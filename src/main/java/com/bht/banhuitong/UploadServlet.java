@@ -15,6 +15,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.xx.armory.services.ServiceException;
 
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,6 +25,7 @@ public class UploadServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String filePath = request.getParameter("filepath");
+		filePath = new String(filePath.getBytes("ISO8859-1"), "UTF-8");
 		
 		response.setContentType("text/html");
 		request.setCharacterEncoding("UTF-8");
@@ -56,6 +58,7 @@ public class UploadServlet extends HttpServlet {
 				item.write(file);
 			} catch (Exception e) {
 				e.printStackTrace();
+				throw new ServiceException("上传失败");
 			}
 		}
 	}

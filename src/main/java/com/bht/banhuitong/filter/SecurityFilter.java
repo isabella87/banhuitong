@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.xx.armory.services.ServiceException;
 
-import com.bht.banhuitong.BusinessAnnotation;
+import com.bht.banhuitong.annotation.BusinessAnnotation;
 import com.bht.banhuitong.common.CommonMethod;
 import com.bht.banhuitong.config.Configuration;
 import com.bht.banhuitong.dbservice.impl.PermissionDbServiceImpl;

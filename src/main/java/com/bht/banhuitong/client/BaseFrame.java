@@ -313,10 +313,10 @@ public class BaseFrame {
 	
 	public static void  export(BasePortlet portlet) {
 		String title = portlet.getTitle(); // 通过解析获取以下两个字段
-		String moduletype = "2";
-		String serviceno = "2";
+		String[] ms = BasePortlet.msAndTitleMap.get(title).split(",");
+	
 		Frame frame = new Frame(
-				GWT.getModuleBaseURL() + "datadownload?moduletype=" + moduletype + "&serviceno=" + serviceno);
+				GWT.getModuleBaseURL() + "datadownload?moduletype=" + ms[0] + "&serviceno=" + ms[1]);
 		frame.setVisible(false);
 		frame.setSize("0px", "0px");
 		RootPanel.get().add(frame);

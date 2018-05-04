@@ -49,7 +49,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 	private ListGridRecord  lastsysModuleListGridRecord;
 	private ListGridRecord  lastsysTableListGridRecord;
 	
-	private static String portletTitleName = "系统建模 -数据库表操作";
+	public static String portletTitleName = "系统建模 -数据库表操作";
 	private DatabaseModulePortlet portletInstance;
 
 	static {
@@ -142,7 +142,8 @@ public class DatabaseModulePortlet extends BasePortlet{
 		dbTableModelListGrid.setShowEmptyMessage(true);
 		dbTableModelListGrid.setEmptyMessage("请点击<b>搜索</b>按钮查询数据！");
 		dbTableModelListGrid.setAutoFetchData(true);
-//		dbTableModelListGrid.setCanEdit(true);
+		dbTableModelListGrid.setCanSelectCells(true);
+		dbTableModelListGrid.setCanDragSelect(true);
 		dbTableModelListGrid.setEditEvent(ListGridEditEvent.DOUBLECLICK);
 //		dbTableModelListGrid.setSelectionAppearance(SelectionAppearance.CHECKBOX); 
 		
@@ -171,7 +172,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 					} else {
 						dbTableModelListGrid.setData(new ListGridRecord[] {});
 						dbTableModelListGrid.setData(getRecords(result,dbTableModelFieldItems));
-
+//						retListGrid = dbTableModelListGrid;
 					}
 				}
 				
@@ -192,6 +193,8 @@ public class DatabaseModulePortlet extends BasePortlet{
 		moduleListGrid.setEmptyMessage("请点击<b>搜索</b>按钮查询数据！");
 		moduleListGrid.setAutoFetchData(true);
 //		moduleListGrid.setCanEdit(true);
+		moduleListGrid.setCanSelectCells(true);
+		moduleListGrid.setCanDragSelect(true);
 		moduleListGrid.setEditEvent(ListGridEditEvent.DOUBLECLICK);
 		moduleListGrid.setSelectionAppearance(SelectionAppearance.CHECKBOX); 
 		
@@ -238,6 +241,8 @@ public class DatabaseModulePortlet extends BasePortlet{
 		tableListGrid.setEmptyMessage("请点击<b>搜索</b>按钮查询数据！");
 		tableListGrid.setAutoFetchData(true);
 //		tableListGrid.setCanEdit(true);
+		tableListGrid.setCanSelectCells(true);
+		tableListGrid.setCanDragSelect(true);
 		tableListGrid.setEditEvent(ListGridEditEvent.DOUBLECLICK);
 		tableListGrid.setSelectionAppearance(SelectionAppearance.CHECKBOX); 
 		
@@ -549,14 +554,9 @@ public class DatabaseModulePortlet extends BasePortlet{
 							dbTableModelListGrid.setData(new ListGridRecord[] {});
 							SC.say("没有符合条件的数据！");
 						} else {
-							Object rpcExceptionMessage = result.get(0).get("error");
-							if (rpcExceptionMessage != null) {
-								SC.say(rpcExceptionMessage.toString());
-							} else {
-								dbTableModelListGrid.setData(new ListGridRecord[] {});
-								dbTableModelListGrid.setData(getRecords(result,dbTableModelFieldItems));
-								retListGrid = dbTableModelListGrid;
-							}
+							dbTableModelListGrid.setData(new ListGridRecord[] {});
+							dbTableModelListGrid.setData(getRecords(result,dbTableModelFieldItems));
+//							retListGrid = dbTableModelListGrid;
 						}
 						
 					}
@@ -610,14 +610,8 @@ public class DatabaseModulePortlet extends BasePortlet{
 							moduleListGrid.setData(new ListGridRecord[] {});
 							SC.say("没有符合条件的数据！");
 						} else {
-							Object rpcExceptionMessage = result.get(0).get("error");
-							if (rpcExceptionMessage != null) {
-								SC.say(rpcExceptionMessage.toString());
-							} else {
-								moduleListGrid.setData(new ListGridRecord[] {});
-								moduleListGrid.setData(getRecords(result,sysModuleFieldItems));
-
-							}
+							moduleListGrid.setData(new ListGridRecord[] {});
+							moduleListGrid.setData(getRecords(result,sysModuleFieldItems));
 						}
 						
 					}
@@ -647,14 +641,9 @@ public class DatabaseModulePortlet extends BasePortlet{
 							tableListGrid.setData(new ListGridRecord[] {});
 							SC.say("没有符合条件的数据！");
 						} else {
-							Object rpcExceptionMessage = result.get(0).get("error");
-							if (rpcExceptionMessage != null) {
-								SC.say(rpcExceptionMessage.toString());
-							} else {
-								tableListGrid.setData(new ListGridRecord[] {});
-								tableListGrid.setData(getRecords(result,sysTableFieldItems));
-
-							}
+							tableListGrid.setData(new ListGridRecord[] {});
+							tableListGrid.setData(getRecords(result,sysTableFieldItems));
+							retListGrid = tableListGrid;
 						}
 						
 					}
@@ -726,14 +715,9 @@ public class DatabaseModulePortlet extends BasePortlet{
 							tableListGrid.setData(new ListGridRecord[] {});
 							SC.say("没有符合条件的数据！");
 						} else {
-							Object rpcExceptionMessage = result.get(0).get("error");
-							if (rpcExceptionMessage != null) {
-								SC.say(rpcExceptionMessage.toString());
-							} else {
-								tableListGrid.setData(new ListGridRecord[] {});
-								tableListGrid.setData(getRecords(result,sysTableFieldItems));
-
-							}
+							tableListGrid.setData(new ListGridRecord[] {});
+							tableListGrid.setData(getRecords(result,sysTableFieldItems));
+							retListGrid = tableListGrid;
 						}
 						
 					}

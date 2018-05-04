@@ -3,7 +3,7 @@ package com.bht.banhuitong.server;
 import java.util.List;
 import java.util.Map;
 
-import com.bht.banhuitong.BusinessAnnotation;
+import com.bht.banhuitong.annotation.BusinessAnnotation;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 

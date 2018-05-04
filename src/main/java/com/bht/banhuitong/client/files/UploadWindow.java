@@ -1,4 +1,4 @@
-package com.bht.banhuitong.client;
+package com.bht.banhuitong.client.files;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FileUpload;
