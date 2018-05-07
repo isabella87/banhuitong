@@ -4,8 +4,6 @@ import com.bht.banhuitong.client.files.FileModulePortlet;
 import com.bht.banhuitong.client.prj.CreditPrjPortlet;
 import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
 import com.bht.banhuitong.client.prj.ExportDialog;
-import com.bht.banhuitong.client.prj.GuaranteeOrgPortlet;
-import com.bht.banhuitong.client.prj.GuaranteePersonPortlet;
 import com.bht.banhuitong.client.prj.MainPrjPortlet;
 import com.bht.banhuitong.client.prj.MainPrjPortlet2;
 import com.bht.banhuitong.server.LoginService;
@@ -23,7 +21,6 @@ import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.menu.IMenuButton;
 import com.smartgwt.client.widgets.menu.Menu;
-import com.smartgwt.client.widgets.menu.MenuItem;
 import com.smartgwt.client.widgets.menu.MenuItemSeparator;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
@@ -125,9 +122,23 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 	 * 初始化menuBar
 	 */
 	private HLayout initMenuBar() {
+		MenuItemSeparator separator = new MenuItemSeparator();
+
 		Menu sysMenu = new Menu();
 
-		MenuItem exitMenuItem = new MenuItem("退出系统", "", "Ctrl+Q");
+		IMenuItem restartMenuItem = new IMenuItem("重新登录", "I");
+
+		restartMenuItem.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(MenuItemClickEvent event) {
+
+				new LoginWindow().init();
+			}
+		});
+
+		IMenuItem exitMenuItem = new IMenuItem("退出系统", "Q");
+
 		exitMenuItem.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -136,11 +147,13 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			}
 		});
 
-		sysMenu.setItems(exitMenuItem);
+		sysMenu.setItems(restartMenuItem, separator, exitMenuItem);
 		IMenuButton sysMenuButton = new IMenuButton("退出", sysMenu);
 
 		Menu prjMenu = new Menu();
-		MenuItem prj1 = new MenuItem("项目1", "", "Ctrl+F");
+
+		IMenuItem prj1 = new IMenuItem("项目1", "1");
+
 		prj1.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -151,18 +164,18 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		MenuItem prj2 = new MenuItem("项目2", "", "Ctrl+C");
+		IMenuItem prj2 = new IMenuItem("项目2", "2");
+
 		prj2.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				// window.addItem(new MainPrjPortlet2().getInstance().getPortlet());
 				changeMainCanvas(new MainPrjPortlet2().getInstance().getPortlet());
 			}
 
 		});
 
-		MenuItem prj3 = new MenuItem("图形化展示", "", "Ctrl+A");
+		IMenuItem prj3 = new IMenuItem("图形化展示", "3");
 		prj3.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -173,7 +186,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		MenuItem prj4 = new MenuItem("数据库表", "", "Ctrl+B");
+		IMenuItem prj4 = new IMenuItem("数据库表", "4");
 		prj4.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -184,7 +197,21 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		MenuItem progressBarMenu = new MenuItem("进度条测试", "", "Ctrl+P");
+		prjMenu.setItems(prj1, prj2, separator, prj3, prj4);
+		IMenuButton prjMenuButton = new IMenuButton("系统建模", prjMenu);
+
+		// 文件系统
+		Menu fileMenu = new Menu();
+		IMenuItem fileMenuItem = new IMenuItem("文件系统", "F");
+		fileMenuItem.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(MenuItemClickEvent event) {
+				changeMainCanvas(new FileModulePortlet().getInstance().getPortlet());
+			}
+		});
+
+		IMenuItem progressBarMenu = new IMenuItem("进度条测试", "J");
 		progressBarMenu.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -194,55 +221,12 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		MenuItemSeparator separator = new MenuItemSeparator();
-		prjMenu.setItems(prj1, prj2, separator, prj3, prj4, separator, progressBarMenu);
-		IMenuButton prjMenuButton = new IMenuButton("系统建模", prjMenu);
-
-		Menu baseMenu = new Menu();
-		MenuItem base1 = new MenuItem("担保人", "", "Ctrl+A");
-		base1.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(MenuItemClickEvent event) {
-				changeMainCanvas(new GuaranteePersonPortlet().getPortlet());
-
-			}
-
-		});
-		MenuItem base2 = new MenuItem("担保机构", "", "Ctrl+G");
-		base2.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(MenuItemClickEvent event) {
-				changeMainCanvas(new GuaranteeOrgPortlet().getPortlet());
-
-			}
-
-		});
-
-		MenuItem base3 = new MenuItem("借款人", "", "Ctrl+P");
-		MenuItem base4 = new MenuItem("借款机构", "", "Ctrl+O");
-		baseMenu.setItems(base1, base2, separator, base3, base4);
-		IMenuButton baseMenuButton = new IMenuButton("基础数据", baseMenu);
-
-		Menu accMenu = new Menu();
-		MenuItem acc1 = new MenuItem("个人", "", "Ctrl+P");
-		MenuItem acc2 = new MenuItem("机构", "", "Ctrl+O");
-		MenuItem acc3 = new MenuItem("商户转账", "", "Ctrl+T");
-		accMenu.setItems(acc1, acc2, separator, acc3);
-		IMenuButton accMenuButton = new IMenuButton("账户管理", accMenu);
-
-		Menu clientMenu = new Menu();
-		MenuItem client1 = new MenuItem("分配跟进客户", "", "Ctrl+A");
-		MenuItem client2 = new MenuItem("我的跟进客户", "", "Ctrl+C");
-		MenuItem client3 = new MenuItem("分配注册客户", "", "Ctrl+R");
-		MenuItem client4 = new MenuItem("我的注册客户", "", "Ctrl+B");
-		clientMenu.setItems(client1, client2, separator, client3, client4);
-		IMenuButton clientMenuButton = new IMenuButton("客户关系管理", clientMenu);
+		fileMenu.setItems(fileMenuItem, separator, progressBarMenu);
+		IMenuButton fileButtonMenu = new IMenuButton("文件", fileMenu);
 
 		Menu winMenu = new Menu();
-		MenuItem win1 = new MenuItem("层叠", "", "Ctrl+C");
-		win1.addClickHandler(new ClickHandler() {
+		IMenuItem stackUpWins = new IMenuItem("层叠", "S");
+		stackUpWins.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
@@ -252,8 +236,8 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		MenuItem win2 = new MenuItem("水平平铺", "", "Ctrl+H");
-		win2.addClickHandler(new ClickHandler() {
+		IMenuItem horizontalWins = new IMenuItem("水平平铺", "H");
+		horizontalWins.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
@@ -263,8 +247,8 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		MenuItem win3 = new MenuItem("垂直平铺", "", "Ctrl+V");
-		win3.addClickHandler(new ClickHandler() {
+		IMenuItem verticalWins = new IMenuItem("垂直平铺", "V");
+		verticalWins.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
@@ -274,8 +258,8 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		MenuItem win4 = new MenuItem("重新排列", "", "Ctrl+A");
-		win4.addClickHandler(new ClickHandler() {
+		IMenuItem rearrangeWins = new IMenuItem("重新排列", "R");
+		rearrangeWins.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
@@ -285,8 +269,8 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		MenuItem win5 = new MenuItem("关闭所有", "", "Ctrl+L");
-		win5.addClickHandler(new ClickHandler() {
+		IMenuItem closeAllWins = new IMenuItem("关闭所有", "L");
+		closeAllWins.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
@@ -295,26 +279,13 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		winMenu.setItems(win1, win2, win3, win4, win5);
+		winMenu.setItems(stackUpWins, horizontalWins, verticalWins, rearrangeWins,separator, closeAllWins);
+		
 		IMenuButton winMenuButton = new IMenuButton("窗口", winMenu);
 
-		//文件系统
-		Menu fileMenu = new Menu();
-		MenuItem fileMenuItem = new MenuItem("文件系统", "", "Ctrl+F");
-		fileMenuItem.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(MenuItemClickEvent event) {
-				changeMainCanvas(new FileModulePortlet().getInstance().getPortlet());
-			}
-		});
-		
-		fileMenu.setItems(fileMenuItem);
-		IMenuButton fileButtonMenu = new IMenuButton("文件",fileMenu);
-		
 		Menu helpMenu = new Menu();
 
-		MenuItem aboutMenuItem = new MenuItem("关于...", "", "Ctrl+A");
+		IMenuItem aboutMenuItem = new IMenuItem("关于...", "A");
 		aboutMenuItem.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -323,7 +294,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			}
 		});
 
-		MenuItem printMenuItem = new MenuItem("打印", "", "Ctrl+P");
+		IMenuItem printMenuItem = new IMenuItem("打印", "P");
 		printMenuItem.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -342,7 +313,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			}
 		});
 
-		MenuItem exportMenuItem = new MenuItem("导出", "", "Ctrl+E");
+		IMenuItem exportMenuItem = new IMenuItem("导出", "E");
 		exportMenuItem.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -364,14 +335,15 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 				new ExportDialog(isAll, portlet.getRetListGrid());
 			}
 		});
-		
+
 		helpMenu.setItems(aboutMenuItem, separator, printMenuItem, exportMenuItem);
 		IMenuButton helpMenuButton = new IMenuButton("帮助", helpMenu);
-		
+
 		menuLayout.setHeight(20);
 		menuLayout.setLayoutAlign(Alignment.LEFT);
 
 		menuLayout.addMembers(sysMenuButton, prjMenuButton, fileButtonMenu, winMenuButton, helpMenuButton);
 		return menuLayout;
 	}
+
 }
