@@ -1,11 +1,13 @@
 package com.bht.banhuitong.server;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import com.bht.banhuitong.annotation.BusinessAnnotation;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.client.rpc.SerializationException;
 
 /**
  * The client-side stub for the RPC service.
@@ -51,4 +53,15 @@ public interface FileService extends RemoteService {
 	 * @return
 	 */
 	Map<String, String> queryFileLinksByDir(String dirUrl);
+	
+	/**
+	 * 查询服务并写入服务
+	 * @param module
+	 * @param serviceno
+	 * @param paramMap
+	 * @return 返回文件路径
+	 * @throws IOException
+	 * @throws SerializationException
+	 */
+	String writeToFile(String module,String serviceno,Map<String,String> paramMap) throws IOException, SerializationException;
 }

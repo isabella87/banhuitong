@@ -1,6 +1,9 @@
 package com.bht.banhuitong.server.impl;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,8 +11,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.bht.banhuitong.annotation.BusinessAnnotation;
 import com.bht.banhuitong.config.Configuration;
+import com.bht.banhuitong.fileUtils.Export2File;
+import com.bht.banhuitong.filter.ModuleType;
 import com.bht.banhuitong.server.FileService;
+import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -23,7 +30,7 @@ public class FileServiceImpl extends RemoteServiceServlet implements FileService
 	private final String IS_DIR = "1";
 	private final String IS_FILE = "0";
 	/**
-	 * 需要下载文件的更目录，客户端界面会以数的形式展示目录，并以列表的形式展示各个目录下的所有文件
+	 * 需要下载文件的根目录，客户端界面会以数的形式展示目录，并以列表的形式展示各个目录下的所有文件
 	 */
 	// private final String rootPath = getServletContext().getRealPath("/files");
 
@@ -92,8 +99,8 @@ public class FileServiceImpl extends RemoteServiceServlet implements FileService
 	@Override
 	public boolean createDir(String[] dirs) {
 		StringBuffer sb = new StringBuffer();
-		for (int i = 0;i<dirs.length;i++) {
-			sb.append(i!=0? File.separator:"").append(dirs[i]);
+		for (int i = 0; i < dirs.length; i++) {
+			sb.append(i != 0 ? File.separator : "").append(dirs[i]);
 			logger.info("param is :" + dirs[i]);
 		}
 		File file = new File(sb.toString());
@@ -117,8 +124,7 @@ public class FileServiceImpl extends RemoteServiceServlet implements FileService
 	@Override
 	public Map<String, String> queryDirList() {
 		Map<String, String> dirMap = new LinkedHashMap<String, String>();
-		dirMap.put("files", "0" + "," + Configuration.rootPath);
-
+		dirMap.put(Configuration.rootPath, "files" + "," + Configuration.rootPath + ",0");
 		queryDirInfo(Configuration.rootPath, dirMap);
 
 		return dirMap;
@@ -128,10 +134,56 @@ public class FileServiceImpl extends RemoteServiceServlet implements FileService
 		File file = new File(path);
 		for (File dir : file.listFiles()) {
 			if (dir.isDirectory()) {
-				dirMap.put(dir.getName(), file.getName() + "," + dir.getAbsolutePath());
+				dirMap.put(dir.getAbsolutePath(),
+						dir.getName() + "," + dir.getAbsolutePath() + "," + file.getAbsolutePath());
 				queryDirInfo(dir.getAbsolutePath(), dirMap);
 			}
 		}
 	}
 
+	@Override
+	public String writeToFile(String module, String serviceno, Map<String, String> paramMap)
+			throws IOException, SerializationException {
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>(); // 从数据库查询数据
+
+		Class<?> clazz = null;
+		switch (Integer.valueOf(module)) {
+		case ModuleType.PRJ:
+			clazz = PrjServiceImpl.class;
+			break;
+		case ModuleType.DBMODEL:
+			clazz = DbModelServiceImpl.class;
+			break;
+		}
+		data = getServiceData(clazz, serviceno, paramMap);
+		String endName = "_" + module + "_" + serviceno;
+		String filepath = Configuration.rootPath + File.separator + "module" + module + File.separator + "serviceno"
+				+ serviceno;
+
+		String fileAllPath = new Export2File().export(filepath, endName, "xls", data); // 以要求格式文件将数据保存在服务端
+
+		return fileAllPath.substring(Configuration.rootPath.length() + 1);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Map<String, String>> getServiceData(Class<?> clazz, String serviceno, Map<String, String> args) {
+		Class<?>[] clazzs = clazz.getInterfaces();
+
+		Method[] methods = clazzs[0].getDeclaredMethods();
+		if (methods != null) {
+			for (Method method : methods) {
+				BusinessAnnotation busiAnno = method.getAnnotation(BusinessAnnotation.class);
+				if (busiAnno.serviceno() == Integer.valueOf(serviceno)) {
+					try {
+						return (List<Map<String, String>>) method.invoke(clazz.newInstance(), args);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+							| InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return null;
+	}
 }

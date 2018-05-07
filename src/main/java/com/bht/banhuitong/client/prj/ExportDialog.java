@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import com.bht.banhuitong.client.BaseFrame;
 import com.bht.banhuitong.client.BasePortlet;
+import com.bht.banhuitong.server.FileService;
+import com.bht.banhuitong.server.FileServiceAsync;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.Dialog;
@@ -30,6 +34,8 @@ public class ExportDialog extends Dialog implements
 
 	private ListGrid grid;
 
+	private static final FileServiceAsync fileService = GWT.create(FileService.class);
+	
 	public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
 		this.removeItem(this.form);
 		this.markForDestroy();
@@ -94,7 +100,8 @@ public class ExportDialog extends Dialog implements
 			@Override
 			public void onClick(ClickEvent event) {
 				BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
-				BaseFrame.export(portlet);
+//				BaseFrame.export(portlet);
+				download();
 			}
 		});
 
@@ -177,4 +184,29 @@ public class ExportDialog extends Dialog implements
 		this.draw();
 	}
 
+	public void download() {
+		BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
+		String title = portlet.getTitle(); // 通过解析获取以下两个字段
+		String[] ms = BasePortlet.msAndTitleMap.get(title).split(",");
+		if (ms.length < 2) {
+
+		} else {
+
+			fileService.writeToFile(ms[0], ms[1], portlet.getParamMapOfRetListGrid(), new AsyncCallback<String>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					new BasePortlet("").showErrorMessage(caught.getMessage());
+
+				}
+
+				@Override
+				public void onSuccess(String result) {
+					if (result != null && !result.isEmpty()) {
+						new BaseFrame().download(result);
+					}
+				}
+			});
+		}
+	}
 }

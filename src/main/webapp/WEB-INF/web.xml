@@ -101,15 +101,6 @@
     <url-pattern>/banhuitong/download</url-pattern>
   </servlet-mapping>
   
-   <servlet>
-    <servlet-name>datadownloadServlet</servlet-name>
-    <servlet-class>com.bht.banhuitong.FileExportServlet</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>datadownloadServlet</servlet-name>
-    <url-pattern>/banhuitong/datadownload</url-pattern>
-  </servlet-mapping>
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

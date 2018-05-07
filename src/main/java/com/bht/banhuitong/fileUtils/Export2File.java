@@ -24,7 +24,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 public class Export2File {
 
-	private String fileName;
+	private String fileAllPath;
 	private String rootPath = "d:\\exportdata";
 
 	private String exportSytle;// 为xls等
@@ -33,15 +33,15 @@ public class Export2File {
 		String filename = new java.sql.Timestamp(new Date().getTime()).toString();
 		filename = filename.replace("-", "").replace(":", "").replace(".", "").replace(" ", "");
 		File file = new File(rootPath);
-		file.mkdir();
+		file.mkdirs();
 		filename = filename +endName + "." + exportSytle;
-		fileName = rootPath + File.separator + filename;
+		fileAllPath = rootPath + File.separator + filename;
 		try {
-			fileName = new String(fileName.getBytes("UTF-8"));
+			fileAllPath = new String(fileAllPath.getBytes("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return filename;
+		return fileAllPath;
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class Export2File {
 		String filename = initFileName(moduleAndServiceno);
 		OutputStream output;
 		try {
-			output = new FileOutputStream(fileName, true);
+			output = new FileOutputStream(fileAllPath, true);
 
 			BufferedOutputStream bufferedOutPut = new BufferedOutputStream(output);
 			HSSFWorkbook wb = new HSSFWorkbook();

@@ -280,6 +280,7 @@ public class MainPrjPortlet2 extends BasePortlet{
 											countryGrid.setData(new ListGridRecord[] {});
 											countryGrid.setData(getRecords(result));
 											retListGrid = countryGrid;
+											paramMapOfRetListGrid = paramMap;
 										}
 									}
 									hBarValue=100;

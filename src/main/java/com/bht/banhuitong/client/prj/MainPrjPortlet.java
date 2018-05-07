@@ -377,6 +377,7 @@ public class MainPrjPortlet extends BasePortlet {
 											listGrid.setData(new ListGridRecord[] {});
 											listGrid.setData(getRecords(result));
 											retListGrid = listGrid;
+											paramMapOfRetListGrid = paramMap;
 										}
 									}
 									

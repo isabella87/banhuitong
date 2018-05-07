@@ -27,7 +27,12 @@ public class BasePortlet extends Portlet {
 	
 	protected static List<String> emptyArrayList = new ArrayList<String>();
 	public ListGrid retListGrid = new ListGrid();
+	public Map<String,String> paramMapOfRetListGrid = new HashMap<String,String>();
 	
+	public Map<String, String> getParamMapOfRetListGrid() {
+		return paramMapOfRetListGrid;
+	}
+
 	/**
 	 * 需要被导出全部查询数据的界面都要做此设置,主键为界面标题，值为服务模块和服务序列组成的字符串,需要与服务端对应,形如：“module,serviceno”
 	 */

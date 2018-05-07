@@ -624,7 +624,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 			@Override
 			public void onRecordDoubleClick(RecordDoubleClickEvent event) {
-				Map<String, String> paramMap = new HashMap<String, String>();
+				final Map<String, String> paramMap = new HashMap<String, String>();
         		paramMap.put("SMI_ID", event.getRecord().getAttribute("SMI_ID"));
         		
         		dbModelService.querySysTableInfo(paramMap, new AsyncCallback<List<Map<String, String>>>(){
@@ -644,14 +644,11 @@ public class DatabaseModulePortlet extends BasePortlet{
 							tableListGrid.setData(new ListGridRecord[] {});
 							tableListGrid.setData(getRecords(result,sysTableFieldItems));
 							retListGrid = tableListGrid;
+							paramMapOfRetListGrid = paramMap;
 						}
-						
 					}
-					
 				});
-				
 			}
-        	
         });
         
         dbTableModelListGrid.addSelectionChangedHandler(new SelectionChangedHandler() {
@@ -698,7 +695,7 @@ public class DatabaseModulePortlet extends BasePortlet{
         	
         	@Override
         	public void onClick(MenuItemClickEvent event) {
-        		Map<String, String> paramMap = new HashMap<String, String>();
+        		final Map<String, String> paramMap = new HashMap<String, String>();
 //        		paramMap.put("SMI_ID", lastClickSmiIds);
         		
         		dbModelService.querySysTableInfo(paramMap, new AsyncCallback<List<Map<String, String>>>(){
@@ -718,6 +715,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 							tableListGrid.setData(new ListGridRecord[] {});
 							tableListGrid.setData(getRecords(result,sysTableFieldItems));
 							retListGrid = tableListGrid;
+							paramMapOfRetListGrid = paramMap;
 						}
 						
 					}

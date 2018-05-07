@@ -221,15 +221,48 @@ public class FileModulePortlet extends BasePortlet {
 
 		Menu treeMenu = new Menu();
 
+		MenuItem refreshTreeMenu = new MenuItem("刷新");
+		
 		MenuItem addTreeMenu = new MenuItem("新增");
 		addTreeMenu.setIcon("actions/add.png");
 
 		MenuItem delTreeMenu = new MenuItem("删除");
 		delTreeMenu.setIcon("actions/remove.png");
-		treeMenu.setItems(addTreeMenu, delTreeMenu);
+		treeMenu.setItems(refreshTreeMenu,addTreeMenu, delTreeMenu);
 
 		dirsTree.setContextMenu(treeMenu);
 
+		refreshTreeMenu.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(MenuItemClickEvent event) {
+				fileService.queryDirList(new AsyncCallback<Map<String, String>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						showErrorMessage(caught.getMessage());
+
+					}
+
+					@Override
+					public void onSuccess(Map<String, String> result) {
+						if (result == null || result.isEmpty()) {
+							dirsTree.setData(new Tree());
+							SC.say("没有符合条件的数据！");
+						} else {
+							dirsTree.setData(new Tree());
+							dirsTree.setData(getTreeData(result));
+						}
+
+					}
+
+				});
+				
+			}
+			
+		});
+		
+		
 		addTreeMenu.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -345,6 +378,7 @@ public class FileModulePortlet extends BasePortlet {
 					return;
 				}
 				String uLink = record.getAttribute("hideLink");
+
 				new BaseFrame().download(uLink);
 			}
 		});
@@ -400,8 +434,8 @@ public class FileModulePortlet extends BasePortlet {
 		TreeNode rootTreeNode = new TreeNode();
 		for (String key : result.keySet()) {
 			String[] values = result.get(key).split(",");
-			if (values[0].equals("0")) {
-				rootTreeNode.setName(key);
+			if (values[2].equals("0")) {
+				rootTreeNode.setName(values[0]);
 				rootTreeNode.setAttribute("urlLink", values[1]);
 				break;
 			}
@@ -420,8 +454,8 @@ public class FileModulePortlet extends BasePortlet {
 			TreeNode treeNode = new TreeNode();
 			String[] values = result.get(key).split(",");
 
-			if (values[0].equals(parentTreeNode.getName())) {
-				treeNode.setName(key);
+			if (values[2].equals(parentTreeNode.getAttributeAsString("urlLink"))) {
+				treeNode.setName(values[0]);
 				treeNode.setAttribute("urlLink", values[1]);
 
 				treeNodeList.add(treeNode);
