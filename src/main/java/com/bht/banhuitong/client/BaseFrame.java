@@ -18,10 +18,6 @@ import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.Progressbar;
-import com.smartgwt.client.widgets.events.ClickEvent;
-import com.smartgwt.client.widgets.events.ClickHandler;
-import com.smartgwt.client.widgets.events.DragMoveEvent;
-import com.smartgwt.client.widgets.events.DragMoveHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.Portlet;
 import com.smartgwt.client.widgets.layout.VLayout;
@@ -31,6 +27,10 @@ public class BaseFrame {
 	protected static Canvas canvasMain = new Canvas();
 	protected static Label loginNameLabel = new Label();
 	public static Canvas endCanvas = new Canvas();
+	public final int WIN_EDGE_WIDTH = 12;
+	public final int WIN_EDGE_HEIGHT = 76;
+	public final int WIN_STACKUP_EDGE_HEIGHT = 20;
+	public final int ZERO = 0;
 	
 	private final static AccountServiceAsync accountService = GWT.create(AccountService.class);
 	
@@ -113,46 +113,6 @@ public class BaseFrame {
 	}
 	
 	/**
-	 * 进度条设置（背景色及进度条宽度设置均无效）
-	 */
-	public void initProgressbar(){
-		hBarValue = 0;
-		hBar.setPercentDone(hBarValue);
-		
-		 new Timer() {  
-             public void run() {  
-            	 hBarValue += 1 + (int) (1 * Math.random());  
-                 if (hBarValue > 100) {  
-                	 hBarValue = 100; 
-                 }
-                 headerHBarLabel.setContents("");
-                 headerHBarLabel.setContents("正在接受数据......");
-                 hBar.setPercentDone(hBarValue); 
-                 hBarLabel.setContents(hBarValue+"%");
-                 if(hBarValue!=100)  {
-                     schedule(5 + (int) (1 * Math.random()));  
-                 }else {
-                	 hBar.destroy();
-                	 hBarLabel.destroy();
-                	 headerHBarLabel.setContents("就绪");
-                 }
-             }  
-         }.schedule(100);  
-	
- 		VLayout vlayout = new VLayout(4);  
- 		vlayout.setWidth(300); 
- 		vlayout.setTop(3);
- 		vlayout.setHeight(22); 
- 		HLayout hLayout = new HLayout();
- 		hLayout.addMember(headerHBarLabel);
- 		hLayout.addMember(hBar);
- 		hLayout.addMember(hBarLabel);
- 		vlayout.addMember(hLayout);
- 		
-		endCanvas.addChild(vlayout);
-	}
-
-	/**
 	 * 更改主窗体内容
 	 * 
 	 * @param <T>
@@ -177,50 +137,23 @@ public class BaseFrame {
 		winValuesMap.put(portlet.getTitle(), portlet.getTitle());
 
 		if (portlets.get(portlet.getTitle()) != null) {
-			portlets.get(portlet.getTitle()).setHeight(MainFrame.window.getHeight() - 76);
-			portlets.get(portlet.getTitle()).setWidth(MainFrame.window.getWidth() - 12);
-			portlets.get(portlet.getTitle()).setTop(0);
-			portlets.get(portlet.getTitle()).setLeft(0);
+			portlets.get(portlet.getTitle()).setHeight(MainFrame.window.getHeight() - WIN_EDGE_HEIGHT);
+			portlets.get(portlet.getTitle()).setWidth(MainFrame.window.getWidth() - WIN_EDGE_WIDTH);
+			portlets.get(portlet.getTitle()).setTop(ZERO);
+			portlets.get(portlet.getTitle()).setLeft(ZERO);
 			putPortlet(portlets.get(portlet.getTitle()));
 			portlets.get(portlet.getTitle()).bringToFront();
 			canvasMain.addChild(portlets.get(portlet.getTitle()));
 			canvasMain.redraw();
 		} else {
-			portlet.setHeight(MainFrame.window.getHeight() - 76);
-			portlet.setWidth(MainFrame.window.getWidth() - 12);
+			portlet.setHeight(MainFrame.window.getHeight() - WIN_EDGE_HEIGHT);
+			portlet.setWidth(MainFrame.window.getWidth() - WIN_EDGE_WIDTH);
 			putPortlet(portlet);
 			canvasMain.addChild(portlet);
 			portlet.bringToFront();
 
 			canvasMain.draw();
 		}
-	}
-
-	public void registerCanvasMainClickEvent() {
-		canvasMain.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Object object = event.getSource();
-				if (object instanceof BaseFrame) {
-					BasePortlet portlet = (BasePortlet) object;
-					portlets.put(portlet.getTitle(), portlet);
-				}
-			}
-		});
-
-		canvasMain.addDragMoveHandler(new DragMoveHandler() {
-
-			@Override
-			public void onDragMove(DragMoveEvent event) {
-				Object object = event.getSource();
-				if (object instanceof BaseFrame) {
-					BasePortlet portlet = (BasePortlet) object;
-					portlets.put(portlet.getTitle(), portlet);
-				}
-			}
-
-		});
 	}
 
 	public Map<String, BasePortlet> getPortlets() {
@@ -238,10 +171,10 @@ public class BaseFrame {
 		}
 		int i = 0;
 		for (Portlet portlet : portlets.values()) {
-			portlet.setWidth(MainFrame.window.getWidth() - 12);
-			portlet.setHeight((MainFrame.window.getHeight() - 76) / pSize);
-			portlet.setTop((MainFrame.window.getHeight() - 76) * i / pSize);
-			portlet.setLeft(0);
+			portlet.setWidth(MainFrame.window.getWidth() - WIN_EDGE_WIDTH);
+			portlet.setHeight((MainFrame.window.getHeight() - WIN_EDGE_HEIGHT) / pSize);
+			portlet.setTop((MainFrame.window.getHeight() - WIN_EDGE_HEIGHT) * i / pSize);
+			portlet.setLeft(ZERO);
 			i++;
 		}
 		canvasMain.redraw();
@@ -258,10 +191,10 @@ public class BaseFrame {
 		}
 		int i = 0;
 		for (Portlet portlet : portlets.values()) {
-			portlet.setWidth((MainFrame.window.getWidth() - 13) / pSize);
-			portlet.setHeight(MainFrame.window.getHeight() - 76);
-			portlet.setTop(0);
-			portlet.setLeft((MainFrame.window.getWidth() - 12) * i / pSize);
+			portlet.setWidth((MainFrame.window.getWidth() - WIN_EDGE_WIDTH) / pSize);
+			portlet.setHeight(MainFrame.window.getHeight() - WIN_EDGE_HEIGHT);
+			portlet.setTop(ZERO);
+			portlet.setLeft((MainFrame.window.getWidth() - WIN_EDGE_WIDTH) * i / pSize);
 			i++;
 		}
 		canvasMain.redraw();
@@ -278,10 +211,10 @@ public class BaseFrame {
 		}
 		int i = 0;
 		for (Portlet portlet : portlets.values()) {
-			portlet.setWidth(MainFrame.window.getWidth() - 13);
-			portlet.setHeight((MainFrame.window.getHeight() - 76) - i * 20);
-			portlet.setTop(i * 20);
-			portlet.setLeft(0);
+			portlet.setWidth(MainFrame.window.getWidth() - WIN_EDGE_WIDTH);
+			portlet.setHeight((MainFrame.window.getHeight() - WIN_EDGE_HEIGHT) - i * WIN_STACKUP_EDGE_HEIGHT);
+			portlet.setTop(i * WIN_STACKUP_EDGE_HEIGHT);
+			portlet.setLeft(ZERO);
 			portlet.bringToFront();
 			i++;
 		}
@@ -292,8 +225,8 @@ public class BaseFrame {
 	 * 重新排列（回到初始平铺效果） 每行三个，流式排列
 	 */
 	public void returnInitMainCanvasToLayout() {
-		int height = MainFrame.window.getHeight() - 76;
-		int width = MainFrame.window.getWidth() - 12;
+		int height = MainFrame.window.getHeight() - WIN_EDGE_HEIGHT;
+		int width = MainFrame.window.getWidth() - WIN_EDGE_WIDTH;
 		int pSize = portlets.size();
 		if (pSize == 0) {
 			canvasMain.draw();
@@ -365,6 +298,46 @@ public class BaseFrame {
 		frame.setVisible(false);
 		frame.setSize("0px", "0px");
 		RootPanel.get().add(frame);
+	}
+	
+	/**
+	 * 进度条设置（背景色及进度条宽度设置均无效）
+	 */
+	public void initProgressbar(){
+		hBarValue = 0;
+		hBar.setPercentDone(hBarValue);
+		
+		 new Timer() {  
+             public void run() {  
+            	 hBarValue += 1 + (int) (1 * Math.random());  
+                 if (hBarValue > 100) {  
+                	 hBarValue = 100; 
+                 }
+                 headerHBarLabel.setContents("");
+                 headerHBarLabel.setContents("正在接受数据......");
+                 hBar.setPercentDone(hBarValue); 
+                 hBarLabel.setContents(hBarValue+"%");
+                 if(hBarValue!=100)  {
+                     schedule(5 + (int) (1 * Math.random()));  
+                 }else {
+                	 hBar.destroy();
+                	 hBarLabel.destroy();
+                	 headerHBarLabel.setContents("就绪");
+                 }
+             }  
+         }.schedule(100);  
+	
+ 		VLayout vlayout = new VLayout(4);  
+ 		vlayout.setWidth(300); 
+ 		vlayout.setTop(3);
+ 		vlayout.setHeight(22); 
+ 		HLayout hLayout = new HLayout();
+ 		hLayout.addMember(headerHBarLabel);
+ 		hLayout.addMember(hBar);
+ 		hLayout.addMember(hBarLabel);
+ 		vlayout.addMember(hLayout);
+ 		
+		endCanvas.addChild(vlayout);
 	}
 	
 }
