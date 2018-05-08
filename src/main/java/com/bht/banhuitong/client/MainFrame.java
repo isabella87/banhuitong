@@ -136,8 +136,29 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			}
 
 		});
+		
+		IMenuItem refreshMenuItem = new IMenuItem("刷新用户", "R");
 
-		sysMenu.setItems(exitMenuItem,separator);
+		refreshMenuItem.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(MenuItemClickEvent event) {
+				/**
+				 * bug：非最佳解决方案。此项用来应对同一浏览器出现打开多个窗口登录不同用户，使得服务端只记录最后一个用户登录信息，
+				 * 但浏览器客户端先登录但未关闭的浏览器右下角显示的用户名是之前用户而出现的bug（进行各种查询操作时用的是后一登录账户的信息，导致权限设置失效）
+				 * 
+				 * 此bug要求不高的系统，可不解决。可以通过权限大的用户他出重新登录规避。
+				 * 
+				 * 可考虑重构成:1，在调用所有方法前都重新构建一遍底端画布；
+				 * 或者2,在调用任何非登录服务时，将当前页面登录时记录的登录名传入服务端，核对该用户是否还是登录状态。此时会直接要求用户重新登录；
+				 */
+				editEndCanvas();
+			}
+
+		});
+
+		sysMenu.setItems(exitMenuItem,separator,refreshMenuItem);
+		
 		IMenuButton sysMenuButton = new IMenuButton("系统", sysMenu);
 
 		Menu prjMenu = new Menu();
@@ -248,7 +269,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		IMenuItem rearrangeWins = new IMenuItem("重新排列", "R");
+		IMenuItem rearrangeWins = new IMenuItem("重新排列", "S");
 		rearrangeWins.addClickHandler(new ClickHandler() {
 
 			@Override

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-
+import static com.bht.banhuitong.filter.SecurityFilter.userSessionMap;
 import com.bht.banhuitong.dbservice.impl.AccountDbServiceImpl;
 import com.bht.banhuitong.filter.security.AuthenticationToken;
 import com.bht.banhuitong.server.AccountService;
@@ -33,7 +33,7 @@ public class AccountServiceImpl extends RemoteServiceServlet implements AccountS
 	 */
 	@Override
 	public List<Map<String, String>> getAccountInfo() throws Exception {
-		AuthenticationToken token = (AuthenticationToken) getServletContext().getAttribute("__TOKEN__");
+		AuthenticationToken token = userSessionMap.get(getThreadLocalRequest().getSession().getId());
 		long auId = toLong(token.getUserId(),0);
 
 		AccountDbServiceImpl accountDbService = new AccountDbServiceImpl();

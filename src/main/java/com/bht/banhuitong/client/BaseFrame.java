@@ -3,13 +3,18 @@ package com.bht.banhuitong.client;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.bht.banhuitong.server.AccountService;
+import com.bht.banhuitong.server.AccountServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.Progressbar;
@@ -26,6 +31,8 @@ public class BaseFrame {
 	protected static Canvas canvasMain = new Canvas();
 	protected static Label loginNameLabel = new Label();
 	public static Canvas endCanvas = new Canvas();
+	
+	private final static AccountServiceAsync accountService = GWT.create(AccountService.class);
 	
 	public static Map<Integer,String> exceMap = new HashMap<Integer,String>();
 	static {
@@ -59,6 +66,7 @@ public class BaseFrame {
 	}
 	
 	public static void initEndCanvas() {
+		
 		if (endCanvas == null) {
 			endCanvas = new Canvas();
 			endCanvas.setBottom(0);
@@ -74,6 +82,34 @@ public class BaseFrame {
 			MainFrame.window.addItem(endCanvas);
 
 		}
+		
+		
+	}
+	
+	public static void editEndCanvas() {
+
+		accountService.getAccountInfo(new AsyncCallback<List<Map<String,String>>>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				new BasePortlet("").showErrorMessage(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(List<Map<String, String>> result) {
+				if(result!=null&&!result.isEmpty()) {
+					LoginWindow.loginName = result.get(0).get("LOGIN_NAME");
+					BaseFrame.endCanvas.destroy();
+					BaseFrame.endCanvas = null;
+
+					BaseFrame.initEndCanvas();
+				}else {
+					SC.say("用户信息初始化失败！");
+				}
+			}
+			
+		});
+		
 	}
 	
 	/**
@@ -125,7 +161,19 @@ public class BaseFrame {
 	public <T> void changeMainCanvas(BasePortlet portlet) {
 
 		initMainCanvas();
-
+		
+		/**
+		 * bug：非最佳解决方案。此项用来应对同一浏览器出现打开多个窗口登录不同用户，使得服务端只记录最后一个用户登录信息，
+		 * 但浏览器客户端先登录但未关闭的浏览器右下角显示的用户名是之前用户而出现的bug（进行各种查询操作时用的是后一登录账户的信息，导致权限设置失效）
+		 * 
+		 * 此bug要求不高的系统，可不解决。可以通过权限大的用户他出重新登录规避。
+		 * 
+		 * 可考虑重构成:1，在调用所有方法前都重新构建一遍底端画布；
+		 * 或者2,在调用任何非登录服务时，将当前页面登录时记录的登录名传入服务端，核对该用户是否还是登录状态。此时会直接要求用户重新登录；
+		 */
+		editEndCanvas();					
+		
+		
 		winValuesMap.put(portlet.getTitle(), portlet.getTitle());
 
 		if (portlets.get(portlet.getTitle()) != null) {

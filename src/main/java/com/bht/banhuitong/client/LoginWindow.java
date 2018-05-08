@@ -112,7 +112,6 @@ public class LoginWindow extends Window {
 					public void onSuccess(String result) {
 						if (result.equals("true")) {
 							loginName = tempLoginName;
-							editEndCanvas();
 							destroy();
 
 						} else {
@@ -243,15 +242,6 @@ public class LoginWindow extends Window {
 				}
 			}
 		});
-	}
-
-	private void editEndCanvas() {
-
-		BaseFrame.endCanvas.destroy();
-		BaseFrame.endCanvas = null;
-
-		BaseFrame.initEndCanvas();
-
 	}
 
 	public void showLoginErrorMessage(final String errorMsg) {

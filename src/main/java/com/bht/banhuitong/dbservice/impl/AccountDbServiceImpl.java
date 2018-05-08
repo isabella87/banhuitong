@@ -22,7 +22,7 @@ public class AccountDbServiceImpl extends BaseDbService implements AccountDbServ
 	
 	public List<Map<String,String>> getAccountInfoByLoginName(final String loginName){
 		
-		String sql = "select aur.mobile ,nvl(api.real_name,aci.org_name) name from acc_user_reg aur \r\n" + 
+		String sql = "select aur.login_name,aur.mobile ,nvl(api.real_name,aci.org_name) name from acc_user_reg aur \r\n" + 
 				"left join acc_person_info api on api.au_id = aur.au_id\r\n" + 
 				"left join acc_corp_info aci on aci.au_id = aur.au_id\r\n" + 
 				"where aur.login_name = '" + loginName +"'";
@@ -38,7 +38,7 @@ public class AccountDbServiceImpl extends BaseDbService implements AccountDbServ
 	
 public List<Map<String,String>> getAccountInfoByAuId(final long auId){
 		
-		String sql = "select aur.mobile ,nvl(api.real_name,aci.org_name) name from acc_user_reg aur \r\n" + 
+		String sql = "select aur.login_name,aur.mobile ,nvl(api.real_name,aci.org_name) name from acc_user_reg aur \r\n" + 
 				"left join acc_person_info api on api.au_id = aur.au_id\r\n" + 
 				"left join acc_corp_info aci on aci.au_id = aur.au_id\r\n" + 
 				"where aur.au_id = " + auId +"";

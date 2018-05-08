@@ -60,7 +60,7 @@ public class SecurityFilter implements Filter {
 		case ModuleType.PRJ:
 		case ModuleType.DBMODEL:
 			AuthenticationToken token = userSessionMap.get(requestWrapper.getSession().getId());
-			// 1.判断是否登录；
+			// 1.判断是否登录；   //TODO bug 同一浏览器，在不关闭浏览器的前提下先后登录多个不同用户，服务端的信息都是最后登录用户的信息。客户端右下角记录的的用户信息自登录不会主动更改.
 			if (token==null||token.isGuest() || token.getUserId().isEmpty()) {
 				throw new ServiceException(CommonMethod.initExceptionDesc(1));
 			}
