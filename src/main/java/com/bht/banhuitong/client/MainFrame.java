@@ -39,7 +39,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		initExceptionStr();
 
-		new LoginWindow().init();
+		LoginWindow.getInstance().init();
 	}
 
 	/**
@@ -72,17 +72,15 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 	 * 初始化主窗口
 	 */
 	private void initMainFrame() {
-		window.setTitle("");
+		
+		window.setTitle(""); //window.setHeaderIcon("favicon.ico");
+		 
 		window.setHeight100();
 		window.setWidth100();
-		// window.setMinWidth(width);
-		// window.setMinHeight(height);
-		// window.setWidth(width);
-		// window.setHeight100();
 		window.setAlign(Alignment.LEFT);
-		// window.setAutoSize(true);
+		window.setCanDrag(false);
 		window.setCanDragReposition(false);
-		// window.setCanDragResize(true);
+		window.setCanDragResize(false);
 		window.addMember(initMenuBar());
 		window.setAlwaysShowScrollbars(false);
 		window.setCanDragScroll(false);
@@ -114,7 +112,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 			}
 
 		});
-		// registerCanvasMainClickEvent();
+//		 registerCanvasMainClickEvent();
 		window.draw();
 	}
 
@@ -126,29 +124,21 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		Menu sysMenu = new Menu();
 
-		IMenuItem restartMenuItem = new IMenuItem("重新登录", "I");
-
-		restartMenuItem.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(MenuItemClickEvent event) {
-
-				new LoginWindow().init();
-			}
-		});
-
-		IMenuItem exitMenuItem = new IMenuItem("退出系统", "Q");
+		IMenuItem exitMenuItem = new IMenuItem("登出系统", "Q");
 
 		exitMenuItem.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				window.destroy();
+//				window.destroy();
+				LoginWindow.getInstance().destroy();
+				LoginWindow.getInstance().init();
 			}
+
 		});
 
-		sysMenu.setItems(restartMenuItem, separator, exitMenuItem);
-		IMenuButton sysMenuButton = new IMenuButton("退出", sysMenu);
+		sysMenu.setItems(exitMenuItem,separator);
+		IMenuButton sysMenuButton = new IMenuButton("系统", sysMenu);
 
 		Menu prjMenu = new Menu();
 
@@ -198,7 +188,7 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 		});
 
 		prjMenu.setItems(prj1, prj2, separator, prj3, prj4);
-		IMenuButton prjMenuButton = new IMenuButton("系统建模", prjMenu);
+		IMenuButton prjMenuButton = new IMenuButton("建模", prjMenu);
 
 		// 文件系统
 		Menu fileMenu = new Menu();
@@ -279,8 +269,8 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 
 		});
 
-		winMenu.setItems(stackUpWins, horizontalWins, verticalWins, rearrangeWins,separator, closeAllWins);
-		
+		winMenu.setItems(stackUpWins, horizontalWins, verticalWins, rearrangeWins, separator, closeAllWins);
+
 		IMenuButton winMenuButton = new IMenuButton("窗口", winMenu);
 
 		Menu helpMenu = new Menu();
@@ -345,5 +335,4 @@ public class MainFrame extends BaseFrame implements EntryPoint {
 		menuLayout.addMembers(sysMenuButton, prjMenuButton, fileButtonMenu, winMenuButton, helpMenuButton);
 		return menuLayout;
 	}
-
 }

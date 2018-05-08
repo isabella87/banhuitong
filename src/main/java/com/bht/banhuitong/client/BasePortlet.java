@@ -178,7 +178,7 @@ public class BasePortlet extends Portlet {
 		errorCode = errorCode.substring(0,errorCode.indexOf("@@@")).trim();
 		if(errorCode.matches("[0-9]+")) {
 			if(Integer.valueOf(errorCode)==1) {//如果是未登录状态，则重新打开登录页面
-				new LoginWindow().init(); 
+				LoginWindow.getInstance().init();
 			}else {
 				SC.say(BaseFrame.exceMap.get(Integer.valueOf(errorCode)));
 			}

@@ -31,6 +31,16 @@ public class LoginWindow extends Window {
 	protected static String loginName;
 	private Label errorLabel = new Label();
 
+	private static LoginWindow instance;
+
+	public static LoginWindow getInstance() {
+		if (instance == null) {
+			instance = new LoginWindow();
+		}
+
+		return instance;
+	}
+
 	public void init() {
 
 		this.setAutoSize(true);
@@ -89,17 +99,13 @@ public class LoginWindow extends Window {
 				paramMap.put(passwordItem.getFieldName(), passwordItem.getValueAsString());
 				paramMap.put(yzmItem.getFieldName(), yzmItem.getValueAsString());
 				final String tempLoginName = usernameItem.getValueAsString();
-				
+
 				loginService.loginImmediately(paramMap, new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
-//						SC.say(caught.getMessage());
 						showLoginErrorMessage(caught.getMessage());
-						
-						/*errorLabel.setContents("网络连接异常！");
-						errorLabel.redraw();
-						SC.say(caught.getMessage());*/
+
 					}
 
 					@Override
@@ -108,14 +114,13 @@ public class LoginWindow extends Window {
 							loginName = tempLoginName;
 							editEndCanvas();
 							destroy();
-							
+
 						} else {
 							errorLabel.setContents("登陆失败！");
 							errorLabel.redraw();
 						}
 					}
 
-					
 				});
 			}
 		});
@@ -204,7 +209,7 @@ public class LoginWindow extends Window {
 							img.redraw();
 							canvas.addChild(img);
 							canvas.redraw();
-							
+
 							imgLayout.redraw();
 							redraw();
 						} else {
@@ -231,36 +236,38 @@ public class LoginWindow extends Window {
 					errorLabel.setContents("获取验证码失败！");
 					errorLabel.redraw();
 				} else {
-					img.setSrc(result);;
+					img.setSrc(result);
+					;
 					img.setHeight(28);
 					img.redraw();
 				}
 			}
 		});
 	}
-	
+
 	private void editEndCanvas() {
-		
+
 		BaseFrame.endCanvas.destroy();
-		BaseFrame.endCanvas=  null;
-		
+		BaseFrame.endCanvas = null;
+
 		BaseFrame.initEndCanvas();
-		
+
 	}
-	
+
 	public void showLoginErrorMessage(final String errorMsg) {
-		String errorCode = errorMsg.substring(errorMsg.indexOf("@@@")+3).trim();
-		errorCode = errorCode.substring(0,errorCode.indexOf("@@@")).trim();
-		if(errorCode.matches("[0-9]+")) {
-			if(Integer.valueOf(errorCode)==1) {//如果是未登录状态，则重新打开登录页面
-				new LoginWindow().init(); 
-			}else if(Integer.valueOf(errorCode)==4||Integer.valueOf(errorCode)==5||Integer.valueOf(errorCode)==6){
+		String errorCode = errorMsg.substring(errorMsg.indexOf("@@@") + 3).trim();
+		errorCode = errorCode.substring(0, errorCode.indexOf("@@@")).trim();
+		if (errorCode.matches("[0-9]+")) {
+			if (Integer.valueOf(errorCode) == 1) {// 如果是未登录状态，则重新打开登录页面
+				LoginWindow.getInstance().init();
+			} else if (Integer.valueOf(errorCode) == 4 || Integer.valueOf(errorCode) == 5
+					|| Integer.valueOf(errorCode) == 6) {
 				errorLabel.setContents(BaseFrame.exceMap.get(Integer.valueOf(errorCode)));
-				
-			}else {
+
+			} else {
 				SC.say(BaseFrame.exceMap.get(Integer.valueOf(errorCode)));
 			}
-		}else {
+		} else {
 			errorLabel.setContents("网络连接异常！");
 		}
 		errorLabel.redraw();
