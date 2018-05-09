@@ -54,6 +54,7 @@ public class LoginWindow extends Window {
 			public void onCloseClick(CloseClickEvent event) {
 				destroy();
 				MainFrame.menuLayout.setDisabled(true);
+				SysMenuItem.getInstance().disableIMenuItem();
 			}
 		});
 		DynamicForm form = new DynamicForm();
@@ -111,7 +112,9 @@ public class LoginWindow extends Window {
 					@Override
 					public void onSuccess(String result) {
 						if (result.equals("true")) {
+							MainFrame.menuLayout.setDisabled(false);
 							loginName = tempLoginName;
+							SysMenuItem.getInstance().enableIMenuItem();
 							destroy();
 
 						} else {
@@ -133,6 +136,7 @@ public class LoginWindow extends Window {
 			@Override
 			public void onClick(ClickEvent event) {
 				MainFrame.menuLayout.setDisabled(true);
+				SysMenuItem.getInstance().disableIMenuItem();
 				destroy();
 			}
 		});
@@ -249,6 +253,7 @@ public class LoginWindow extends Window {
 		errorCode = errorCode.substring(0, errorCode.indexOf("@@@")).trim();
 		if (errorCode.matches("[0-9]+")) {
 			if (Integer.valueOf(errorCode) == 1) {// 如果是未登录状态，则重新打开登录页面
+				LoginWindow.getInstance().destroy();
 				LoginWindow.getInstance().init();
 			} else if (Integer.valueOf(errorCode) == 4 || Integer.valueOf(errorCode) == 5
 					|| Integer.valueOf(errorCode) == 6) {

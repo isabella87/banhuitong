@@ -29,7 +29,7 @@ public class BaseFrame {
 	public static Canvas endCanvas = new Canvas();
 	public final int WIN_EDGE_WIDTH = 12;
 	public final int WIN_EDGE_HEIGHT = 76;
-	public final int WIN_STACKUP_EDGE_HEIGHT = 20;
+	public final int WIN_CASCADE_EDGE_HEIGHT = 20;
 	public final int ZERO = 0;
 	
 	private final static AccountServiceAsync accountService = GWT.create(AccountService.class);
@@ -212,8 +212,8 @@ public class BaseFrame {
 		int i = 0;
 		for (Portlet portlet : portlets.values()) {
 			portlet.setWidth(MainFrame.window.getWidth() - WIN_EDGE_WIDTH);
-			portlet.setHeight((MainFrame.window.getHeight() - WIN_EDGE_HEIGHT) - i * WIN_STACKUP_EDGE_HEIGHT);
-			portlet.setTop(i * WIN_STACKUP_EDGE_HEIGHT);
+			portlet.setHeight((MainFrame.window.getHeight() - WIN_EDGE_HEIGHT) - i * WIN_CASCADE_EDGE_HEIGHT);
+			portlet.setTop(i * WIN_CASCADE_EDGE_HEIGHT);
 			portlet.setLeft(ZERO);
 			portlet.bringToFront();
 			i++;

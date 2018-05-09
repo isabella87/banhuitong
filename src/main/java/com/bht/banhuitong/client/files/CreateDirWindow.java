@@ -88,7 +88,7 @@ public class CreateDirWindow extends Window {
 							
 							BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
 							new BaseFrame().delPortlet(portlet.getTitle());
-							new BaseFrame().changeMainCanvas(new FileModulePortlet().getPortlet());
+							new BaseFrame().changeMainCanvas(new FileModulePortlet().getInstance());
 							
 							SC.say("创建成功！");
 						} else {

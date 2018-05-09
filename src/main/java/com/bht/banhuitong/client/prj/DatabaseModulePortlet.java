@@ -153,11 +153,11 @@ public class DatabaseModulePortlet extends BasePortlet{
 		
 		//
 		final Map<String, String> baseParamMap = new HashMap<String, String>();
-		dbModelService.queryCurDbUserTablesInfo(baseParamMap, new AsyncCallback<List<Map<String, String>>>(){
+		/*dbModelService.queryCurDbUserTablesInfo(baseParamMap, new AsyncCallback<List<Map<String, String>>>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
-				SC.say(caught.getMessage());
+				showErrorMessage(caught.getMessage());
 			}
 
 			@Override
@@ -178,7 +178,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 				
 			}
 			
-		});
+		});*/
 		
 		//
 		
@@ -201,11 +201,11 @@ public class DatabaseModulePortlet extends BasePortlet{
 		initListGridFields(moduleListGrid,sysModuleFieldItems,cansysModuleEditFieldItems);
 		
 		
-		dbModelService.querySysModuleInfo(baseParamMap, new AsyncCallback<List<Map<String, String>>>(){
+		/*dbModelService.querySysModuleInfo(baseParamMap, new AsyncCallback<List<Map<String, String>>>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
-				SC.say(caught.getMessage());
+				showErrorMessage(caught.getMessage());
 				
 			}
 
@@ -227,7 +227,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 				
 			}
 			
-		});
+		});*/
 		
 		//
 		final ListGrid tableListGrid = new ListGrid();
@@ -340,7 +340,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 					@Override
 					public void onFailure(Throwable caught) {
-						SC.say(caught.getMessage());
+						showErrorMessage(caught.getMessage());
 					}
 
 					@Override
@@ -393,7 +393,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 					@Override
 					public void onFailure(Throwable caught) {
-						SC.say(caught.getMessage());
+						showErrorMessage(caught.getMessage());
 						
 					}
 
@@ -424,7 +424,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 					@Override
 					public void onFailure(Throwable caught) {
-						SC.say(caught.getMessage());
+						showErrorMessage(caught.getMessage());
 						
 					}
 
@@ -454,7 +454,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 	
 						@Override
 						public void onFailure(Throwable caught) {
-							SC.say(caught.getMessage());
+							showErrorMessage(caught.getMessage());
 							
 						}
 	
@@ -484,7 +484,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 					@Override
 					public void onFailure(Throwable caught) {
-						SC.say(caught.getMessage());
+						showErrorMessage(caught.getMessage());
 						
 					}
 
@@ -515,7 +515,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 						@Override
 						public void onFailure(Throwable caught) {
-							SC.say(caught.getMessage());
+							showErrorMessage(caught.getMessage());
 							
 						}
 
@@ -544,7 +544,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 					@Override
 					public void onFailure(Throwable caught) {
-						SC.say(caught.getMessage());
+						showErrorMessage(caught.getMessage());
 						
 					}
 
@@ -575,7 +575,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 					@Override
 					public void onFailure(Throwable caught) {
-						SC.say(caught.getMessage());
+						showErrorMessage(caught.getMessage());
 						
 					}
 
@@ -600,7 +600,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 					@Override
 					public void onFailure(Throwable caught) {
-						SC.say(caught.getMessage());
+						showErrorMessage(caught.getMessage());
 						
 					}
 
@@ -631,7 +631,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 					@Override
 					public void onFailure(Throwable caught) {
-						SC.say(caught.getMessage());
+						showErrorMessage(caught.getMessage());
 						
 					}
 
@@ -702,7 +702,7 @@ public class DatabaseModulePortlet extends BasePortlet{
 
 					@Override
 					public void onFailure(Throwable caught) {
-						SC.say(caught.getMessage());
+						showErrorMessage(caught.getMessage());
 						
 					}
 

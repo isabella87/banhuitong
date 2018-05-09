@@ -27,4 +27,6 @@ public interface LoginService extends RemoteService {
 	String loginImmediately(Map<String,String> paramMap) throws IllegalArgumentException;
 
 	String getImageByte() throws IllegalArgumentException;
+	
+	boolean loginOut()throws IllegalArgumentException;
 }

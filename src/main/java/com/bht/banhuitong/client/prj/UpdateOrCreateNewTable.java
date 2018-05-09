@@ -274,7 +274,7 @@ public class UpdateOrCreateNewTable extends Window {
 							//方法一：直接重新加载全屏
 							BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
 							new BaseFrame().delPortlet(portlet.getTitle());
-							new BaseFrame().changeMainCanvas(new DatabaseModulePortlet().getPortlet());
+							new BaseFrame().changeMainCanvas(new DatabaseModulePortlet().getInstance());
 							
 							
 							SC.say("创建成功！");

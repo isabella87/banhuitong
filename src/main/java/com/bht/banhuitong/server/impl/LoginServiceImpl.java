@@ -181,4 +181,13 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		return Configuration.excepStr;
 	}
 
+	@Override
+	public boolean loginOut() throws IllegalArgumentException {
+		String key = getThreadLocalRequest().getSession().getId();
+		if(userSessionMap.containsKey(key)){
+			userSessionMap.remove(key);
+		}
+		return true;
+	}
+
 }
