@@ -106,7 +106,7 @@ public class SysMenuItem {
 
 		Menu sysMenu = new Menu();
 		sysMenu.setItems(exitMenuItem, separator, refreshMenuItem);
-		;
+		
 		iMenuButtonList.add(new IMenuButton("系统(S)", sysMenu));
 
 		Menu prjMenu = new Menu();
