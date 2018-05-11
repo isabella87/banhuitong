@@ -85,3 +85,27 @@ git push -u origin master
 例如 git clone https://github.com/isabella87/banhuitong.git
 
 小心由于加了servlet安全过滤，request被读取一遍。 再用request时没有的之前的body内容。  注意避让！！！！！！
+
+
+# 四，本项目代码说明
+
+1，com.bht.banhuitong.client 客户端UI界面代码，目前有ListGrid 等组成的列表界面模板；
+
+2，com.bht.banhuitong.server 为客户端与后端服务rpc式交互的模块；本部分编写了反射代理模板，可以对各个服务选择性应用该反射代理功能（在反射代理中完成了业务日志，敏感数据的记录）。目前后端服务的数据末端设计了两种实现方式的模板：
+	1）其一为：直接在本框架内通过调用com.bht.banhuitong.db里与数据库交互的服务来获取服务端数据；
+	2）其二为：通过httpclient方式去获取外部已经写好的服务端服务（调用com.bht.banhuitong.http内服务），获取数据并解析；
+	
+3，com.bht.banhuitong.filter 为客户端UI界面调用后台服务的中间环节，相当于一个拦截器。
+	用于判定当前用户有无访问该服务的权限、当前用户是否长时间未登录、当前用户是否已在别处登录等。依据实际情况判断是否继续拦截。可以设置哪些模块应该该拦截，比如登录服务不宜拦截，查询服务需要拦截等。（通过在配置config.properties文件中增加“server module name and code”记录，来记录模块序号）
+	
+4，com.bht.banhuitong.share 该部分为客户端和服务端需要用到的公共类，其中包含自定义类注解、写文件等功能。其中类注解实现了以下功能：
+	1）每一模块每一服务方法的访问权限制设定；
+	2）每一模块每一服务方法是否需要记录业务日志；
+	3）每一模块每一服务方法的服务号设置（此项主要是为了定位导出界面列表数据到文件而用，因为服务端导出功能所有列表共用）；
+	4）此处还可以继续丰富，比如定义统一的敏感数据......
+
+5，com.bht.banhuitong.exception 对异常的包装。目前主要有以下几点应用：
+	1）对通过httpclient中获取的数据，通过解析返回信息中是否含有error来设置异常，并做抛出处理。
+	2）本系统中的异常描述，通过在配置config.properties文件中增加“exception code and desc”记录；
+
+	
