@@ -30,6 +30,7 @@ public class ProxyService implements InvocationHandler {
 	 * @param args
 	 * @param method
 	 */
+	@SuppressWarnings("unchecked")
 	public void beforeMethod(Object[] args, Method method) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("{\"TIMESTAMP\":").append("\"").append(DateUtils.toStandardStr(new Date())).append("\",");
@@ -41,7 +42,7 @@ public class ProxyService implements InvocationHandler {
 		sb.append("\"DETAIL\":").append("\"").append("----PARAMETERS----");
 		for(Object o:args) {
 			if (o instanceof Map) {
-				Map<String, String> p = (Map) o;
+				Map<String, String> p = (Map<String, String>) o;
 
 				int i = 0;
 				for (String key : p.keySet()) {
@@ -61,6 +62,7 @@ public class ProxyService implements InvocationHandler {
 	 * @param args
 	 * @param method
 	 */
+	@SuppressWarnings("unchecked")
 	public void afterMethod(Object[] args, Method method) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("{\"TIMESTAMP\":").append("\"").append(DateUtils.toStandardStr(new Date())).append("\",");
@@ -72,7 +74,7 @@ public class ProxyService implements InvocationHandler {
 		sb.append("\"DETAIL\":").append("\"").append("----PARAMETERS----");
 		for(Object o:args) {
 			if (o instanceof Map) {
-				Map<String, String> p = (Map) o;
+				Map<String, String> p = (Map<String, String>) o;
 
 				int i = 0;
 				for (String key : p.keySet()) {

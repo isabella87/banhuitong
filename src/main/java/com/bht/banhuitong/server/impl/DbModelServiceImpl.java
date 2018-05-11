@@ -5,14 +5,13 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.bht.banhuitong.dbservice.impl.DatabaseModelServiceImpl;
+import com.bht.banhuitong.db.service.impl.DatabaseModelServiceImpl;
 import com.bht.banhuitong.server.DbModelService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server-side implementation of the RPC service.
  */
-@SuppressWarnings("serial")
 public class DbModelServiceImpl extends RemoteServiceServlet implements DbModelService {
 
 	private final static Logger logger = Logger.getLogger(DbModelServiceImpl.class);

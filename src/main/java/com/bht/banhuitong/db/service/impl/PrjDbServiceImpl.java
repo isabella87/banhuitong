@@ -1,4 +1,4 @@
-package com.bht.banhuitong.dbservice.impl;
+package com.bht.banhuitong.db.service.impl;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.bht.banhuitong.common.DateUtils;
-import com.bht.banhuitong.dbservice.PrjDbService;
+import com.bht.banhuitong.db.service.PrjDbService;
 /**
  * 项目相关服务
  * @author Administrator
@@ -42,46 +42,34 @@ public class PrjDbServiceImpl extends BaseDbService implements PrjDbService{
 		.append(" 			    LEFT JOIN (SELECT OP_USER,FLAG,A_ORDER,OP_TIME,P_ID,COMMENTS FROM PRJ_ACTION PA WHERE  OP_TIME = ")
 		.append("        	(SELECT MAX(OP_TIME) from PRJ_ACTION WHERE A_ORDER = 80 AND FLAG=1 AND P_ID =PA.P_ID GROUP BY P_ID,A_ORDER)) PA2 ON PA2.P_ID = PI.P_ID AND PA2.A_ORDER = 80");
 			
-//		if(!param.isEmpty()) {
-			sb.append(" WHERE ");
-//		}
-//		int i = 0;
+		sb.append(" WHERE ");
+		
 		for(String key:param.keySet()) {
 			if(key.equals("start-time")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				String strDate = DateUtils.toDateStr(new Date(Long.valueOf(param.get(key))));
 				sb.append(" PI.CREATE_TIME >= TO_DATE('").append(strDate).append("','yyyy-MM-dd') AND ");
 			}else if(key.equals("end-time")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				String strDate = DateUtils.toDateStr(new Date(Long.valueOf(param.get(key))));
 				sb.append(" PI.CREATE_TIME <= TO_DATE('").append(strDate).append("','yyyy-MM-dd') AND ");
 			}else if(key.equals("on-line-start-time")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				String strDate = DateUtils.toDateStr(new Date(Long.valueOf(param.get(key))));
 				sb.append(" PA1.OP_TIME >= TO_DATE('").append(strDate).append("','yyyy-MM-dd') AND ");
 			}else if(key.equals("on-line-end-time")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				String strDate = DateUtils.toDateStr(new Date(Long.valueOf(param.get(key))));
 				sb.append(" PA1.OP_TIME <= TO_DATE('").append(strDate).append("','yyyy-MM-dd') AND ");
 			}else if(key.equals("loan-start-time")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				String strDate = DateUtils.toDateStr(new Date(Long.valueOf(param.get(key))));
 				sb.append(" PA2.OP_TIME >= TO_DATE('").append(strDate).append("','yyyy-MM-dd') AND ");
 			}else if(key.equals("loan-end-time")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				String strDate = DateUtils.toDateStr(new Date(Long.valueOf(param.get(key))));
 				sb.append(" PA2.OP_TIME <= TO_DATE('").append(strDate).append("','yyyy-MM-dd') AND ");
 			}else if(key.equals("status")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				sb.append(" PP.STATUS = ").append(param.get(key)).append(" AND ");
 			}else if(key.equals("item-no-key")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				sb.append(" UPPER(PI.ITEM_NO) LIKE UPPER( '%").append(param.get(key)).append("%')").append(" AND ");
 			}else if(key.equals("item-name-key")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				sb.append(" UPPER(PI.ITEM_NAME) LIKE UPPER( '%").append(param.get(key)).append("%')").append(" AND ");
 			}else if(key.equals("financier-key")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				sb.append(" UPPER(PP.FINANCIER) LIKE UPPER( '%").append(param.get(key)).append("%')").append(" AND ");
 			}else if(key.equals("creator-key")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
 				sb.append(" UPPER(PI.CREATOR) LIKE UPPER( '%").append(param.get(key)).append("%')").append(" AND ");
@@ -89,11 +77,9 @@ public class PrjDbServiceImpl extends BaseDbService implements PrjDbService{
 				sb.append(" PP.P_ID IN (SELECT COALESCE(P_ID,0) FROM PRJ_MGR_PERSON WHERE NAME LIKE ").append(param.get(key));
 				sb.append(" UNION SELECT COALESCE(P_ID,0) FROM PRJ_MGR_ORG WHERE UPPER(ORG_NAME) LIKE UPPER('% ").append(param.get(key)).append("%'))").append(" AND ");
 			}else if(key.equals("bondsman-name")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				sb.append(" PP.P_ID IN (SELECT COALESCE(P_ID,0) FROM PRJ_GUARANTEE_PERSON WHERE NAME LIKE ").append(param.get(key));
 				sb.append(" UNION SELECT COALESCE(P_ID, 0) FROM PRJ_GUARANTEE_ORG WHERE UPPER(NAME) LIKE UPPER('% ").append(param.get(key)).append("%'))").append(" AND ");
 			}else if(key.equals("type")&&param.get(key)!=null&&!param.get(key).isEmpty()) {
-//				i++;
 				sb.append(" PI.TYPE = ").append(param.get(key)).append(" AND ");
 			}
 		}
@@ -101,10 +87,10 @@ public class PrjDbServiceImpl extends BaseDbService implements PrjDbService{
 		sb.append(" 1=1 ORDER BY PI.TOP_TIME DESC NULLS LAST, PP.P_ID ");
 		
 		String sql = sb.toString();
-		logger.info("sql:"+sql);
 		try {
 			return queryUtil.executeQuery(sql,0,2000);
 		} catch (SQLException e) {
+			logger.info(e);
 			e.printStackTrace();
 		}
 		return EMPTY_LIST;

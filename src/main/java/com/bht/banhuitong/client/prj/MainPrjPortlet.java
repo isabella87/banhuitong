@@ -5,12 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.bht.banhuitong.client.BaseFrame;
 import com.bht.banhuitong.client.BasePortlet;
 import com.bht.banhuitong.client.MainFrame;
-import com.bht.banhuitong.server.DbModelService;
-import com.bht.banhuitong.server.DbModelServiceAsync;
 import com.bht.banhuitong.server.PrjService;
 import com.bht.banhuitong.server.PrjServiceAsync;
 import com.google.gwt.core.client.GWT;
@@ -45,10 +42,9 @@ import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 public class MainPrjPortlet extends BasePortlet {
 
 	private int hBarValue = 0;
-	
+
 	private static Window conWind = new Window();
 	private final PrjServiceAsync prjService = GWT.create(PrjService.class);
-	private final DbModelServiceAsync dbModelService = GWT.create(DbModelService.class);
 	private static Map<String, String> prjFieldItems = new LinkedHashMap<String, String>();
 	private static LinkedHashMap<String, String> prjTypeItems = new LinkedHashMap<String, String>();
 	private static LinkedHashMap<String, String> prjStatusItems = new LinkedHashMap<String, String>();
@@ -143,12 +139,12 @@ public class MainPrjPortlet extends BasePortlet {
 		listGrid.setAutoFetchData(true);
 		listGrid.setCanSelectCells(true);
 		listGrid.setCanDragSelect(true);
-		
-//		listGrid.setCanEdit(true);
+
+		// listGrid.setCanEdit(true);
 		listGrid.setEditEvent(ListGridEditEvent.CLICK);
-		listGrid.setSelectionAppearance(SelectionAppearance.CHECKBOX); 
-		
-		initListGridFields(listGrid,prjFieldItems,emptyArrayList);
+		listGrid.setSelectionAppearance(SelectionAppearance.CHECKBOX);
+
+		initListGridFields(listGrid, prjFieldItems, emptyArrayList);
 
 		AdvancedCriteria criteria = new AdvancedCriteria(OperatorId.AND,
 				new AdvancedCriteria[] { new AdvancedCriteria("itemName", OperatorId.INOT_CONTAINS, "i"),
@@ -217,10 +213,10 @@ public class MainPrjPortlet extends BasePortlet {
 		MenuItem createTableMenu = new MenuItem("创建数据库");
 		MenuItemSeparator separator = new MenuItemSeparator();
 		MenuItem searchCondMenu = new MenuItem("设置搜索条件");
-		menu.setItems(searchMenu, printerMenu,exportExlMenu, separator, searchCondMenu,createTableMenu);
+		menu.setItems(searchMenu, printerMenu, exportExlMenu, separator, searchCondMenu, createTableMenu);
 
 		this.setContextMenu(menu);
-//		listGrid.setContextMenu(menu);
+		// listGrid.setContextMenu(menu);
 		conWind.addCloseClickHandler(new CloseClickHandler() {
 
 			@Override
@@ -259,56 +255,21 @@ public class MainPrjPortlet extends BasePortlet {
 				Canvas.showPrintPreview(objects, null, portletTitleName, null);
 			}
 		});
-		
-		
+
 		exportExlMenu.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(MenuItemClickEvent event) {
-				//TODO 
-//				new MyDialog().draw();
 				BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
 				ListGrid listGrid = portlet.getRetListGrid();
 				if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
 					SC.say("请查询需要打印数据！");
-				}else {
-					new ExportDialog(false,listGrid);
+				} else {
+					new ExportDialog(false, listGrid);
 				}
 			}
 		});
 
-		/*createTableMenu.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(MenuItemClickEvent event) {
-				String tableName = "ABC_BAO";
-				Map<String,String> tableFieldsMap = new HashMap<String,String>();
-				tableFieldsMap.put("ID", "NUMBER(12)");
-				tableFieldsMap.put("NAME", "VARCHAR2(40)");
-				tableFieldsMap.put("AMT", "NUMBER(18,2)");
-				tableFieldsMap.put("DATEPOINT", "DATE");
-				dbModelService.createTable(tableName, tableFieldsMap, new AsyncCallback<Boolean>(){
-
-					@Override
-					public void onFailure(Throwable caught) {
-						SC.say("网络连接异常！");
-						
-					}
-
-					@Override
-					public void onSuccess(Boolean result) {
-						if(result){
-							SC.say("表创建成功！");
-						}else {
-							SC.say("表创建失败！");	
-						}
-					}
-					
-				});
-				
-			}
-		});*/
-		
 		searchMenu.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -342,30 +303,30 @@ public class MainPrjPortlet extends BasePortlet {
 							prjStatusItem.getValueAsString().equals("全部") ? "" : prjStatusItem.getValueAsString());
 
 				}
-				
-				//TODO 
+
+				// TODO
 				hBarValue = 0;
 				BaseFrame.hBar.setPercentDone(hBarValue);
 
-				new Timer() {  
-		             public void run() {  
-		            	 hBarValue += 1; 
-		            	 if (hBarValue >= 100) {  
-		                	 hBarValue = 100; 
-		                 }else if(hBarValue > 90){
-		                	 hBarValue = 90; 
-		                 }
-		            	 //*******
-						if(hBarValue==1) {
-			            	 prjService.queryPrjList(paramMap, new AsyncCallback<List<Map<String, Object>>>() {
+				new Timer() {
+					public void run() {
+						hBarValue += 1;
+						if (hBarValue >= 100) {
+							hBarValue = 100;
+						} else if (hBarValue > 90) {
+							hBarValue = 90;
+						}
+						// *******
+						if (hBarValue == 1) {
+							prjService.queryPrjList(paramMap, new AsyncCallback<List<Map<String, String>>>() {
 								@Override
 								public void onFailure(Throwable caught) {
 									showErrorMessage(caught.getMessage());
-									hBarValue = 100; 
+									hBarValue = 100;
 								}
-			
+
 								@Override
-								public void onSuccess(List<Map<String, Object>> result) {
+								public void onSuccess(List<Map<String, String>> result) {
 									if (result == null || result.isEmpty()) {
 										listGrid.setData(new ListGridRecord[] {});
 										SC.say("没有符合条件的数据！");
@@ -380,68 +341,67 @@ public class MainPrjPortlet extends BasePortlet {
 											paramMapOfRetListGrid = paramMap;
 										}
 									}
-									
-									hBarValue = 100; 
+
+									hBarValue = 100;
 								}
 							});
 						}
-						
+
 						BaseFrame.headerHBarLabel.setContents("");
 						BaseFrame.headerHBarLabel.setContents("正在接收数据......");
-						BaseFrame.hBar.setPercentDone(hBarValue); 
-						BaseFrame.hBarLabel.setContents(hBarValue+"%");
-		                 
-						if(hBarValue!=100)  {
-		                     schedule(5 + (int) (1 * Math.random()));  
-		                 }else {
-		                	 BaseFrame.hBar.destroy();
-		                	 BaseFrame.hBarLabel.destroy();
-		                	 BaseFrame.headerHBarLabel.setContents("就绪");
-		                 }
-				//*********
-		         	}  
-		         }.schedule(100); 
-		         
-		        VLayout vlayout = new VLayout(4);  
-		  		vlayout.setWidth(300); 
-		  		vlayout.setTop(3);
-		  		vlayout.setHeight(22); 
-		  		HLayout hLayout = new HLayout();
-		  		hLayout.addMember(BaseFrame.headerHBarLabel);
-		  		hLayout.addMember(BaseFrame.hBar);
-		  		hLayout.addMember(BaseFrame.hBarLabel);
-		  		vlayout.addMember(hLayout);
-		  		
-		  		BaseFrame.endCanvas.addChild(vlayout);
+						BaseFrame.hBar.setPercentDone(hBarValue);
+						BaseFrame.hBarLabel.setContents(hBarValue + "%");
+
+						if (hBarValue != 100) {
+							schedule(5 + (int) (1 * Math.random()));
+						} else {
+							BaseFrame.hBar.destroy();
+							BaseFrame.hBarLabel.destroy();
+							BaseFrame.headerHBarLabel.setContents("就绪");
+						}
+						// *********
+					}
+				}.schedule(100);
+
+				VLayout vlayout = new VLayout(4);
+				vlayout.setWidth(300);
+				vlayout.setTop(3);
+				vlayout.setHeight(22);
+				HLayout hLayout = new HLayout();
+				hLayout.addMember(BaseFrame.headerHBarLabel);
+				hLayout.addMember(BaseFrame.hBar);
+				hLayout.addMember(BaseFrame.hBarLabel);
+				vlayout.addMember(hLayout);
+
+				BaseFrame.endCanvas.addChild(vlayout);
 			}
 		});
 		listGrid.redraw();
 	}
-	
-	
+
 	/**
 	 * 获取数据
 	 * 
 	 * @return
 	 */
-	public ListGridRecord[] getRecords(List<Map<String, Object>> result) {
+	public ListGridRecord[] getRecords(List<Map<String, String>> result) {
 		int length = result.size();
 		ListGridRecord[] listRecords = new ListGridRecord[length];
 		for (int i = 0; i < result.size(); i++) {
-			Map<String, Object> mapItem = result.get(i);
+			Map<String, String> mapItem = result.get(i);
 			listRecords[i] = createRecord(mapItem, i);
 		}
 
 		return listRecords;
 	}
 
-	public ListGridRecord createRecord(Map<String, Object> mapItem, int i) {
+	public ListGridRecord createRecord(Map<String, String> mapItem, int i) {
 		ListGridRecord record = new ListGridRecord();
 		record.setAttribute("id", ++i);
 		record.setCanSelect(true);
 		for (String key : prjFieldItems.keySet()) {
-			if(mapItem.get(key)==null||mapItem.get(key).toString().isEmpty()) {
-				continue ;
+			if (mapItem.get(key) == null || mapItem.get(key).toString().isEmpty()) {
+				continue;
 			}
 			if (key.equals("type")) {
 				record.setAttribute(key, prjTypeItems.get(mapItem.get(key)));
@@ -451,11 +411,12 @@ public class MainPrjPortlet extends BasePortlet {
 				record.setAttribute(key, prjSignStatusItems.get(mapItem.get(key)));
 			} else if (key.equals("onLineTime") || key.equals("capitalRepayTime") || key.equals("loanTime")) {
 				record.setAttribute(key, formatDateStr(mapItem.get(key), "yyyy-MM-dd"));
-			} else if(key.equals("amt")||key.equals("investedAmt")||key.equals("totalInterest")||key.equals("costFee")||key.equals("soldFee")){
+			} else if (key.equals("amt") || key.equals("investedAmt") || key.equals("totalInterest")
+					|| key.equals("costFee") || key.equals("soldFee")) {
 				record.setAttribute(key, Double.valueOf(mapItem.get(key).toString()));
-			}else if(key.equals("borrowDays")){
+			} else if (key.equals("borrowDays")) {
 				record.setAttribute(key, Integer.valueOf(mapItem.get(key).toString()));
-			}else {
+			} else {
 				record.setAttribute(key, mapItem.get(key));
 			}
 		}

@@ -1,4 +1,4 @@
-package com.bht.banhuitong.httpUtil;
+package com.bht.banhuitong.http;
 
 public class Constants {
 	public static String __TEMP__COOKIE_VALUE__ = null;

@@ -3,7 +3,7 @@ package com.bht.banhuitong.server;
 import java.util.List;
 import java.util.Map;
 
-import com.bht.banhuitong.annotation.BusinessAnnotation;
+import com.bht.banhuitong.shared.annotation.BusinessAnnotation;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -21,7 +21,7 @@ public interface PrjService extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	@BusinessAnnotation(serviceno=1,perm=60012,recordLog= true)
-	List<Map<String,Object>> queryPrjList(Map<String,String> paramMap) throws IllegalArgumentException;
+	List<Map<String,String>> queryPrjList(Map<String,String> paramMap) throws IllegalArgumentException;
 	
 	@BusinessAnnotation(serviceno=2,perm=10002 ,recordLog= true)
 	List<Map<String,String>> queryPrjList2(Map<String,String> paramMap) throws IllegalArgumentException;

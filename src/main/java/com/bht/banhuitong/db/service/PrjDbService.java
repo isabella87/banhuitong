@@ -1,4 +1,4 @@
-package com.bht.banhuitong.dbservice;
+package com.bht.banhuitong.db.service;
 
 import java.util.List;
 import java.util.Map;

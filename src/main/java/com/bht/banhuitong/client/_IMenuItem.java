@@ -105,12 +105,14 @@ public class _IMenuItem extends MenuItem {
 	protected void print() {
 		if (BaseFrame.portlets == null || BaseFrame.portlets.isEmpty()) {
 			SC.say("请打开数据查询列表，并查询打印数据！");
+			return;
 		}
 
 		BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
 		ListGrid listGrid = portlet.getRetListGrid();
 		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
 			SC.say("请查询需要打印数据！");
+			return;
 		}
 		Object[] objects = { listGrid };
 		Canvas.showPrintPreview(objects, null, portlet.getTitle(), null);
@@ -134,12 +136,14 @@ public class _IMenuItem extends MenuItem {
 
 		if (BaseFrame.portlets == null || BaseFrame.portlets.isEmpty()) {
 			SC.say("请打开数据查询列表，并查询导出数据！");
+			return;
 		}
 
 		BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
 		ListGrid listGrid = portlet.getRetListGrid();
 		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
 			SC.say("请查询需要导出数据！");
+			return;
 		}
 
 		boolean isAll = false;

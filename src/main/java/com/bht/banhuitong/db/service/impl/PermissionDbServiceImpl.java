@@ -1,4 +1,4 @@
-package com.bht.banhuitong.dbservice.impl;
+package com.bht.banhuitong.db.service.impl;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -33,7 +33,7 @@ public class PermissionDbServiceImpl extends BaseDbService{
 		try {
 			return queryUtil.executeQuery(sql);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		return null;
 	}

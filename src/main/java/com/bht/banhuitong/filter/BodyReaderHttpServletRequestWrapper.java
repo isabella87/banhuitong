@@ -22,12 +22,12 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
     
     public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {    
         super(request);    
-        Enumeration e = request.getHeaderNames()   ;      
+        Enumeration<String> e = request.getHeaderNames();      
          while(e.hasMoreElements()){      
-             String name = (String) e.nextElement();      
-             String value = request.getHeader(name);      
-                   
-         }      
+             String name = e.nextElement();      
+             request.getHeader(name);      
+         } 
+         
         body = HttpHelper.getBodyString(request).getBytes(Charset.forName("UTF-8"));    
     }    
     

@@ -3,6 +3,7 @@
  */
 package com.bht.banhuitong.config;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,9 +75,9 @@ public final class Configuration {
 	 * @return
 	 *         配置信息的值, 不存在则返回长度为0的字节数组
 	 */
-	/*public static byte[] getBytes(final String key) {
+	public static byte[] getBytes(final String key) {
 		final String s = PROPERTIES.get(key);
 
 		return s == null ? new byte[0] : Base64.getDecoder().decode(s);
-	}*/
+	}
 }

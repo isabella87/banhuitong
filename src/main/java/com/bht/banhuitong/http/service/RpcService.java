@@ -1,8 +1,15 @@
-package com.bht.banhuitong.serviceConf;
+package com.bht.banhuitong.http.service;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 获取服务端数据服务方案二：http中的服務都是調取第三方服務的，比如p2psrv
+ * 
+ * 本系统基本采用servier下的方式获取服务数据。
+ * @author Administrator
+ *
+ */
 public interface RpcService {
 
 	public List<Map<String, String>> getClientMgrTreeDatas(
@@ -22,7 +29,7 @@ public interface RpcService {
 	 * @param  paramMap[itemNoKey=, startTime=, endTime=, status=]
 	 * @return 符合条件记录 
 	 */
-	public String queryProjects(Map<String, String> paramMap) ;
+	public List<Map<String, String>> queryProjects(Map<String, String> paramMap) ;
 	
 	/**
 	 * 通过ID 查询项目

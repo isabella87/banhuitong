@@ -7,14 +7,15 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import static com.bht.banhuitong.filter.SecurityFilter.userSessionMap;
-import com.bht.banhuitong.dbservice.impl.AccountDbServiceImpl;
+
+import com.bht.banhuitong.db.service.impl.AccountDbServiceImpl;
 import com.bht.banhuitong.filter.security.AuthenticationToken;
 import com.bht.banhuitong.server.AccountService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 /**
  * The server-side implementation of the RPC service.
  */
-@SuppressWarnings("serial")
 public class AccountServiceImpl extends RemoteServiceServlet implements AccountService {
 
 	private final static Logger logger = Logger.getLogger(AccountServiceImpl.class);

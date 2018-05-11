@@ -1,4 +1,4 @@
-package com.bht.banhuitong.dbservice.impl;
+package com.bht.banhuitong.db.service.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,11 +30,13 @@ public class DatabaseModelServiceImpl extends BaseDbService {
 	/**
 	 * 获取当前数据库系统下所有用户表信息(包含系统表)
 	 */
-	private final static String allDbaUserTableNameSql = " SELECT OWNER,TABLE_NAME,TABLESPACE_NAME,LAST_ANALYZED FROM DBA_TABLES ";
+	// private final static String allDbaUserTableNameSql = " SELECT
+	// OWNER,TABLE_NAME,TABLESPACE_NAME,LAST_ANALYZED FROM DBA_TABLES ";
 	/**
 	 * 获取当前数据库系统下所有用户表信息(具体信息为：表所属用户名，表名，所属表空间名，最近分析的日期)
 	 */
-	private final static String allTableNameSql = " SELECT OWNER,TABLE_NAME,TABLESPACE_NAME,LAST_ANALYZED FROM ALL_TABLES ";
+	// private final static String allTableNameSql = " SELECT
+	// OWNER,TABLE_NAME,TABLESPACE_NAME,LAST_ANALYZED FROM ALL_TABLES ";
 
 	/**
 	 * 获取某表的字段的详细信息（字段名、字段类型、字段是否为空、字段长度、字段精度，字段描述等）
@@ -70,10 +72,10 @@ public class DatabaseModelServiceImpl extends BaseDbService {
 				sql = sb.toString() + primarykey + ") ";
 			}
 		}
-		logger.info("sql:" + sql);
 		try {
 			return queryUtil.executeUpdate(sql) == 0 ? true : false;
 		} catch (SQLException e) {
+			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
 		return false;
@@ -156,7 +158,6 @@ public class DatabaseModelServiceImpl extends BaseDbService {
 	public List<Map<String, String>> queryTableColumnInfoByTableName(String tableName) {
 		String sql = tableColInfoSql + tableName + "' ORDER BY A.TABLE_NAME ";
 		try {
-			logger.info("queryTableColumnInfoByTableName ,sql:" + sql);
 			return queryUtil.executeQuery(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -185,7 +186,6 @@ public class DatabaseModelServiceImpl extends BaseDbService {
 		sb.append(" 1=1 ORDER BY SMI_ID ASC ");
 
 		String sql = sb.toString();
-		logger.info("sql:" + sql);
 		try {
 			return queryUtil.executeQuery(sql, 0, 2000);
 		} catch (SQLException e) {
@@ -217,7 +217,6 @@ public class DatabaseModelServiceImpl extends BaseDbService {
 		sb.append(" 1=1 ORDER BY STI_ID ASC ");
 
 		String sql = sb.toString();
-		logger.info("sql:" + sql);
 		try {
 			return queryUtil.executeQuery(sql, 0, 2000);
 		} catch (SQLException e) {
@@ -336,9 +335,8 @@ public class DatabaseModelServiceImpl extends BaseDbService {
 		for (String shortModuleName : shortNamesList) {
 			String[] params = { shortModuleName, shortModuleName, "desc", "admin", shortModuleName };
 			try {
-				int flag = queryUtil.executeUpdate(sysModuleInsertSql, params);
+				queryUtil.executeUpdate(sysModuleInsertSql, params);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -352,9 +350,8 @@ public class DatabaseModelServiceImpl extends BaseDbService {
 					mapItem.get("COMMENTS"), "admin", mapItem.get("TABLE_NAME") };
 
 			try {
-				int flag = queryUtil.executeUpdate(sysTableInsertSql, params);
+				queryUtil.executeUpdate(sysTableInsertSql, params);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

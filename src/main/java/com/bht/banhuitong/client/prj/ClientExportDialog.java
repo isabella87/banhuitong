@@ -181,7 +181,7 @@ public class ClientExportDialog extends Dialog implements
 					dataLists.add(dataMap);
 				}
 				//TODO 调用客户端，写入到excel的服务。
-				String filepath = "E:\\datas";
+//				String filepath = "E:\\datas";
 //				new Export2File().export(filepath, "xls", dataLists);
 				
 			}

@@ -1,4 +1,4 @@
-package com.bht.banhuitong.dbservice.impl;
+package com.bht.banhuitong.db.service.impl;
 
 import static java.util.Base64.getEncoder;
 import static org.xx.armory.commons.CryptographicUtils.disturb;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.bht.banhuitong.dbservice.AccountDbService;
+import com.bht.banhuitong.db.service.AccountDbService;
 /**
  * 账户相关服务
  * @author Administrator
@@ -30,6 +30,7 @@ public class AccountDbServiceImpl extends BaseDbService implements AccountDbServ
 		try {
 			return queryUtil.executeQuery(sql);
 		} catch (SQLException e) {
+			logger.error(e);
 			e.printStackTrace();
 		}
 		return null;
@@ -54,11 +55,9 @@ public List<Map<String,String>> getAccountInfoByAuId(final long auId){
 	
 	public long checkLogin(final String loginName,final String pwd) {
 		String sql = "select au_id from acc_user_reg where login_name='"+loginName+"' and password = '"+hashPassword(pwd) +"'";
-		logger.info("sql:"+sql);
 		try {
 			List<Map<String,String>> returns = queryUtil.executeQuery(sql);
 			for(Map<String,String> ret:returns) {
-				logger.info("au_id:"+Long.valueOf(ret.get("AU_ID")));
 				if(Long.valueOf(ret.get("AU_ID"))>0) {
 					return Long.valueOf(ret.get("AU_ID"));
 				};
@@ -71,11 +70,9 @@ public List<Map<String,String>> getAccountInfoByAuId(final long auId){
 	
 	public String checkBgLogin(final String loginName,final String pwd) {
 		String sql = "select u_name from my_user where u_enabled = 1 and is_locked = 0 and u_name='"+loginName+"' and u_pwd = '"+hashPassword(pwd) +"'";
-		logger.info("sql:"+sql);
 		try {
 			List<Map<String,String>> returns = queryUtil.executeQuery(sql);
 			for(Map<String,String> ret:returns) {
-				logger.info("U_NAME:"+ret.get("U_NAME"));
 				if(!ret.get("U_NAME").isEmpty()) {
 					return ret.get("U_NAME");
 				};

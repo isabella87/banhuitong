@@ -74,14 +74,13 @@ public final class BaseConfigurator {
 	}
 
 	public static void main(String[] args) throws IOException {
-		/*final java.util.Properties props = new java.util.Properties();
-		props.putAll(defaultProperties());
-		props.store(new java.io.FileWriter(new java.io.File("/wappay.properties")),
-				"Basic properties");*/
 		BaseConfigurator.configure();
 		/*System.out.println(Configuration.ROOT_URL);
 		System.out.println(Configuration.getString(Configuration.ROOT_URL));*/
 		Map<String,String> properties = Configuration.PROPERTIES;
+		for(String key:properties.keySet()) {
+			System.out.println(key + " = " + properties.get(key));
+		}
 		System.out.println("DONE");
 	}
 }

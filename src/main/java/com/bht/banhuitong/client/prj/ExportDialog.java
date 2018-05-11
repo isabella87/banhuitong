@@ -99,8 +99,6 @@ public class ExportDialog extends Dialog implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
-//				BaseFrame.export(portlet);
 				download();
 			}
 		});

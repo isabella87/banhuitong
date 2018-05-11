@@ -14,21 +14,19 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.xx.armory.services.ServiceException;
 
-import com.bht.banhuitong.annotation.BusinessAnnotation;
 import com.bht.banhuitong.common.CommonMethod;
 import com.bht.banhuitong.config.Configuration;
-import com.bht.banhuitong.dbservice.impl.PermissionDbServiceImpl;
+import com.bht.banhuitong.db.service.impl.PermissionDbServiceImpl;
 import com.bht.banhuitong.filter.security.AuthenticationToken;
+import com.bht.banhuitong.shared.annotation.BusinessAnnotation;
 
 public class SecurityFilter implements Filter {
 
 	private final static Logger logger = Logger.getLogger(SecurityFilter.class);
-	private final static Logger busiLogger = Logger.getLogger("busiLogger");
 	final AuthenticationToken newToken = AuthenticationToken.guest();
 	public static Map<String,AuthenticationToken>  userSessionMap = new HashMap<String,AuthenticationToken>();
 	public static Map<String,String>  captchaSessionMap = new HashMap<String,String>();
@@ -48,11 +46,6 @@ public class SecurityFilter implements Filter {
 		
 		int moduleValue = getModuleValue(requestWrapper.getServletPath());
 		
-		// 设置基本上下文信息，并增加以下判断：增加超时判断
-		if(moduleValue!=ModuleType.LOGIN) {
-//			commonAssert(requestWrapper);
-		}
-					
 		switch (moduleValue) {
 		case ModuleType.LOGIN:
 			break;
@@ -82,19 +75,6 @@ public class SecurityFilter implements Filter {
 
 
 		chain.doFilter(requestWrapper, response);
-	}
-
-	/**
-	 * 设置基本上下文信息，并增加以下判断：......
-	 * 超时时间设置在web.xml中
-	 * @param requestWrapper
-	 */
-	private void commonAssert(HttpServletRequest requestWrapper) {
-		// TODO Auto-generated method stub
-		HttpSession httpSession = requestWrapper.getSession();
-		
-		
-		
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package com.bht.banhuitong.httpUtil;
+package com.bht.banhuitong.http;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

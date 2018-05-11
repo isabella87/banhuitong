@@ -114,6 +114,7 @@ public class LoginWindow extends Window {
 						if (result.equals("true")) {
 							MainFrame.menuLayout.setDisabled(false);
 							loginName = tempLoginName;
+							BaseFrame.editEndCanvas();
 							SysMenuItem.getInstance().enableIMenuItem();
 							destroy();
 

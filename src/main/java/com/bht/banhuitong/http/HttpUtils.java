@@ -1,4 +1,4 @@
-package com.bht.banhuitong.httpUtil;
+package com.bht.banhuitong.http;
 
 import java.util.ArrayList;
 import java.util.Collection;

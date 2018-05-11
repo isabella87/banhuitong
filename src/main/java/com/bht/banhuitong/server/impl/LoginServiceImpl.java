@@ -15,22 +15,21 @@ import org.xx.armory.services.ServiceException;
 
 import com.bht.banhuitong.common.CommonMethod;
 import com.bht.banhuitong.config.Configuration;
-import com.bht.banhuitong.dbservice.impl.AccountDbServiceImpl;
+import com.bht.banhuitong.db.service.impl.AccountDbServiceImpl;
 import com.bht.banhuitong.filter.security.AuthenticationToken;
 import com.bht.banhuitong.filter.security.impl.SimpleExpressionCaptchaImageProvider;
+import com.bht.banhuitong.http.service.impl.RpcServiceImpl;
 import com.bht.banhuitong.server.LoginService;
-import com.bht.banhuitong.serviceConf.RpcServiceImpl;
 import com.bht.banhuitong.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 /**
  * The server-side implementation of the RPC service.
  * 用户登录相关服务，此类中的服务无需经过权限过滤判断
  */
-@SuppressWarnings("serial")
 public class LoginServiceImpl extends RemoteServiceServlet implements LoginService {
 
 	private final static Logger logger = Logger.getLogger(LoginServiceImpl.class);
-//	private String fileSeparator = java.io.File.separator;
+
 	/**
 	 * 
 	 */
@@ -146,6 +145,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		try {
 			result = SimpleExpressionCaptchaImageProvider.drawImage(ret.left, DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 		} catch (IOException e) {
+			logger.error(e);
 			e.printStackTrace();
 		}
 		
@@ -165,7 +165,6 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			fos.close();*/
 			
 			String strBase64Img = "data:;base64," + Base64.encodeBase64String(result);
-			logger.info("strBase64Img::::" + strBase64Img);
 			/*File file = new File("captcha-image.png");
 			logger.info("getAbsolutePath::::" + file.getAbsolutePath());*/
 			
