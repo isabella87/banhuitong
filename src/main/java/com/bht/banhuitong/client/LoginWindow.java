@@ -19,6 +19,8 @@ import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.CloseClickEvent;
 import com.smartgwt.client.widgets.events.CloseClickHandler;
+import com.smartgwt.client.widgets.events.KeyPressEvent;
+import com.smartgwt.client.widgets.events.KeyPressHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
@@ -30,7 +32,10 @@ public class LoginWindow extends Window {
 	private static Img img = null;
 	protected static String loginName;
 	private Label errorLabel = new Label();
-
+	final TextItem usernameItem = new TextItem("user-name");
+	final PasswordItem passwordItem = new PasswordItem("password");
+	final TextItem yzmItem = new TextItem("captcha-code");
+	
 	private static LoginWindow instance;
 
 	public static LoginWindow getInstance() {
@@ -63,19 +68,19 @@ public class LoginWindow extends Window {
 		form.setPadding(10);
 		form.setLayoutAlign(VerticalAlignment.BOTTOM);
 		form.setEdgeMarginSize(10);
-		final TextItem usernameItem = new TextItem("user-name");
+		/*final TextItem usernameItem = new TextItem("user-name");*/
 		usernameItem.setHeight(30);
 		usernameItem.setWidth(220);
 		usernameItem.setTitle("用户名");
 		usernameItem.setRequired(true);
 
-		final PasswordItem passwordItem = new PasswordItem("password");
+		/*final PasswordItem passwordItem = new PasswordItem("password");*/
 		passwordItem.setHeight(30);
 		passwordItem.setWidth(220);
 		passwordItem.setTitle("密码");
 		passwordItem.setRequired(true);
 
-		final TextItem yzmItem = new TextItem("captcha-code");
+		/*final TextItem yzmItem = new TextItem("captcha-code");*/
 		yzmItem.setHeight(30);
 		yzmItem.setWidth(110);
 		yzmItem.setTitle("验证码");
@@ -92,39 +97,6 @@ public class LoginWindow extends Window {
 			@Override
 			public void onClick(ClickEvent event) {
 				validateLogin();
-			}
-
-			private void validateLogin() {
-				Map<String, String> paramMap = new HashMap<String, String>();
-				paramMap.put(usernameItem.getFieldName(), usernameItem.getValueAsString());
-				paramMap.put(passwordItem.getFieldName(), passwordItem.getValueAsString());
-				paramMap.put(yzmItem.getFieldName(), yzmItem.getValueAsString());
-				final String tempLoginName = usernameItem.getValueAsString();
-
-				loginService.loginImmediately(paramMap, new AsyncCallback<String>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						showLoginErrorMessage(caught.getMessage());
-
-					}
-
-					@Override
-					public void onSuccess(String result) {
-						if (result.equals("true")) {
-							MainFrame.menuLayout.setDisabled(false);
-							loginName = tempLoginName;
-							BaseFrame.editEndCanvas();
-							SysMenuItem.getInstance().enableIMenuItem();
-							destroy();
-
-						} else {
-							errorLabel.setContents("登陆失败！");
-							errorLabel.redraw();
-						}
-					}
-
-				});
 			}
 		});
 
@@ -224,6 +196,17 @@ public class LoginWindow extends Window {
 				});
 			}
 		});
+		
+		this.addKeyPressHandler(new KeyPressHandler() {
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if(event.getKeyName().equals("Enter")) {
+					validateLogin();
+				}
+			}
+			
+		});
 	}
 
 	public void initImg() {
@@ -267,5 +250,38 @@ public class LoginWindow extends Window {
 			errorLabel.setContents("网络连接异常！");
 		}
 		errorLabel.redraw();
+	}
+	
+	private void validateLogin() {
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put(usernameItem.getFieldName(), usernameItem.getValueAsString());
+		paramMap.put(passwordItem.getFieldName(), passwordItem.getValueAsString());
+		paramMap.put(yzmItem.getFieldName(), yzmItem.getValueAsString());
+		final String tempLoginName = usernameItem.getValueAsString();
+
+		loginService.loginImmediately(paramMap, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				showLoginErrorMessage(caught.getMessage());
+
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				if (result.equals("true")) {
+					MainFrame.menuLayout.setDisabled(false);
+					loginName = tempLoginName;
+					BaseFrame.editEndCanvas();
+					SysMenuItem.getInstance().enableIMenuItem();
+					destroy();
+
+				} else {
+					errorLabel.setContents("登陆失败！");
+					errorLabel.redraw();
+				}
+			}
+
+		});
 	}
 }
