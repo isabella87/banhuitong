@@ -68,19 +68,16 @@ public class LoginWindow extends Window {
 		form.setPadding(10);
 		form.setLayoutAlign(VerticalAlignment.BOTTOM);
 		form.setEdgeMarginSize(10);
-		/*final TextItem usernameItem = new TextItem("user-name");*/
 		usernameItem.setHeight(30);
 		usernameItem.setWidth(220);
 		usernameItem.setTitle("用户名");
 		usernameItem.setRequired(true);
 
-		/*final PasswordItem passwordItem = new PasswordItem("password");*/
 		passwordItem.setHeight(30);
 		passwordItem.setWidth(220);
 		passwordItem.setTitle("密码");
 		passwordItem.setRequired(true);
 
-		/*final TextItem yzmItem = new TextItem("captcha-code");*/
 		yzmItem.setHeight(30);
 		yzmItem.setWidth(110);
 		yzmItem.setTitle("验证码");
