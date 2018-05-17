@@ -259,14 +259,10 @@ public class BaseFrame {
 	 * 关闭所有
 	 */
 	public void closeAllPortlets() {
-		portlets.clear();
-		canvasMain.destroy();
-		canvasMain = null;
-		endCanvas.destroy();
-		endCanvas=  null;
-		initMainCanvas();
 		
-		initEndCanvas();
+		for(String key:portlets.keySet()) {
+			delPortlet(key);
+		}
 	}
 
 	public <T> Long putPortlet(BasePortlet portlet) {

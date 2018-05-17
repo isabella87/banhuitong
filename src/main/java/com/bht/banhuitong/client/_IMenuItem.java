@@ -38,7 +38,8 @@ public class _IMenuItem extends MenuItem {
 			@Override
 			public void onClick(MenuItemClickEvent event) {
 				if (object instanceof BasePortlet) {
-					new BaseFrame().changeMainCanvas((BasePortlet) object);
+					BasePortlet obj = (BasePortlet) object;
+					new BaseFrame().changeMainCanvas(obj.getPortlet());
 				} else if (object.toString().equals("XY")) {
 					new BaseFrame().changeMainCanvasToCardLayout();
 				} else if (object.toString().equals("H")) {
@@ -110,7 +111,7 @@ public class _IMenuItem extends MenuItem {
 
 		BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
 		ListGrid listGrid = portlet.getRetListGrid();
-		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
+		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() < 1) {
 			SC.say("请查询需要打印数据！");
 			return;
 		}
@@ -141,7 +142,7 @@ public class _IMenuItem extends MenuItem {
 
 		BasePortlet portlet = BaseFrame.getTail(BaseFrame.portlets).getValue();
 		ListGrid listGrid = portlet.getRetListGrid();
-		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() <= 1) {
+		if (listGrid == null || listGrid.getRecordList() == null || listGrid.getRecordList().getLength() < 1) {
 			SC.say("请查询需要导出数据！");
 			return;
 		}

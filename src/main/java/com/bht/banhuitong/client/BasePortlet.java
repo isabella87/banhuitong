@@ -19,6 +19,7 @@ import com.smartgwt.client.widgets.events.DoubleClickEvent;
 import com.smartgwt.client.widgets.events.DoubleClickHandler;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
+import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.grid.events.ChangedEvent;
 import com.smartgwt.client.widgets.grid.events.ChangedHandler;
 import com.smartgwt.client.widgets.layout.Portlet;
@@ -186,6 +187,56 @@ public class BasePortlet extends Portlet {
 		}else {
 			SC.say(BaseFrame.exceMap.get(0));
 		}
+	}
+	
+	/**
+	 * 获取数据
+	 * @param fieldItems 
+	 * @return
+	 */
+	public  ListGridRecord[] getListGridRecords(List<Map<String, String>> result, Map<String, String> fieldItems) {
+		int length = result.size();
+		ListGridRecord[] listRecords = new ListGridRecord[length];
+		for(int i = 0;i<result.size();i++) {
+			Map<String, String> mapItem = result.get(i);
+			listRecords[i]= createRecord(mapItem,i,fieldItems);
+		}
+		
+		return listRecords;
+	}
+
+	public ListGridRecord createRecord(Map<String, String> mapItem,int i, Map<String, String> fieldItems) {
+		ListGridRecord record = new ListGridRecord();  
+		record.setAttribute("id", ++i);
+		for(String key:fieldItems.keySet()) {
+			if(mapItem.get(key)==null||mapItem.get(key).toString().isEmpty()) {
+				continue ;
+			}
+			
+			record = getRecordSpecialAttr(key,record,mapItem);
+		}
+		record = addLostAttribute(record,fieldItems);
+        return record;  
+	}
+	
+	/**
+	 * 如果是特殊记录 该方法会被子类重新。例如需要转换显示的内容（表示性别的10被特殊处理为男女等）
+	 * @param key
+	 * @param record
+	 * @param mapItem
+	 * @return
+	 */
+	public ListGridRecord getRecordSpecialAttr(String key, ListGridRecord record, Map<String, String> mapItem) {
+		return record;
+	}
+
+	private ListGridRecord addLostAttribute(ListGridRecord record, Map<String, String> fieldItems) {
+		for (String fieldKey : fieldItems.keySet()) {
+			if (record.getAttribute(fieldKey) == null) {
+				record.setAttribute(fieldKey, "");
+			}
+		}
+		return record;
 	}
 	
 }

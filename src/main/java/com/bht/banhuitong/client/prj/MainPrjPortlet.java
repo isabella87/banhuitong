@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.bht.banhuitong.client.BaseFrame;
 import com.bht.banhuitong.client.BasePortlet;
 import com.bht.banhuitong.client.MainFrame;
@@ -336,7 +337,7 @@ public class MainPrjPortlet extends BasePortlet {
 											SC.say(rpcExceptionMessage.toString());
 										} else {
 											listGrid.setData(new ListGridRecord[] {});
-											listGrid.setData(getRecords(result));
+											listGrid.setData(getListGridRecords(result,prjFieldItems));
 											retListGrid = listGrid;
 											paramMapOfRetListGrid = paramMap;
 										}
@@ -380,55 +381,25 @@ public class MainPrjPortlet extends BasePortlet {
 	}
 
 	/**
-	 * 获取数据
-	 * 
-	 * @return
+	 * 重写该方法，解析特殊展示信息
 	 */
-	public ListGridRecord[] getRecords(List<Map<String, String>> result) {
-		int length = result.size();
-		ListGridRecord[] listRecords = new ListGridRecord[length];
-		for (int i = 0; i < result.size(); i++) {
-			Map<String, String> mapItem = result.get(i);
-			listRecords[i] = createRecord(mapItem, i);
-		}
-
-		return listRecords;
-	}
-
-	public ListGridRecord createRecord(Map<String, String> mapItem, int i) {
-		ListGridRecord record = new ListGridRecord();
-		record.setAttribute("id", ++i);
-		record.setCanSelect(true);
-		for (String key : prjFieldItems.keySet()) {
-			if (mapItem.get(key) == null || mapItem.get(key).toString().isEmpty()) {
-				continue;
-			}
-			if (key.equals("type")) {
-				record.setAttribute(key, prjTypeItems.get(mapItem.get(key)));
-			} else if (key.equals("status")) {
-				record.setAttribute(key, prjStatusItems.get(mapItem.get(key)));
-			} else if (key.equals("signStatus")) {
-				record.setAttribute(key, prjSignStatusItems.get(mapItem.get(key)));
-			} else if (key.equals("onLineTime") || key.equals("capitalRepayTime") || key.equals("loanTime")) {
-				record.setAttribute(key, formatDateStr(mapItem.get(key), "yyyy-MM-dd"));
-			} else if (key.equals("amt") || key.equals("investedAmt") || key.equals("totalInterest")
-					|| key.equals("costFee") || key.equals("soldFee")) {
-				record.setAttribute(key, Double.valueOf(mapItem.get(key).toString()));
-			} else if (key.equals("borrowDays")) {
-				record.setAttribute(key, Integer.valueOf(mapItem.get(key).toString()));
-			} else {
-				record.setAttribute(key, mapItem.get(key));
-			}
-		}
-		record = addLostAttribute(record);
-		return record;
-	}
-
-	private ListGridRecord addLostAttribute(ListGridRecord record) {
-		for (String fieldKey : prjFieldItems.keySet()) {
-			if (record.getAttribute(fieldKey) == null) {
-				record.setAttribute(fieldKey, "");
-			}
+	@Override
+	public ListGridRecord getRecordSpecialAttr(String key,ListGridRecord record,Map<String, String> mapItem) {
+		if (key.equals("type")) {
+			record.setAttribute(key, prjTypeItems.get(mapItem.get(key)));
+		} else if (key.equals("status")) {
+			record.setAttribute(key, prjStatusItems.get(mapItem.get(key)));
+		} else if (key.equals("signStatus")) {
+			record.setAttribute(key, prjSignStatusItems.get(mapItem.get(key)));
+		} else if (key.equals("onLineTime") || key.equals("capitalRepayTime") || key.equals("loanTime")) {
+			record.setAttribute(key, formatDateStr(mapItem.get(key), "yyyy-MM-dd"));
+		} else if (key.equals("amt") || key.equals("investedAmt") || key.equals("totalInterest")
+				|| key.equals("costFee") || key.equals("soldFee")) {
+			record.setAttribute(key, Double.valueOf(mapItem.get(key).toString()));
+		} else if (key.equals("borrowDays")) {
+			record.setAttribute(key, Integer.valueOf(mapItem.get(key).toString()));
+		} else {
+			record.setAttribute(key, mapItem.get(key));
 		}
 		return record;
 	}

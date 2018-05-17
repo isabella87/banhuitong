@@ -26,7 +26,6 @@ import com.smartgwt.client.widgets.form.fields.ComboBoxItem;
 import com.smartgwt.client.widgets.form.fields.DateItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
-import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
@@ -127,31 +126,9 @@ public class MainPrjPortlet2 extends BasePortlet{
         countryGrid.setCanDragSelect(true);
         countryGrid.setEmptyMessage("请点击<b>搜索</b>按钮查询数据！");  
         countryGrid.setSelectionAppearance(SelectionAppearance.CHECKBOX); 
-		
-        ListGridField idField = new ListGridField("id", "序号", 50);  
-        ListGridField pIdField = new ListGridField("P_ID", "PID", 50);  
-        ListGridField typeField = new ListGridField("TYPE", "类型");  
-        ListGridField itemNoField = new ListGridField("ITEM_NO", "编号");  
-        ListGridField itemNameField = new ListGridField("ITEM_NAME", "名称");  
-        ListGridField statusField = new ListGridField("STATUS", "状态");  
-        ListGridField signStatusField = new ListGridField("SIGN_STATUS", "签章状态");  
-        ListGridField amtField = new ListGridField("AMT", "金额");  
-        ListGridField investedAmtField = new ListGridField("INVESTED_AMT", "已募集金额");  
-        ListGridField borrowDaysField = new ListGridField("BORROW_DAYS", "借款天数");  
-        ListGridField rateField = new ListGridField("RATE", "年化收益");  
-        ListGridField costFeeField = new ListGridField("COST_FEE", "买入费率");  
-        ListGridField soldFeeField = new ListGridField("SOLD_FEE", "卖出费率");  
-        ListGridField totalInterestField = new ListGridField("TOTAL_INTEREST", "总利息");  
-        ListGridField inProxyField = new ListGridField("IN_PROXY", "融资项目经理");  
-        ListGridField financierField = new ListGridField("FINANCIER", "融资方");  
-        ListGridField onLineTimeField = new ListGridField("ON_LINE_TIME", "上线时间");  
-        ListGridField loanTimeField = new ListGridField("LOAN_TIME", "放款时间");  
-        ListGridField capitalRepayTimeField = new ListGridField("CAPITAL_REPAY_TIME", "预计还本时间");  
-
-        countryGrid.setFields(idField,pIdField, typeField, itemNoField, itemNameField,statusField,signStatusField,
-        		amtField,investedAmtField,borrowDaysField,rateField,costFeeField,soldFeeField,totalInterestField,
-        		inProxyField,financierField,onLineTimeField,loanTimeField,capitalRepayTimeField);  
-  
+       
+        initListGridFields(countryGrid,prjFieldItems,emptyArrayList);
+        
         IButton searchDataButton = new IButton("搜索");  
         searchDataButton.setLeft(0);  
         
@@ -278,7 +255,7 @@ public class MainPrjPortlet2 extends BasePortlet{
 											SC.say(rpcExceptionMessage.toString());
 										} else {
 											countryGrid.setData(new ListGridRecord[] {});
-											countryGrid.setData(getRecords(result));
+											countryGrid.setData(getListGridRecords(result,prjFieldItems));
 											retListGrid = countryGrid;
 											paramMapOfRetListGrid = paramMap;
 										}
@@ -318,49 +295,18 @@ public class MainPrjPortlet2 extends BasePortlet{
         }); 
 	}
 	
-	/**
-	 * 获取数据
-	 * @return
-	 */
-	public  ListGridRecord[] getRecords(List<Map<String, String>> result) {
-		int length = result.size();
-		ListGridRecord[] listRecords = new ListGridRecord[length];
-		for(int i = 0;i<result.size();i++) {
-			Map<String, String> mapItem = result.get(i);
-			listRecords[i]= createRecord(mapItem,i);
-		}
-		
-		return listRecords;
-	}
-
-	public ListGridRecord createRecord(Map<String, String> mapItem,int i) {
-		ListGridRecord record = new ListGridRecord();  
-		record.setAttribute("id", ++i);
-		for(String key:prjFieldItems.keySet()) {
-			if(mapItem.get(key)==null||mapItem.get(key).toString().isEmpty()) {
-				continue ;
-			}
-			if(key.equals("TYPE")) {
-				record.setAttribute(key, prjTypeItems.get(mapItem.get(key))); 
-			}else if(key.equals("STATUS")){
-				record.setAttribute(key, prjStatusItems.get(mapItem.get(key))); 
-			}else if(key.equals("SIGN_STATUS")) {
-				record.setAttribute(key, prjSignStatusItems.get(mapItem.get(key))); 
-			}else if(key.equals("onLineTime")||key.equals("capitalRepayTime")||key.equals("loanTime")) {
-				record.setAttribute(key,formatDateStr(mapItem.get(key),"yyyy-MM-dd") ); 
-			}else {
-				record.setAttribute(key, mapItem.get(key)); 
-			}
-		}
-		record = addLostAttribute(record);
-        return record;  
-	}
-	
-	private ListGridRecord addLostAttribute(ListGridRecord record) {
-		for (String fieldKey : prjFieldItems.keySet()) {
-			if (record.getAttribute(fieldKey) == null) {
-				record.setAttribute(fieldKey, "");
-			}
+	@Override
+	public ListGridRecord getRecordSpecialAttr(String key,ListGridRecord record,Map<String, String> mapItem) {
+		if(key.equals("TYPE")) {
+			record.setAttribute(key, prjTypeItems.get(mapItem.get(key))); 
+		}else if(key.equals("STATUS")){
+			record.setAttribute(key, prjStatusItems.get(mapItem.get(key))); 
+		}else if(key.equals("SIGN_STATUS")) {
+			record.setAttribute(key, prjSignStatusItems.get(mapItem.get(key))); 
+		}else if(key.equals("onLineTime")||key.equals("capitalRepayTime")||key.equals("loanTime")) {
+			record.setAttribute(key,formatDateStr(mapItem.get(key),"yyyy-MM-dd") ); 
+		}else {
+			record.setAttribute(key, mapItem.get(key)); 
 		}
 		return record;
 	}

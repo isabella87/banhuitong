@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bht.banhuitong.client.files.FileModulePortlet;
-import com.bht.banhuitong.client.prj.CreditPrjPortlet;
+import com.bht.banhuitong.client.prj.ExcavateXmlDataPortlet;
 import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
 import com.bht.banhuitong.client.prj.MainPrjPortlet;
 import com.bht.banhuitong.client.prj.MainPrjPortlet2;
@@ -133,7 +133,7 @@ public class SysMenuItem {
 
 		prj1._registerClickHandler(new MainPrjPortlet().getInstance().getPortlet());
 		prj2._registerClickHandler(new MainPrjPortlet2().getInstance().getPortlet());
-		prj3._registerClickHandler(new CreditPrjPortlet().getInstance().getPortlet());
+		prj3._registerClickHandler(new ExcavateXmlDataPortlet().getInstance().getPortlet());
 		prj4._registerClickHandler(new DatabaseModulePortlet().getInstance().getPortlet());
 		fileMenuItem._registerClickHandler(new FileModulePortlet().getInstance().getPortlet());
 

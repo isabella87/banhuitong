@@ -13,17 +13,17 @@ import com.smartgwt.client.widgets.menu.MenuItem;
 import com.smartgwt.client.widgets.menu.events.ClickHandler;
 import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
 
-public class CreditPrjPortlet extends BasePortlet{
-	public static String portletTitleName = "系统建模 -filter";
-	private CreditPrjPortlet portletInstance;
+public class ExcavateXmlDataPortlet extends BasePortlet{
+	public static String portletTitleName = "系统建模 -挖掘xml数据信息";
+	private ExcavateXmlDataPortlet portletInstance;
 
-	public CreditPrjPortlet getInstance() {
+	public ExcavateXmlDataPortlet getInstance() {
 		if (portletInstance == null) {
-			portletInstance = new CreditPrjPortlet();
+			portletInstance = new ExcavateXmlDataPortlet();
 		}
 		return portletInstance;
 	}
-	public CreditPrjPortlet() {
+	public ExcavateXmlDataPortlet() {
 		super(portletTitleName);
 	}
 
