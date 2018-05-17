@@ -1,11 +1,14 @@
 package com.bht.banhuitong.client;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import com.bht.banhuitong.server.AccountService;
 import com.bht.banhuitong.server.AccountServiceAsync;
@@ -259,10 +262,11 @@ public class BaseFrame {
 	 * 关闭所有
 	 */
 	public void closeAllPortlets() {
-		
 		for(String key:portlets.keySet()) {
-			delPortlet(key);
+			removeChildFromCanvasMain(key);
 		}
+		portlets.clear();
+		
 	}
 
 	public <T> Long putPortlet(BasePortlet portlet) {
@@ -274,10 +278,14 @@ public class BaseFrame {
 	}
 
 	public int delPortlet(String key) {
-		canvasMain.removeChild(portlets.get(key));
+		removeChildFromCanvasMain(key);
 		portlets.remove(key);
 		return 1;
 	}
+	
+	public void removeChildFromCanvasMain(String key) {
+		canvasMain.removeChild(portlets.get(key));
+	};
 	
 	public static <K, V> Entry<K, V> getTail(LinkedHashMap<K, V> map) {
 	    Iterator<Entry<K, V>> iterator = map.entrySet().iterator();
