@@ -246,6 +246,30 @@
 		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/armory.jar</systemPath>
 	</dependency>
 	
+	<!-- <dependency>
+		<groupId>org.xx.armory</groupId>
+		<artifactId>armory2-core</artifactId>
+		<version>2.0.0</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/armory2-core.jar</systemPath>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.xx.armory</groupId>
+		<artifactId>armory2-netty</artifactId>
+		<version>2.0.0</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/armory2-netty.jar</systemPath>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.xx.armory</groupId>
+		<artifactId>armory2-service</artifactId>
+		<version>2.0.0</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/armory2-service.jar</systemPath>
+	</dependency> -->
+	
 	<dependency>
 		<groupId>oracle</groupId>
 		<artifactId>oracle</artifactId>

@@ -1,40 +1,51 @@
 package com.bht.banhuitong.http.service.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.bht.banhuitong.exception.RpcExceptionMessage;
-import com.bht.banhuitong.http.HttpClient;
 
-public class RpcDataServiceParser {
+public class ResultValue {
 
-	public Logger logger = Logger.getLogger(RpcDataServiceParser.class);
+	public Logger logger = Logger.getLogger(ResultValue.class);
 
-	private static RpcDataServiceParser ServiceDataParser = null;
-
-	public static RpcDataServiceParser getInstance() {
-		if (ServiceDataParser == null) {
-			ServiceDataParser = new RpcDataServiceParser();
+	public byte[] byteValue(InputStream stream) {
+		stream.mark(0);
+		byte[] bytes = new byte[1024];
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		int count = 0;
+		try {
+			while ((count = stream.read(bytes)) != -1) {
+				bos.write(bytes, 0, count);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return ServiceDataParser;
-	}
+		bytes = bos.toByteArray();
 
-	public byte[] byteValue(final String submitType, String loginUrl, Map<String, String> paramMap) {
-		byte[] bytes = null;
-		bytes = HttpClient.getInstance().sendByteRequest(submitType, loginUrl, initParams(paramMap));
 		return bytes;
 	}
 
-	public String stringValue(final String submitType, String loginUrl, Map<String, String> paramMap) {
-		String str = null;
-		str = HttpClient.getInstance().sendRequest(submitType, loginUrl, initParams(paramMap));
-		logger.info(str);
-		return str;
+	public String stringValue(InputStream stream) {
+		String[] lines = null;
+		try {
+			lines = IOUtils.readLines(stream, "utf-8").toArray(new String[0]);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		String returnStr = StringUtils.join(lines);
+		logger.info("*********************************************"+returnStr);
+		return returnStr;
 	}
 
 	/**
@@ -45,9 +56,18 @@ public class RpcDataServiceParser {
 	 * @param paramMap
 	 * @return
 	 */
-	public List<Map<String, String>> listValue(final String submitType, String url, Map<String, String> paramMap) {
+	public List<Map<String, String>> listValue(InputStream stream) {
+
+		String[] lines = null;
+		try {
+			lines = IOUtils.readLines(stream, "utf-8").toArray(new String[0]);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		String str = StringUtils.join(lines);
+
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		String str = HttpClient.getInstance().sendRequest(submitType, url, initParams(paramMap));
 
 		RpcExceptionMessage rpcExceptionMessage = new RpcExceptionMessage(str);
 		if (rpcExceptionMessage.isHasException()) {
@@ -98,21 +118,6 @@ public class RpcDataServiceParser {
 		}
 
 		return str;
-	}
-
-	/**
-	 * 初始化服务参数
-	 * 
-	 * @param paramMap
-	 * @return
-	 */
-	private BasicNameValuePair[] initParams(Map<String, String> paramMap) {
-		List<BasicNameValuePair> paramList = new ArrayList<BasicNameValuePair>();
-		for (String key : paramMap.keySet()) {
-			paramList.add(new BasicNameValuePair(key, paramMap.get(key)));
-		}
-		BasicNameValuePair[] parms = (BasicNameValuePair[]) paramList.toArray(new BasicNameValuePair[paramList.size()]);
-		return parms;
 	}
 
 	public static void main(String[] args) {

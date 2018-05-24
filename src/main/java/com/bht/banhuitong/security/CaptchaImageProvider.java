@@ -1,4 +1,4 @@
-package com.bht.banhuitong.filter.security;
+package com.bht.banhuitong.security;
 
 import org.xx.armory.services.ServiceContext;
 import org.xx.armory.web.TempFileObject;

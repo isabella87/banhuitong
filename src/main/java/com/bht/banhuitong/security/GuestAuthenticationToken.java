@@ -1,14 +1,14 @@
 /**
  * 
  */
-package com.bht.banhuitong.filter.security;
+package com.bht.banhuitong.security;
 
 import java.util.TreeMap;
 
 /**
  * 来宾令牌, 来宾令牌的身份ID应当是空字符串({@code ""})。
  * 
- * @author Haart
+ * @author 
  *
  */
 public final class GuestAuthenticationToken extends AuthenticationToken {

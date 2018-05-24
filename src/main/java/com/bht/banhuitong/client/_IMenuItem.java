@@ -94,6 +94,7 @@ public class _IMenuItem extends MenuItem {
 				if (result) {
 					SysMenuItem.getInstance().disableIMenuItem();
 					LoginWindow.getInstance().destroy();
+					LoginWindow.instance = null ;
 					LoginWindow.getInstance().init();
 				} else {
 					SC.say("登出失败！");

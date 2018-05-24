@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bht.banhuitong.filter.security.impl;
+package com.bht.banhuitong.security.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

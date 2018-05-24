@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import static com.bht.banhuitong.filter.SecurityFilter.userSessionMap;
 
 import com.bht.banhuitong.db.service.impl.AccountDbServiceImpl;
-import com.bht.banhuitong.filter.security.AuthenticationToken;
+import com.bht.banhuitong.security.AuthenticationToken;
 import com.bht.banhuitong.server.AccountService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

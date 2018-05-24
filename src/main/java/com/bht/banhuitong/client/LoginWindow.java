@@ -36,18 +36,18 @@ public class LoginWindow extends Window {
 	final PasswordItem passwordItem = new PasswordItem("password");
 	final TextItem yzmItem = new TextItem("captcha-code");
 	
-	private static LoginWindow instance;
+	public static LoginWindow instance;
 
 	public static LoginWindow getInstance() {
 		if (instance == null) {
 			instance = new LoginWindow();
 		}
-
 		return instance;
 	}
 
 	public void init() {
 
+		this.setCanFocus(true);
 		this.setAutoSize(true);
 		this.setTitle("登录");
 		this.setShowMinimizeButton(false);
@@ -56,10 +56,10 @@ public class LoginWindow extends Window {
 		this.setAutoCenter(true);
 		this.centerInPage();
 		this.addCloseClickHandler(new CloseClickHandler() {
-			public void onCloseClick(CloseClickEvent event) {
-				destroy();
+			public void onCloseClick(CloseClickEvent event) {	
 				MainFrame.menuLayout.setDisabled(true);
 				SysMenuItem.getInstance().disableIMenuItem();
+				destroy();
 			}
 		});
 		DynamicForm form = new DynamicForm();

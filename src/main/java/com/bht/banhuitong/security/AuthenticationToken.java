@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bht.banhuitong.filter.security;
+package com.bht.banhuitong.security;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
@@ -27,7 +27,7 @@ import org.xx.armory.commons.ValueEnum;
  * 令牌可以以多种方式保存, 比如在{@literal cookie}, {@literal session}等等。
  * </p>
  * 
- * @author Haart
+ * @author 
  *
  */
 public class AuthenticationToken implements Map<String, String>, Serializable {

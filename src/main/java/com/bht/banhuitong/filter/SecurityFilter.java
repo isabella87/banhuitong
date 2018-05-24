@@ -21,7 +21,7 @@ import org.xx.armory.services.ServiceException;
 import com.bht.banhuitong.common.CommonMethod;
 import com.bht.banhuitong.config.Configuration;
 import com.bht.banhuitong.db.service.impl.PermissionDbServiceImpl;
-import com.bht.banhuitong.filter.security.AuthenticationToken;
+import com.bht.banhuitong.security.AuthenticationToken;
 import com.bht.banhuitong.shared.annotation.BusinessAnnotation;
 
 public class SecurityFilter implements Filter {

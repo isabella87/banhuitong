@@ -17,6 +17,7 @@ public final class Configuration {
 
 	public static String excepStr;
 	public static String rootPath;
+	public final static String VERIFY_PARAMS_PRIVATE = "verify-params-private";
 
 	/**
 	 * 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bht.banhuitong.filter.security;
+package com.bht.banhuitong.security;
 
 /**
  * 定义了令牌加密和解密方法的操作。

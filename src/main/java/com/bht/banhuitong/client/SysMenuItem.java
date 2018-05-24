@@ -52,7 +52,7 @@ public class SysMenuItem {
 	}
 
 	public void disableIMenuItem() {
-		exitMenuItem.setEnabled(false);
+		exitMenuItem.setEnabled(true);
 		refreshMenuItem.setEnabled(false);
 
 		prj1.setEnabled(false);

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bht.banhuitong.filter.security.impl;
+package com.bht.banhuitong.security.impl;
 
 import static javax.imageio.ImageIO.write;
 import static org.xx.armory.commons.Validators.greaterThan;
@@ -51,6 +51,16 @@ public final class SimpleExpressionCaptchaImageProvider implements CaptchaImageP
 	public SimpleExpressionCaptchaImageProvider() {
 	}
 
+	public static byte[] getCaptchaImage() {
+		final ImmutablePair<String, Integer> ret =randomCode() ;
+		try {
+			return drawImage(ret.left, DEFAULT_IMAGE_WIDTH,
+					DEFAULT_IMAGE_HEIGHT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	/**
 	 * 创建一个缺省的配置
 	 * 
