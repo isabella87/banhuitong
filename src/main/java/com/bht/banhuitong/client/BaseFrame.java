@@ -88,7 +88,7 @@ public class BaseFrame {
 	
 	public static void editEndCanvas() {
 
-		accountService.getAccountInfo(new AsyncCallback<List<Map<String,String>>>(){
+		accountService.getBgAccountInfo(new AsyncCallback<List<Map<String,String>>>(){
 
 			@Override
 			public void onFailure(Throwable caught) {

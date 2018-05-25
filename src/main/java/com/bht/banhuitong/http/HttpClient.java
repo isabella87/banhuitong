@@ -1,11 +1,10 @@
 package com.bht.banhuitong.http;
 
-import static com.bht.banhuitong.http.Urls.LOGIN_URL;
 import static com.bht.banhuitong.http.Urls.CAPTCHA_IMAGE_URL;
+import static com.bht.banhuitong.http.Urls.LOGIN_URL;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +15,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
@@ -33,6 +31,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 
 import com.bht.banhuitong.config.Configuration;
+import com.bht.banhuitong.security.impl.KeyStorage;
+import com.bht.banhuitong.security.impl.SignHelper;
 
 public class HttpClient {
 
@@ -51,6 +51,127 @@ public class HttpClient {
 			httpClient = new HttpClient();
 		}
 		return httpClient;
+	}
+
+	public InputStream sendRequest(final String submitType, final String url, final Map<String, String> paramMap) {
+
+		if (!submitType.toUpperCase().equals("GET")) {
+			// ensureParamsSignature(paramMap);
+		}
+
+		// Create HTTP.
+		final org.apache.http.client.HttpClient http = HttpClientBuilder.create().setUserAgent("")
+				.setRetryHandler(StandardHttpRequestRetryHandler.INSTANCE)
+				.setRedirectStrategy(DefaultRedirectStrategy.INSTANCE).build();
+
+		// Create get.
+		final HttpUriRequest get = CAPTCHA_IMAGE_URL.equals(url)
+				? initRequestBuilder(submitType).setUri(url).addHeader("Accept-Charset", "utf-8")
+						.addHeader("Accept-Encoding", "gzip,deflate").addHeader("Accept", "image/png")
+						.addHeader("Cookie", __COOKIE_VALUE__ == null ? __TEMP__COOKIE_VALUE__ : __COOKIE_VALUE__)
+						.addParameters(initParams(paramMap)).build()
+				:
+
+				initRequestBuilder(submitType).setUri(url).addHeader("Accept-Charset", "utf-8")
+						.addHeader("Accept-Encoding", "gzip,deflate").addHeader("Accept", "application/json")
+						.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+						.addHeader("Cookie", __COOKIE_VALUE__ == null ? __TEMP__COOKIE_VALUE__ : __COOKIE_VALUE__)
+						.addParameters(initParams(paramMap)).build();
+
+		logger.info("uri:" + get.getURI());
+		logger.info(__COOKIE_VALUE__ == null ? __TEMP__COOKIE_VALUE__ : __COOKIE_VALUE__);
+
+		// Execute
+		HttpResponse resp;
+		try {
+			resp = http.execute(get);
+		} catch (IOException e) {
+			logger.error("Cannot get http request", e);
+			return null;
+		}
+
+		final StatusLine sl = resp.getStatusLine();
+		if (sl == null) {
+			logger.info("Cannot get HTTP status line.");
+			return null;
+		}
+
+		if (sl.getStatusCode() != HttpStatus.SC_OK) {
+			logger.info("HTTP Error: (" + sl.getStatusCode() + ")" + sl.getReasonPhrase());
+			return null;
+		}
+		InputStream is = null;
+
+		try {
+			is = resp.getEntity().getContent();
+
+			if (CAPTCHA_IMAGE_URL.equals(url)) {
+
+				setTempCookie(resp.getAllHeaders());
+
+			} else if (LOGIN_URL.equals(url)) {
+				// final String[] lines = IOUtils.readLines(is, "utf-8").toArray(new String[0]);
+
+				// if(StringUtils.join(lines).equals("true")) {
+				setCookieValue(resp.getAllHeaders());
+				// }
+
+			}
+			return is;
+		} catch (IOException e) {
+			logger.error("Cannot read content", e);
+			return null;
+		}
+	}
+
+	private BasicNameValuePair[] initParams(Map<String, String> paramMap) {
+		List<BasicNameValuePair> paramList = new ArrayList<BasicNameValuePair>();
+		for (String key : paramMap.keySet()) {
+			paramList.add(new BasicNameValuePair(key, paramMap.get(key)));
+		}
+		BasicNameValuePair[] parms = (BasicNameValuePair[]) paramList.toArray(new BasicNameValuePair[paramList.size()]);
+		return parms;
+	}
+
+	private void setCookieValue(Header[] headers) {
+		if (__AUTH__ == null || __AUTH__.isEmpty() || __COOKIE_VALUE__ == null || __COOKIE_VALUE__.isEmpty()) {
+			for (Header header : headers) {
+				if (header.getName().equals("Set-Cookie")) {
+					__COOKIE_VALUE__ = header.getValue();
+
+				}
+				for (HeaderElement he : header.getElements()) {
+					if (he.getName().equals("__auth__")) {
+						__AUTH__ = he.getValue();
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	private void setTempCookie(Header[] headers) {
+		if (__COOKIE_VALUE__ == null || __TEMP__COOKIE_VALUE__ == null) {
+			for (Header header : headers) {
+				if (header.getName().equals("Set-Cookie")) {
+					__TEMP__COOKIE_VALUE__ = header.getValue();
+				}
+			}
+		}
+	}
+
+	private RequestBuilder initRequestBuilder(String submitType) {
+		switch (submitType.toUpperCase()) {
+		case "GET":
+			return RequestBuilder.get();
+		case "POST":
+			return RequestBuilder.post();
+		case "PUT":
+			return RequestBuilder.put();
+		case "DELETE":
+			return RequestBuilder.delete();
+		}
+		return null;
 	}
 
 	public String sendRequest(final String submitType, final String url, final BasicNameValuePair... parms) {
@@ -107,181 +228,7 @@ public class HttpClient {
 		}
 	}
 
-	private BasicNameValuePair[] initParams(Map<String, String> paramMap) {
-		List<BasicNameValuePair> paramList = new ArrayList<BasicNameValuePair>();
-		for (String key : paramMap.keySet()) {
-			paramList.add(new BasicNameValuePair(key, paramMap.get(key)));
-		}
-		BasicNameValuePair[] parms = (BasicNameValuePair[]) paramList.toArray(new BasicNameValuePair[paramList.size()]);
-		return parms;
-	}
-
-	public InputStream sendRequest(final String submitType, final String url, final Map<String, String> paramMap) {
-
-		if(!submitType.toUpperCase().equals("GET")) {
-			ensureParamsSignature(paramMap);
-		}
-
-		// Create HTTP.
-		final org.apache.http.client.HttpClient http = HttpClientBuilder.create().setUserAgent("")
-				.setRetryHandler(StandardHttpRequestRetryHandler.INSTANCE)
-				.setRedirectStrategy(DefaultRedirectStrategy.INSTANCE).build();
-
-		// Create get.
-		final HttpUriRequest get = CAPTCHA_IMAGE_URL.equals(url)
-				? initRequestBuilder(submitType).setUri(url).addHeader("Accept-Charset", "utf-8")
-						.addHeader("Accept-Encoding", "gzip,deflate").addHeader("Accept", "image/png")
-						.addHeader("Cookie", __COOKIE_VALUE__ == null ? __TEMP__COOKIE_VALUE__ : __COOKIE_VALUE__)
-						.addParameters(initParams(paramMap)).build()
-				:
-
-				initRequestBuilder(submitType).setUri(url).addHeader("Accept-Charset", "utf-8")
-						.addHeader("Accept-Encoding", "gzip,deflate").addHeader("Accept", "application/json")
-						.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-						.addHeader("Cookie", __COOKIE_VALUE__ == null ? __TEMP__COOKIE_VALUE__ : __COOKIE_VALUE__)
-						.addParameters(initParams(paramMap)).build();
-
-		logger.info("uri:" + get.getURI());
-		logger.info(__COOKIE_VALUE__ == null ? __TEMP__COOKIE_VALUE__ : __COOKIE_VALUE__);
-
-		// Execute
-		HttpResponse resp;
-		try {
-			resp = http.execute(get);
-		} catch (IOException e) {
-			logger.error("Cannot get http request", e);
-			return null;
-		}
-
-		final StatusLine sl = resp.getStatusLine();
-		if (sl == null) {
-			logger.info("Cannot get HTTP status line.");
-			return null;
-		}
-
-		if (sl.getStatusCode() != 200) {
-			logger.info("HTTP Error: (" + sl.getStatusCode() + ")" + sl.getReasonPhrase());
-			return null;
-		}
-		InputStream is = null;
-
-		try {
-			is = resp.getEntity().getContent();
-
-			final String[] lines = IOUtils.readLines(is, "utf-8").toArray(new String[0]);
-
-			if (LOGIN_URL.equals(url) && StringUtils.join(lines).equals("true")) {
-
-				setCookieValue(resp.getAllHeaders());
-
-			} else if (CAPTCHA_IMAGE_URL.equals(url)) {
-
-				setTempCookie(resp.getAllHeaders());
-
-			}
-			return is;
-		} catch (IOException e) {
-			logger.error("Cannot read content", e);
-			return null;
-		}
-	}
-
-	private void setCookieValue(Header[] headers) {
-		if (__AUTH__ == null || __AUTH__.isEmpty() || __COOKIE_VALUE__ == null || __COOKIE_VALUE__.isEmpty()) {
-			for (Header header : headers) {
-				if (header.getName().equals("Set-Cookie")) {
-					__COOKIE_VALUE__ = header.getValue();
-
-				}
-				for (HeaderElement he : header.getElements()) {
-					if (he.getName().equals("__auth__")) {
-						__AUTH__ = he.getValue();
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	public byte[] sendByteRequest(final String submitType, final String url, final BasicNameValuePair... parms) {
-
-		// Create HTTP.
-		final org.apache.http.client.HttpClient http = HttpClientBuilder.create().setUserAgent("")
-				.setRetryHandler(StandardHttpRequestRetryHandler.INSTANCE)
-				.setRedirectStrategy(DefaultRedirectStrategy.INSTANCE).build();
-
-		// Create get.
-		final HttpUriRequest get = initRequestBuilder(submitType).setUri(url).addHeader("Accept-Charset", "utf-8")
-				.addHeader("Accept-Encoding", "gzip,deflate").addHeader("Accept", "image/png")
-				.addHeader("Cookie", __COOKIE_VALUE__ == null ? __TEMP__COOKIE_VALUE__ : __COOKIE_VALUE__)
-				.addParameters(parms).build();
-		logger.info("uri:" + get.getURI());
-		logger.info(__COOKIE_VALUE__ == null ? __TEMP__COOKIE_VALUE__ : __COOKIE_VALUE__);
-
-		// Execute
-		HttpResponse resp;
-		try {
-			resp = http.execute(get);
-
-		} catch (IOException e) {
-			logger.error("Cannot get http request", e);
-			return null;
-		}
-
-		final StatusLine sl = resp.getStatusLine();
-		if (sl == null) {
-			logger.info("Cannot get HTTP status line.");
-			return null;
-		}
-
-		if (sl.getStatusCode() != HttpStatus.SC_OK) {
-			logger.info("HTTP Error: (" + sl.getStatusCode() + ")" + sl.getReasonPhrase());
-			return null;
-		}
-		try {
-			InputStream is = resp.getEntity().getContent();
-			byte[] bytes = new byte[1024];
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			int count = 0;
-			while ((count = is.read(bytes)) != -1) {
-				bos.write(bytes, 0, count);
-			}
-			bytes = bos.toByteArray();
-
-			setTempCookie(resp.getAllHeaders());
-
-			return bytes;
-
-		} catch (IOException e) {
-			logger.error("Cannot read content", e);
-			return null;
-		}
-	}
-
-	private void setTempCookie(Header[] headers) {
-		if (__COOKIE_VALUE__ == null || __TEMP__COOKIE_VALUE__ == null) {
-			for (Header header : headers) {
-				if (header.getName().equals("Set-Cookie")) {
-					__TEMP__COOKIE_VALUE__ = header.getValue();
-				}
-			}
-		}
-	}
-
-	private RequestBuilder initRequestBuilder(String submitType) {
-		switch (submitType.toUpperCase()) {
-		case "GET":
-			return RequestBuilder.get();
-		case "POST":
-			return RequestBuilder.post();
-		case "PUT":
-			return RequestBuilder.put();
-		case "DELETE":
-			return RequestBuilder.delete();
-		}
-		return null;
-	}
-
+	@SuppressWarnings("unused")
 	private static void testCreateFile(byte[] bytes) {
 		File file = new File(CODE_IMAGE_PATH);
 		file.deleteOnExit();
@@ -297,21 +244,21 @@ public class HttpClient {
 	}
 
 	protected void ensureParamsSignature(Map<String, String> params) {
-		/*if (params != null) {
+		if (params != null) {
 			StringBuffer sb = new StringBuffer();
 			for (String key : params.keySet()) {
 				if (!key.equals(SIGNATURE_KEY)) {
 					sb.append(params.get(key));
 				}
 			}
-
+			SignHelper signHelper = SignHelper.getInstance();
 			try {
 				params.put(SIGNATURE_KEY, signHelper.signBase64(sb.toString(),
-						KeyStorage.getInstance().getRSAPrivateKey(Configuration.VERIFY_PARAMS_PRIVATE)));
+						KeyStorage.getInstance().loadRSAPrivateKey(Configuration.VERIFY_PARAMS_PRIVATE)));
 			} catch (GeneralSecurityException ex) {
 				throw new IllegalStateException(ex);
 			}
-		}*/
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -321,13 +268,7 @@ public class HttpClient {
 
 		String baseUrl = "http://localhost:8889/";
 
-		String captchaUrl = baseUrl + "p2psrv/security/captcha-image";
-
 		String loginUrl = baseUrl + "p2psrv/security/signin";
-
-		byte[] ret = HttpClient.getInstance().sendByteRequest("GET", captchaUrl, parms);
-		testCreateFile(ret);
-		System.out.println("data:;base64," + Base64.encodeBase64String(ret));
 
 		String loginRet = HttpClient.getInstance().sendRequest("POST", loginUrl, parms);
 

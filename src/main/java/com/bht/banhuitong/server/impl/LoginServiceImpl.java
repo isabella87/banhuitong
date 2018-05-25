@@ -2,6 +2,8 @@ package com.bht.banhuitong.server.impl;
 
 import static com.bht.banhuitong.filter.SecurityFilter.captchaSessionMap;
 import static com.bht.banhuitong.filter.SecurityFilter.userSessionMap;
+import static com.bht.banhuitong.security.impl.SimpleExpressionCaptchaImageProvider.DEFAULT_IMAGE_HEIGHT;
+import static com.bht.banhuitong.security.impl.SimpleExpressionCaptchaImageProvider.DEFAULT_IMAGE_WIDTH;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,11 +16,9 @@ import org.apache.log4j.Logger;
 import com.bht.banhuitong.common.CommonMethod;
 import com.bht.banhuitong.config.Configuration;
 import com.bht.banhuitong.db.service.impl.AccountDbServiceImpl;
+import com.bht.banhuitong.http.service.impl.RpcServiceImpl;
 import com.bht.banhuitong.security.AuthenticationToken;
 import com.bht.banhuitong.security.impl.SimpleExpressionCaptchaImageProvider;
-import static com.bht.banhuitong.security.impl.SimpleExpressionCaptchaImageProvider.DEFAULT_IMAGE_HEIGHT;
-import static com.bht.banhuitong.security.impl.SimpleExpressionCaptchaImageProvider.DEFAULT_IMAGE_WIDTH;
-import com.bht.banhuitong.http.service.impl.RpcServiceImpl;
 import com.bht.banhuitong.server.LoginService;
 import com.bht.banhuitong.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -68,15 +68,12 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		}
 
 		AccountDbServiceImpl accountDbService = new AccountDbServiceImpl();
-		long auId = accountDbService.checkLogin(loginName, pwd);
-		if (auId > 0 && addUserSessionId(String.valueOf(auId))) {
+		String userId = accountDbService.checkBgLogin(loginName, pwd);
+		if (userId!=null &&! userId.isEmpty() && addUserSessionId(userId)) {
 			return "true";
 		} else {
 			throw new IllegalArgumentException(CommonMethod.initExceptionDesc(6));
 		}
-
-		// TODO
-		// return login(paramMap);
 
 	}
 
@@ -109,7 +106,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	 * 跨越版登录
 	 */
 	@Override
-	public String login(Map<String, String> paramMap) throws IllegalArgumentException {
+	public String loginToP2psrv(Map<String, String> paramMap) throws IllegalArgumentException {
 
 		// Verify that the input is valid.
 		if (!FieldVerifier.isValidName(paramMap.get("user-name"))) {
@@ -129,8 +126,11 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			// the client.
 			throw new IllegalArgumentException(CommonMethod.initExceptionDesc(4));
 		}
-
-		return new RpcServiceImpl().login(paramMap);
+		String ret = new RpcServiceImpl().login(paramMap);
+		if(ret.equals("true")) {
+			addUserSessionId(paramMap.get("user-name"));
+		}
+		return ret;
 	}
 
 	/**
@@ -150,15 +150,25 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			e.printStackTrace();
 		}
 
-		//result = new RpcServiceImpl().getCaptchaImage(new HashMap<String, String>());
+		if (result == null) {
+			return null;
+		}
+
+		return "data:;base64," + Base64.encodeBase64String(result);
+		
+	}
+	
+	public String getP2psrvImageByte() {
+
+		byte[] result = null;
+
+		result = new RpcServiceImpl().getCaptchaImage(new HashMap<String, String>());
 
 		if (result == null) {
 			return null;
 		}
 
-		String strBase64Img = "data:;base64," + Base64.encodeBase64String(result);
-
-		return strBase64Img;
+		return "data:;base64," + Base64.encodeBase64String(result);
 	}
 
 	@Override

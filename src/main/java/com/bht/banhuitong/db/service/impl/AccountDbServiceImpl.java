@@ -52,6 +52,21 @@ public List<Map<String,String>> getAccountInfoByAuId(final long auId){
 		return null;
 		
 	}
+
+public List<Map<String,String>> getBgAccountInfoByUname(final String uname){
+	
+	String sql = "select mu.u_name login_name,mu.u_enabled ,mu.is_locked \r\n"
+			+ "from my_user mu \r\n" + 
+			"where mu.u_name = '" + uname +"'";
+	
+	try {
+		return queryUtil.executeQuery(sql);
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return null;
+	
+}
 	
 	public long checkLogin(final String loginName,final String pwd) {
 		String sql = "select au_id from acc_user_reg where login_name='"+loginName+"' and password = '"+hashPassword(pwd) +"'";
@@ -98,8 +113,8 @@ public List<Map<String,String>> getAccountInfoByAuId(final long auId){
      * @see org.xx.armory.commons.CryptographicUtils#hash(String)
      */
     static String hashPassword(final String s) {
-        final String salt = "abc"; //前台干扰因子
-//        final String salt = "qtX7z";  //后台干扰因子
+//        final String salt = "abc"; //前台干扰因子
+        final String salt = "qtX7z";  //后台干扰因子
 
         return getEncoder().encodeToString(hash(disturb(s, salt)));
     }

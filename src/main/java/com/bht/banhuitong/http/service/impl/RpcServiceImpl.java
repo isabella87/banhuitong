@@ -16,17 +16,21 @@ public class RpcServiceImpl implements RpcService {
 
 	public Logger logger = Logger.getLogger(RpcServiceImpl.class);
 
+	public ResultValue getResultValue(final String submitType, final String url, final Map<String, String> paramMap) {
+		return new ResultValue(HttpClient.getInstance().sendRequest(submitType, url, paramMap));
+	}
+
 	public List<Map<String, String>> getClientMgrTreeDatas(Map<String, String> paramMap) {
-		return RpcDataServiceParser.getInstance().listValue("GET", Urls.CLIENT_MGR_TREE_URL, paramMap);
+		return getResultValue("GET", Urls.CLIENT_MGR_TREE_URL, paramMap).listValue();
 	}
 
 	public List<Map<String, String>> getCrmMgrRelation(Map<String, String> paramMap) {
 		String url = Urls.ROOT_URL + "/p2psrv/mgr/crm/" + paramMap.get("name") + "/infor";
-		return RpcDataServiceParser.getInstance().listValue("GET", url, paramMap);
+		return getResultValue("GET", url, paramMap).listValue();
 	}
 
 	public List<Map<String, String>> getInvestors(Map<String, String> paramMap) {
-		return RpcDataServiceParser.getInstance().listValue("GET", Urls.QUERY_INVESTORS_URL, paramMap);
+		return getResultValue("GET", Urls.QUERY_INVESTORS_URL, paramMap).listValue();
 	}
 
 	/***************************************************************************
@@ -42,10 +46,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public List<Map<String, String>> queryProjects(Map<String, String> paramMap) {
 
-		return new ResultValue().listValue(HttpClient.getInstance().sendRequest("GET", Urls.LOAN_PROJS_URL, paramMap));
-
-		// return RpcDataServiceParser.getInstance().listValue("GET",
-		// Urls.LOAN_PROJS_URL, paramMap);
+		return getResultValue("GET", Urls.LOAN_PROJS_URL, paramMap).listValue();
 
 	}
 
@@ -58,7 +59,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryProjectById(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.LOAN_PROJS_URL + "/" + id, paramMap);
+		return getResultValue("GET", Urls.LOAN_PROJS_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -70,8 +71,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String previewLoanBonus(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.LOAN_PROJS_URL + "/" + id + "/preview-bonus",
-				paramMap);
+		return getResultValue("GET", Urls.LOAN_PROJS_URL + "/" + id + "/preview-bonus", paramMap).stringValue();
 
 	}
 
@@ -84,7 +84,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createProject(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.LOAN_PROJS_URL, paramMap);
+		return getResultValue("PUT", Urls.LOAN_PROJS_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateProject(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.LOAN_PROJS_URL + "/" + id, paramMap);
+		return getResultValue("POST", Urls.LOAN_PROJS_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -108,8 +108,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String approvalAction(Map<String, String> paramMap, long id, String action) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.LOAN_PROJS_URL + "/" + id + "/" + action,
-				paramMap);
+		return getResultValue("POST", Urls.LOAN_PROJS_URL + "/" + id + "/" + action, paramMap).stringValue();
 	}
 
 	/**********************************
@@ -124,8 +123,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createPrjGuaranteeOrg(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.MGR_PRJ_URL + "/" + id + "/guarantee-org",
-				paramMap);
+		return getResultValue("PUT", Urls.MGR_PRJ_URL + "/" + id + "/guarantee-org", paramMap).stringValue();
 	}
 
 	/**
@@ -137,8 +135,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createPrjGuaranteePerson(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.MGR_PRJ_URL + "/" + id + "/guarantee-person",
-				paramMap);
+		return getResultValue("PUT", Urls.MGR_PRJ_URL + "/" + id + "/guarantee-person", paramMap).stringValue();
 	}
 
 	/**
@@ -149,8 +146,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryPrjGuaranteePersonByPId(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + id + "/guarantee-person",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + id + "/guarantee-person", paramMap).stringValue();
 	}
 
 	/**
@@ -162,8 +158,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryPrjGuaranteeOrgByPId(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + id + "/guarantee-org",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + id + "/guarantee-org", paramMap).stringValue();
 	}
 
 	/**
@@ -177,8 +172,8 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String deletePrjGuaranteePerson(Map<String, String> paramMap, long pId, long pgpId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE",
-				Urls.MGR_PRJ_URL + "/" + pId + "/guarantee-person" + "/" + pgpId, paramMap);
+		return getResultValue("DELETE", Urls.MGR_PRJ_URL + "/" + pId + "/guarantee-person" + "/" + pgpId, paramMap)
+				.stringValue();
 	}
 
 	/**
@@ -192,8 +187,8 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String deletePrjGuaranteeOrg(Map<String, String> paramMap, long pId, long pgoId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE",
-				Urls.MGR_PRJ_URL + "/" + pId + "/guarantee-org" + "/" + pgoId, paramMap);
+		return getResultValue("DELETE", Urls.MGR_PRJ_URL + "/" + pId + "/guarantee-org" + "/" + pgoId, paramMap)
+				.stringValue();
 	}
 
 	/**
@@ -205,8 +200,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createPrjMgrOrg(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-org",
-				paramMap);
+		return getResultValue("PUT", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-org", paramMap).stringValue();
 	}
 
 	/**
@@ -218,8 +212,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createPrjMgrPerson(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-person",
-				paramMap);
+		return getResultValue("PUT", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-person", paramMap).stringValue();
 	}
 
 	/**
@@ -230,8 +223,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryPrjMgrPersonByPId(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-person",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-person", paramMap).stringValue();
 	}
 
 	/**
@@ -242,8 +234,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryPrjMgrOrgByPId(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-org",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-org", paramMap).stringValue();
 	}
 
 	/**
@@ -254,8 +245,8 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String deletePrjMgrPerson(Map<String, String> paramMap, long pId, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE",
-				Urls.MGR_PRJ_URL + "/" + pId + "/mgr-person" + "/" + id, paramMap);
+		return getResultValue("DELETE", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-person" + "/" + id, paramMap)
+				.stringValue();
 	}
 
 	/**
@@ -266,8 +257,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String deletePrjMgrOrg(Map<String, String> paramMap, long pId, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE",
-				Urls.MGR_PRJ_URL + "/" + pId + "/mgr-org" + "/" + id, paramMap);
+		return getResultValue("DELETE", Urls.MGR_PRJ_URL + "/" + pId + "/mgr-org" + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -279,8 +269,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryPrjRating(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/rating",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/rating", paramMap).stringValue();
 	}
 
 	/**
@@ -298,8 +287,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createPrjRating(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.MGR_PRJ_URL + "/" + pId + "/rating",
-				paramMap);
+		return getResultValue("POST", Urls.MGR_PRJ_URL + "/" + pId + "/rating", paramMap).stringValue();
 	}
 
 	/**
@@ -311,8 +299,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryAuditLine(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/actions",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/actions", paramMap).stringValue();
 	}
 
 	/**
@@ -326,7 +313,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateBondAmt(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.MGR_PRJ_URL + "/" + pId + "/bond", paramMap);
+		return getResultValue("POST", Urls.MGR_PRJ_URL + "/" + pId + "/bond", paramMap).stringValue();
 	}
 
 	/**
@@ -338,8 +325,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryTenders(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/tenders",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/tenders", paramMap).stringValue();
 	}
 
 	/**
@@ -348,8 +334,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryUncheckedTenders(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET",
-				Urls.MGR_PRJ_URL + "/" + pId + "/unchecked-tenders", paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/unchecked-tenders", paramMap).stringValue();
 	}
 
 	/**
@@ -360,8 +345,8 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateUncheckedTenders(Map<String, String> paramMap, long pId, long jbId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST",
-				Urls.MGR_PRJ_URL + "/" + pId + "/update-unchecked-tender/" + jbId, paramMap);
+		return getResultValue("POST", Urls.MGR_PRJ_URL + "/" + pId + "/update-unchecked-tender/" + jbId, paramMap)
+				.stringValue();
 	}
 
 	/**
@@ -372,8 +357,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String completed(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.MGR_PRJ_URL + "/" + pId + "/completed",
-				paramMap);
+		return getResultValue("POST", Urls.MGR_PRJ_URL + "/" + pId + "/completed", paramMap).stringValue();
 	}
 
 	/**
@@ -387,8 +371,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryInvests(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/invests",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/invests", paramMap).stringValue();
 	}
 
 	/**
@@ -400,8 +383,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryCancelTenders(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/cancel-tenders",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/cancel-tenders", paramMap).stringValue();
 	}
 
 	/**
@@ -413,7 +395,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryLoans(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/loans", paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/loans", paramMap).stringValue();
 	}
 
 	/**
@@ -425,8 +407,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryInvestors(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/investors",
-				paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/investors", paramMap).stringValue();
 	}
 
 	/**
@@ -438,8 +419,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String isBanCredit(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST",
-				Urls.MGR_PRJ_URL + "/" + pId + "/credit-out-status", paramMap);
+		return getResultValue("POST", Urls.MGR_PRJ_URL + "/" + pId + "/credit-out-status", paramMap).stringValue();
 	}
 
 	/**
@@ -450,8 +430,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String getAllowCreditOut(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET",
-				Urls.MGR_PRJ_URL + "/" + pId + "/credit-out-status", paramMap);
+		return getResultValue("GET", Urls.MGR_PRJ_URL + "/" + pId + "/credit-out-status", paramMap).stringValue();
 	}
 
 	/******************************
@@ -466,7 +445,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String cancelAutoCredit(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.AUTO_CREDIT_URL + "/" + pId, paramMap);
+		return getResultValue("DELETE", Urls.AUTO_CREDIT_URL + "/" + pId, paramMap).stringValue();
 	}
 
 	/**
@@ -479,7 +458,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryAutoCreditStatus(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.AUTO_CREDIT_URL + "/" + pId, paramMap);
+		return getResultValue("GET", Urls.AUTO_CREDIT_URL + "/" + pId, paramMap).stringValue();
 	}
 
 	/**
@@ -490,7 +469,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String setAutoCredit(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.AUTO_CREDIT_URL + "/" + pId, paramMap);
+		return getResultValue("PUT", Urls.AUTO_CREDIT_URL + "/" + pId, paramMap).stringValue();
 	}
 
 	/***********************************
@@ -507,8 +486,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String withdrawTender(Map<String, String> paramMap, long ttId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT",
-				Urls.MGR_TRANS_URL + "/tenders/" + ttId + "/cancellation", paramMap);
+		return getResultValue("PUT", Urls.MGR_TRANS_URL + "/tenders/" + ttId + "/cancellation", paramMap).stringValue();
 	}
 
 	/**
@@ -525,8 +503,8 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String cancelTender(Map<String, String> paramMap, long tctId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST",
-				Urls.MGR_TRANS_URL + "/cancel-tender/" + tctId + "/execution", paramMap);
+		return getResultValue("POST", Urls.MGR_TRANS_URL + "/cancel-tender/" + tctId + "/execution", paramMap)
+				.stringValue();
 	}
 
 	/*************************************
@@ -540,8 +518,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String traceCredit(Map<String, String> paramMap, long tiId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.TRANS_URL + "/" + tiId + "/credit-trace",
-				paramMap);
+		return getResultValue("GET", Urls.TRANS_URL + "/" + tiId + "/credit-trace", paramMap).stringValue();
 	}
 
 	/*********************************************************************************/
@@ -554,8 +531,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryAccountBorrow(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.ACCOUNT_BORROW_URL + "/jx-completed",
-				paramMap);
+		return getResultValue("GET", Urls.ACCOUNT_BORROW_URL + "/jx-completed", paramMap).stringValue();
 	}
 
 	/**
@@ -566,8 +542,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryAccountBorrowByPId(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.LOAN_PROJS_URL + "/" + pId + "/financier",
-				paramMap);
+		return getResultValue("GET", Urls.LOAN_PROJS_URL + "/" + pId + "/financier", paramMap).stringValue();
 	}
 
 	/**
@@ -578,8 +553,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateFinancier(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.LOAN_PROJS_URL + "/" + pId + "/financier",
-				paramMap);
+		return getResultValue("POST", Urls.LOAN_PROJS_URL + "/" + pId + "/financier", paramMap).stringValue();
 	}
 
 	/**
@@ -590,8 +564,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateNominalAndBondsman(Map<String, String> paramMap, long pId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST",
-				Urls.LOAN_PROJS_URL + "/" + pId + "/related-financier", paramMap);
+		return getResultValue("POST", Urls.LOAN_PROJS_URL + "/" + pId + "/related-financier", paramMap).stringValue();
 	}
 
 	/**
@@ -602,7 +575,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryOwners(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.OWNER_URL, paramMap);
+		return getResultValue("GET", Urls.OWNER_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -614,7 +587,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryOwnerById(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.OWNER_URL + "/" + id, paramMap);
+		return getResultValue("GET", Urls.OWNER_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -626,7 +599,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateOwner(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.OWNER_URL + "/" + id, paramMap);
+		return getResultValue("POST", Urls.OWNER_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -637,7 +610,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createOwner(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.OWNER_URL, paramMap);
+		return getResultValue("PUT", Urls.OWNER_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -649,7 +622,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String delOwner(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.OWNER_URL + "/" + id, paramMap);
+		return getResultValue("DELETE", Urls.OWNER_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -660,7 +633,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryCtorOrg(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.CTOR_ORG_URL, paramMap);
+		return getResultValue("GET", Urls.CTOR_ORG_URL, paramMap).stringValue();
 
 	}
 
@@ -673,7 +646,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryCtorOrgById(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.CTOR_ORG_URL + "/" + id, paramMap);
+		return getResultValue("GET", Urls.CTOR_ORG_URL + "/" + id, paramMap).stringValue();
 
 	}
 
@@ -685,7 +658,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createCtorOrg(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.CTOR_ORG_URL, paramMap);
+		return getResultValue("PUT", Urls.CTOR_ORG_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -697,7 +670,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateCtorOrg(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.CTOR_ORG_URL + "/" + id, paramMap);
+		return getResultValue("POST", Urls.CTOR_ORG_URL + "/" + id, paramMap).stringValue();
 
 	}
 
@@ -710,7 +683,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String delCtorOrg(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.CTOR_ORG_URL + "/" + id, paramMap);
+		return getResultValue("DELETE", Urls.CTOR_ORG_URL + "/" + id, paramMap).stringValue();
 
 	}
 
@@ -722,7 +695,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryEngineer(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.ENGINEER_URL, paramMap);
+		return getResultValue("GET", Urls.ENGINEER_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -734,7 +707,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryEngineerById(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.ENGINEER_URL + "/" + id, paramMap);
+		return getResultValue("GET", Urls.ENGINEER_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -745,7 +718,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createEngineer(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.ENGINEER_URL, paramMap);
+		return getResultValue("PUT", Urls.ENGINEER_URL, paramMap).stringValue();
 
 	}
 
@@ -758,7 +731,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateEngineer(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.ENGINEER_URL + "/" + id, paramMap);
+		return getResultValue("POST", Urls.ENGINEER_URL + "/" + id, paramMap).stringValue();
 
 	}
 
@@ -771,7 +744,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String delEngineer(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.ENGINEER_URL + "/" + id, paramMap);
+		return getResultValue("DELETE", Urls.ENGINEER_URL + "/" + id, paramMap).stringValue();
 
 	}
 
@@ -783,7 +756,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryGuaranteeOrg(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.GUARANTEE_ORG_URL, paramMap);
+		return getResultValue("GET", Urls.GUARANTEE_ORG_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -795,7 +768,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryGuaranteeOrgById(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.GUARANTEE_ORG_URL + "/" + id, paramMap);
+		return getResultValue("GET", Urls.GUARANTEE_ORG_URL + "/" + id, paramMap).stringValue();
 
 	}
 
@@ -807,7 +780,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createGuaranteeOrg(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.GUARANTEE_ORG_URL, paramMap);
+		return getResultValue("PUT", Urls.GUARANTEE_ORG_URL, paramMap).stringValue();
 
 	}
 
@@ -820,7 +793,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateGuaranteeOrg(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.GUARANTEE_ORG_URL + "/" + id, paramMap);
+		return getResultValue("POST", Urls.GUARANTEE_ORG_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -832,7 +805,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String delGuaranteeOrg(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.GUARANTEE_ORG_URL + "/" + id, paramMap);
+		return getResultValue("DELETE", Urls.GUARANTEE_ORG_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -843,7 +816,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryGuaranteePerson(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.GUARANTEE_PERSON_URL, paramMap);
+		return getResultValue("GET", Urls.GUARANTEE_PERSON_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -855,7 +828,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryGuaranteePersonById(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.GUARANTEE_PERSON_URL + "/" + id, paramMap);
+		return getResultValue("GET", Urls.GUARANTEE_PERSON_URL + "/" + id, paramMap).stringValue();
 
 	}
 
@@ -867,7 +840,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createGuaranteePerson(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.GUARANTEE_PERSON_URL, paramMap);
+		return getResultValue("PUT", Urls.GUARANTEE_PERSON_URL, paramMap).stringValue();
 
 	}
 
@@ -880,7 +853,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateGuaranteePerson(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.GUARANTEE_PERSON_URL + "/" + id, paramMap);
+		return getResultValue("POST", Urls.GUARANTEE_PERSON_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -892,7 +865,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String delGuaranteePerson(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.GUARANTEE_PERSON_URL + "/" + id, paramMap);
+		return getResultValue("DELETE", Urls.GUARANTEE_PERSON_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -903,7 +876,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryMgrOrgs(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_ORG_URL, paramMap);
+		return getResultValue("GET", Urls.MGR_ORG_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -915,7 +888,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryMgrOrgById(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_ORG_URL + "/" + id, paramMap);
+		return getResultValue("GET", Urls.MGR_ORG_URL + "/" + id, paramMap).stringValue();
 
 	}
 
@@ -927,7 +900,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createMgrOrg(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.MGR_ORG_URL, paramMap);
+		return getResultValue("PUT", Urls.MGR_ORG_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -939,7 +912,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateMgrOrg(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.MGR_ORG_URL + "/" + id, paramMap);
+		return getResultValue("POST", Urls.MGR_ORG_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -951,7 +924,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String delMgrOrg(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.MGR_ORG_URL + "/" + id, paramMap);
+		return getResultValue("DELETE", Urls.MGR_ORG_URL + "/" + id, paramMap).stringValue();
 
 	}
 
@@ -963,7 +936,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryMgrPerson(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PERSON_URL, paramMap);
+		return getResultValue("GET", Urls.MGR_PERSON_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -975,7 +948,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String queryMgrPersonById(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.MGR_PERSON_URL + "/" + id, paramMap);
+		return getResultValue("GET", Urls.MGR_PERSON_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -986,7 +959,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String createMgrPerson(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.MGR_PERSON_URL, paramMap);
+		return getResultValue("PUT", Urls.MGR_PERSON_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -998,7 +971,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String updateMgrPerson(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.MGR_PERSON_URL + "/" + id, paramMap);
+		return getResultValue("POST", Urls.MGR_PERSON_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/**
@@ -1010,7 +983,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String delMgrPerson(Map<String, String> paramMap, long id) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.MGR_PERSON_URL + "/" + id, paramMap);
+		return getResultValue("DELETE", Urls.MGR_PERSON_URL + "/" + id, paramMap).stringValue();
 	}
 
 	/****************************************
@@ -1019,44 +992,38 @@ public class RpcServiceImpl implements RpcService {
 
 	public String upload(Map<String, String> paramMap, byte[] content) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.FILE_UPLOAD_URL + "/content2", paramMap);
+		return getResultValue("POST", Urls.FILE_UPLOAD_URL + "/content2", paramMap).stringValue();
 	}
 
 	/******************************************************************************************************/
 	// 操作核实列表文件
 	public String getFiles(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.QUERY_FILES_URL, paramMap);
+		return getResultValue("GET", Urls.QUERY_FILES_URL, paramMap).stringValue();
 	}
 
 	public String putFiles(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.UPLOAD_OR_DOWNLOAD_URL, paramMap);
+		return getResultValue("PUT", Urls.UPLOAD_OR_DOWNLOAD_URL, paramMap).stringValue();
 	}
 
 	public String postFiles(Map<String, String> paramMap, long fileId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST",
-				Urls.UPLOAD_OR_DOWNLOAD_URL + "/" + fileId + "/content", paramMap);
+		return getResultValue("POST", Urls.UPLOAD_OR_DOWNLOAD_URL + "/" + fileId + "/content", paramMap).stringValue();
 	}
 
 	public byte[] downloadFile(Map<String, String> paramMap, long fileId, String hash) {
-		return RpcDataServiceParser.getInstance().byteValue("GET",
-				Urls.UPLOAD_OR_DOWNLOAD_URL + "/" + fileId + "/" + hash, paramMap);
+		return getResultValue("GET", Urls.UPLOAD_OR_DOWNLOAD_URL + "/" + fileId + "/" + hash, paramMap).byteValue();
 	}
 
 	public String deleteFile(Map<String, String> paramMap, long fileId) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.UPLOAD_OR_DOWNLOAD_URL + "/" + fileId,
-				paramMap);
+		return getResultValue("DELETE", Urls.UPLOAD_OR_DOWNLOAD_URL + "/" + fileId, paramMap).stringValue();
 	}
 
 	public String login(Map<String, String> paramMap) {
 
-		// return RpcDataServiceParser.getInstance().stringValue("POST", Urls.LOGIN_URL,
-		// paramMap);
-
-		return new ResultValue().stringValue(HttpClient.getInstance().sendRequest("POST", Urls.LOGIN_URL, paramMap));
+		return getResultValue("POST", Urls.LOGIN_URL, paramMap).stringValue();
 
 	}
 
@@ -1068,7 +1035,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String validateUser(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.VALIDATE_USER_URL, paramMap);
+		return getResultValue("GET", Urls.VALIDATE_USER_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -1076,7 +1043,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String getUsers(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.QUERY_USERS_URL, paramMap);
+		return getResultValue("GET", Urls.QUERY_USERS_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -1084,7 +1051,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String getUserByUserName(Map<String, String> paramMap, String userName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.QUERY_USERS_URL + "/" + userName, paramMap);
+		return getResultValue("GET", Urls.QUERY_USERS_URL + "/" + userName, paramMap).stringValue();
 	}
 
 	/**
@@ -1092,7 +1059,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String postUser(Map<String, String> paramMap, String userName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.QUERY_USERS_URL + "/" + userName, paramMap);
+		return getResultValue("POST", Urls.QUERY_USERS_URL + "/" + userName, paramMap).stringValue();
 	}
 
 	/**
@@ -1100,8 +1067,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String deleteUser(Map<String, String> paramMap, String userName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.QUERY_USERS_URL + "/" + userName,
-				paramMap);
+		return getResultValue("DELETE", Urls.QUERY_USERS_URL + "/" + userName, paramMap).stringValue();
 	}
 
 	/**
@@ -1109,8 +1075,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String resetUserPassword(Map<String, String> paramMap, String userName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST",
-				Urls.QUERY_USERS_URL + "/" + userName + "/reset-pwd", paramMap);
+		return getResultValue("POST", Urls.QUERY_USERS_URL + "/" + userName + "/reset-pwd", paramMap).stringValue();
 	}
 
 	/**
@@ -1118,8 +1083,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String getRolesByUserName(Map<String, String> paramMap, String userName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.QUERY_USERS_URL + "/" + userName + "/roles",
-				paramMap);
+		return getResultValue("GET", Urls.QUERY_USERS_URL + "/" + userName + "/roles", paramMap).stringValue();
 	}
 
 	/**
@@ -1130,7 +1094,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String putUsers(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.QUERY_USERS_URL, paramMap);
+		return getResultValue("PUT", Urls.QUERY_USERS_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -1141,7 +1105,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String getRoles(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.QUERY_ROLES_URL, paramMap);
+		return getResultValue("GET", Urls.QUERY_ROLES_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -1153,7 +1117,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String getRoleByRoleName(Map<String, String> paramMap, String roleName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.QUERY_ROLES_URL + "/" + roleName, paramMap);
+		return getResultValue("GET", Urls.QUERY_ROLES_URL + "/" + roleName, paramMap).stringValue();
 	}
 
 	/**
@@ -1165,7 +1129,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String putRole(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("PUT", Urls.QUERY_ROLES_URL, paramMap);
+		return getResultValue("PUT", Urls.QUERY_ROLES_URL, paramMap).stringValue();
 	}
 
 	/**
@@ -1177,7 +1141,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String postRole(Map<String, String> paramMap, String roleName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.QUERY_ROLES_URL + "/" + roleName, paramMap);
+		return getResultValue("POST", Urls.QUERY_ROLES_URL + "/" + roleName, paramMap).stringValue();
 	}
 
 	/**
@@ -1189,8 +1153,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String getPermsByRoleName(Map<String, String> paramMap, String roleName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.QUERY_ROLES_URL + "/" + roleName + "/perms",
-				paramMap);
+		return getResultValue("GET", Urls.QUERY_ROLES_URL + "/" + roleName + "/perms", paramMap).stringValue();
 	}
 
 	/**
@@ -1202,8 +1165,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String assignPerms(Map<String, String> paramMap, String roleName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.QUERY_ROLES_URL + "/" + roleName + "/perms",
-				paramMap);
+		return getResultValue("POST", Urls.QUERY_ROLES_URL + "/" + roleName + "/perms", paramMap).stringValue();
 	}
 
 	/**
@@ -1215,8 +1177,7 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String deleteRole(Map<String, String> paramMap, String roleName) {
 
-		return RpcDataServiceParser.getInstance().stringValue("DELETE", Urls.QUERY_ROLES_URL + "/" + roleName,
-				paramMap);
+		return getResultValue("DELETE", Urls.QUERY_ROLES_URL + "/" + roleName, paramMap).stringValue();
 	}
 
 	/**
@@ -1227,19 +1188,17 @@ public class RpcServiceImpl implements RpcService {
 	 */
 	public String changePassword(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("POST", Urls.UPDATE_PASSWORD_URL, paramMap);
+		return getResultValue("POST", Urls.UPDATE_PASSWORD_URL, paramMap).stringValue();
 	}
 
 	public String getCurUser(Map<String, String> paramMap) {
 
-		return RpcDataServiceParser.getInstance().stringValue("GET", Urls.CUR_USER_URL, paramMap);
+		return getResultValue("GET", Urls.CUR_USER_URL, paramMap).stringValue();
 	}
 
 	public byte[] getCaptchaImage(Map<String, String> paramMap) {
-		
-		 return RpcDataServiceParser.getInstance().byteValue("GET",
-		 Urls.CAPTCHA_IMAGE_URL, paramMap);
 
+		return getResultValue("GET", Urls.CAPTCHA_IMAGE_URL, paramMap).byteValue();
 	}
 
 	public static void main(String[] args) throws UnsupportedEncodingException, URISyntaxException {

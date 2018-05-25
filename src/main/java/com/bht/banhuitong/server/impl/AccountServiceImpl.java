@@ -33,6 +33,20 @@ public class AccountServiceImpl extends RemoteServiceServlet implements AccountS
 	 * @throws ServiceException 
 	 */
 	@Override
+	public List<Map<String, String>> getBgAccountInfo() throws Exception {
+		AuthenticationToken token = userSessionMap.get(getThreadLocalRequest().getSession().getId());
+
+		AccountDbServiceImpl accountDbService = new AccountDbServiceImpl();
+		List<Map<String, String>> results = accountDbService.getBgAccountInfoByUname(token.getUserId());
+
+		for (Map<String, String> map : results) {
+			logger.debug("MOBILE:" + map.get("MOBILE"));
+			logger.debug("NAME:" + map.get("NAME"));
+		}
+		return results;
+	}
+	
+	@Override
 	public List<Map<String, String>> getAccountInfo() throws Exception {
 		AuthenticationToken token = userSessionMap.get(getThreadLocalRequest().getSession().getId());
 		long auId = toLong(token.getUserId(),0);

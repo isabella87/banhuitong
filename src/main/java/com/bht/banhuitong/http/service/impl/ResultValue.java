@@ -18,33 +18,45 @@ public class ResultValue {
 
 	public Logger logger = Logger.getLogger(ResultValue.class);
 
-	public byte[] byteValue(InputStream stream) {
-		stream.mark(0);
+	private InputStream stream;
+
+	public ResultValue(InputStream stream) {
+		this.stream = stream;
+	}
+
+	public byte[] byteValue() {
 		byte[] bytes = new byte[1024];
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		int count = 0;
 		try {
-			while ((count = stream.read(bytes)) != -1) {
+			while ((count = this.stream.read(bytes)) != -1) {
 				bos.write(bytes, 0, count);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				bos.flush();
+				bos.close();
+				this.stream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		bytes = bos.toByteArray();
+		return bos.toByteArray();
 
-		return bytes;
 	}
 
-	public String stringValue(InputStream stream) {
+	public String stringValue() {
 		String[] lines = null;
 		try {
-			lines = IOUtils.readLines(stream, "utf-8").toArray(new String[0]);
+			lines = IOUtils.readLines(this.stream, "utf-8").toArray(new String[0]);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		String returnStr = StringUtils.join(lines);
-		logger.info("*********************************************"+returnStr);
+		logger.info("*********************************************" + returnStr);
 		return returnStr;
 	}
 
@@ -56,11 +68,11 @@ public class ResultValue {
 	 * @param paramMap
 	 * @return
 	 */
-	public List<Map<String, String>> listValue(InputStream stream) {
+	public List<Map<String, String>> listValue() {
 
 		String[] lines = null;
 		try {
-			lines = IOUtils.readLines(stream, "utf-8").toArray(new String[0]);
+			lines = IOUtils.readLines(this.stream, "utf-8").toArray(new String[0]);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -120,25 +132,4 @@ public class ResultValue {
 		return str;
 	}
 
-	public static void main(String[] args) {
-		String ss = "\"department\":\"销售四部\"";
-
-		if (ss.contains(":")) {
-			String[] item = ss.split(":");
-			String key = item[0];
-			if (key.startsWith("\"") && key.endsWith("\"")) {
-				key = key.substring(1, key.length() - 1);
-			}
-			String value = item[1];
-			if (value.startsWith("\"") && value.endsWith("\"")) {
-				if (value.length() > 2) {
-					value = value.substring(1, value.length() - 1);
-				} else {
-					value = "";
-				}
-			}
-			System.out.println("key:" + key);
-			System.out.println("value:" + value);
-		}
-	}
 }

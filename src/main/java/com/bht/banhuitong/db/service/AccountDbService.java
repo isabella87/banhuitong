@@ -14,6 +14,8 @@ public interface AccountDbService {
 	
 	public List<Map<String,String>> getAccountInfoByAuId(final long auId);
 	
+	public List<Map<String,String>> getBgAccountInfoByUname(final String uname);
+	
 	public long checkLogin(final String loginName,final String pwd) ;
 	
 	public String checkBgLogin(final String loginName,final String pwd) ;

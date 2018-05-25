@@ -10,7 +10,6 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
-import org.xx.armory.commons.KeyUtils;
 import org.xx.armory.commons.Validators;
 
 import com.bht.banhuitong.config.Configuration;
@@ -30,7 +29,7 @@ public class KeyStorage {
     	return Configuration.getBytes(name);
     }
 
-    private SecretKey loadDESKey(String name) {
+    public SecretKey loadDESKey(String name) {
         try {
             return KeyUtils.buildDESKey(this.loadKeyBytes(name));
         } catch (GeneralSecurityException var3) {
@@ -38,7 +37,7 @@ public class KeyStorage {
         }
     }
 
-    private PublicKey loadRSAPublicKey(String name) {
+    public PublicKey loadRSAPublicKey(String name) {
         try {
             return KeyUtils.buildRSAPublicKey(this.loadKeyBytes(name));
         } catch (GeneralSecurityException var3) {
@@ -46,7 +45,7 @@ public class KeyStorage {
         }
     }
 
-    private PrivateKey loadRSAPrivateKey(String name) {
+    public PrivateKey loadRSAPrivateKey(String name) {
         try {
             return KeyUtils.buildRSAPrivateKey(this.loadKeyBytes(name));
         } catch (GeneralSecurityException var3) {
@@ -54,7 +53,7 @@ public class KeyStorage {
         }
     }
 
-    public SecretKey getDESKey(String name) {
+    /*public SecretKey getDESKey(String name) {
         name = Validators.notBlank(name, "name").trim();
         return (SecretKey)SecretKey.class.cast(this.allKeys.computeIfAbsent(name, (Function<? super String, ? extends Key>) loadDESKey(name)));
     }
@@ -67,5 +66,5 @@ public class KeyStorage {
     public PrivateKey getRSAPrivateKey(String name) {
         name = Validators.notBlank(name, "name").trim();
         return (PrivateKey)PrivateKey.class.cast(this.allKeys.computeIfAbsent(name,(Function<? super String, ? extends Key>) loadRSAPrivateKey(name)));
-    }
+    }*/
 }

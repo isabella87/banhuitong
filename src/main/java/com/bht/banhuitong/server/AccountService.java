@@ -14,6 +14,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface AccountService extends RemoteService {
 	
 	@BusinessAnnotation(serviceno=1,recordLog= true)
+	List<Map<String, String>> getBgAccountInfo() throws Exception;
+	
+	@BusinessAnnotation(serviceno=2,recordLog= true)
 	List<Map<String, String>> getAccountInfo() throws Exception;
 	
 }

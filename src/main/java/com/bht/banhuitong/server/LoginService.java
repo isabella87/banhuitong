@@ -19,7 +19,7 @@ public interface LoginService extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	@BusinessAnnotation(recordLog= true)
-	String login(Map<String,String> paramMap) throws IllegalArgumentException;
+	String loginToP2psrv(Map<String,String> paramMap) throws IllegalArgumentException;
 	
 	String getExcepStr() throws IllegalArgumentException;
 	
@@ -27,6 +27,8 @@ public interface LoginService extends RemoteService {
 	String loginImmediately(Map<String,String> paramMap) throws IllegalArgumentException;
 
 	String getImageByte() throws IllegalArgumentException;
+	
+	String getP2psrvImageByte() throws IllegalArgumentException;
 	
 	boolean loginOut()throws IllegalArgumentException;
 }
