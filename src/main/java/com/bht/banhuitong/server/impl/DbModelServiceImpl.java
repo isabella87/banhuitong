@@ -54,8 +54,9 @@ public class DbModelServiceImpl extends RemoteServiceServlet implements DbModelS
 			}
 		
 		boolean flag = service.createTable(tableName, tableFieldsMap);
-		
-		service.updateTableColumnCommentsInfo(tableName, columnCommentsParamMap);
+		if(flag) {
+			service.updateTableColumnCommentsInfo(tableName, columnCommentsParamMap);
+		}
 		
 		return flag; 
 	}

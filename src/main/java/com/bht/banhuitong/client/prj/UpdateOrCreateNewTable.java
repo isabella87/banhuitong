@@ -244,6 +244,8 @@ public class UpdateOrCreateNewTable extends Window {
 						charLen = "";
 					}else if(record.getAttribute("DATA_TYPE").equals("TIMESTAMP")) {
 						charLen = " (6)";
+					}else if(record.getAttribute("DATA_TYPE").equals("CLOB")) {
+						charLen = "";
 					}
 					
 					String nullable = "";
