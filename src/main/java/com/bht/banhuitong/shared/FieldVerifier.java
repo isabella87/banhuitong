@@ -44,7 +44,7 @@ public class FieldVerifier {
     if (name == null) {
       return false;
     }
-    return name.length() > 3;
+    return name.length() >= 3;
   }
   
   public static boolean isValidCaptchaCode(String captchCode) {
