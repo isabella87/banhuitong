@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bht.banhuitong.client.files.FileModulePortlet;
 import com.bht.banhuitong.client.prj.ExcavateXmlDataPortlet;
+import com.bht.banhuitong.client.prj.GraphicStatisticPortlet;
 import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
 import com.bht.banhuitong.client.prj.MainPrjPortlet;
 import com.bht.banhuitong.client.prj.MainPrjPortlet2;
@@ -29,8 +30,11 @@ public class SysMenuItem {
 
 	private _IMenuItem prj1 = new _IMenuItem("项目1", "1");
 	private _IMenuItem prj2 = new _IMenuItem("项目2", "2");
-	private _IMenuItem prj3 = new _IMenuItem("图形化展示", "3");
-	private _IMenuItem prj4 = new _IMenuItem("数据库表", "4");
+	
+	private _IMenuItem statistic = new _IMenuItem("图形分析", "3");
+	
+	private _IMenuItem model = new _IMenuItem("图形化展示", "4");
+	private _IMenuItem model2 = new _IMenuItem("数据库表", "5");
 	
 	private _IMenuItem fileMenuItem = new _IMenuItem("文件系统", "F");
 	private _IMenuItem progressBarMenu = new _IMenuItem("进度条测试", "J");
@@ -57,8 +61,9 @@ public class SysMenuItem {
 
 		prj1.setEnabled(false);
 		prj2.setEnabled(false);
-		prj3.setEnabled(false);
-		prj4.setEnabled(false);
+		statistic.setEnabled(false);
+		model.setEnabled(false);
+		model2.setEnabled(false);
 
 		fileMenuItem.setEnabled(false);
 		progressBarMenu.setEnabled(false);
@@ -80,8 +85,9 @@ public class SysMenuItem {
 
 		prj1.setEnabled(true);
 		prj2.setEnabled(true);
-		prj3.setEnabled(true);
-		prj4.setEnabled(true);
+		statistic.setEnabled(true);
+		model.setEnabled(true);
+		model2.setEnabled(true);
 
 		fileMenuItem.setEnabled(true);
 		progressBarMenu.setEnabled(true);
@@ -109,10 +115,14 @@ public class SysMenuItem {
 		
 		iMenuButtonList.add(new IMenuButton("系统(S)", sysMenu));
 
-		Menu prjMenu = new Menu();
-		prjMenu.setItems(prj1, prj2, separator, prj3, prj4);
-		iMenuButtonList.add(new IMenuButton("建模", prjMenu));
+		Menu modelMenu = new Menu();
+		modelMenu.setItems(model, model2);
+		iMenuButtonList.add(new IMenuButton("建模", modelMenu));
 
+		Menu statisticMenu = new Menu();
+		statisticMenu.setItems(prj1, prj2, separator, statistic);
+		iMenuButtonList.add(new IMenuButton("数据分析", statisticMenu));
+		
 		Menu fileMenu = new Menu();
 		fileMenu.setItems(fileMenuItem, separator, progressBarMenu);
 		iMenuButtonList.add(new IMenuButton("文件", fileMenu));
@@ -133,8 +143,10 @@ public class SysMenuItem {
 
 		prj1._registerClickHandler(new MainPrjPortlet().getInstance().getPortlet());
 		prj2._registerClickHandler(new MainPrjPortlet2().getInstance().getPortlet());
-		prj3._registerClickHandler(new ExcavateXmlDataPortlet().getInstance().getPortlet());
-		prj4._registerClickHandler(new DatabaseModulePortlet().getInstance().getPortlet());
+		statistic._registerClickHandler(new GraphicStatisticPortlet().getInstance().getPortlet());
+		
+		model._registerClickHandler(new ExcavateXmlDataPortlet().getInstance().getPortlet());
+		model2._registerClickHandler(new DatabaseModulePortlet().getInstance().getPortlet());
 		fileMenuItem._registerClickHandler(new FileModulePortlet().getInstance().getPortlet());
 
 		progressBarMenu._registerClickHandler("PROGRESSBAR");
