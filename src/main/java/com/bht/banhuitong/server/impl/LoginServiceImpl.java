@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import com.bht.banhuitong.common.CommonMethod;
 import com.bht.banhuitong.config.Configuration;
 import com.bht.banhuitong.db.service.impl.AccountDbServiceImpl;
+import com.bht.banhuitong.http.Urls;
 import com.bht.banhuitong.http.service.impl.RpcServiceImpl;
 import com.bht.banhuitong.security.AuthenticationToken;
 import com.bht.banhuitong.security.impl.SimpleExpressionCaptchaImageProvider;
@@ -182,6 +183,18 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		if (userSessionMap.containsKey(key)) {
 			userSessionMap.remove(key);
 		}
+		return true;
+	}
+
+	@Override
+	public boolean setHttpServiceRootUrl(Map<String, String> paramMap) throws IllegalArgumentException {
+		// Verify that the input is valid.
+				if (!FieldVerifier.isValidName(paramMap.get("root-url"))) {
+					// If the input is not valid, throw an IllegalArgumentException back to
+					// the client.
+					throw new IllegalArgumentException(CommonMethod.initExceptionDesc(7));
+				}
+		Urls.ROOT_URL = paramMap.get("root-url");
 		return true;
 	}
 

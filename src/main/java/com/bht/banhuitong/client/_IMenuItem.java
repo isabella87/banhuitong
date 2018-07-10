@@ -56,6 +56,8 @@ public class _IMenuItem extends MenuItem {
 					print();
 				} else if (object.toString().equals("ABOUT")) {
 					new AboutSysWindow().init();
+				} else if (object.toString().equals("SET")) {
+					new ServiceRouteInfoWindow().init();
 				} else if (object.toString().equals("PROGRESSBAR")) {
 					new BaseFrame().initProgressbar();
 				} else if (object.toString().equals("REFRESH")) {

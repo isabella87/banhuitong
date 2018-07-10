@@ -46,6 +46,7 @@ public class SysMenuItem {
 	private _IMenuItem closeAllWins = new _IMenuItem("关闭所有", "L");
 
 	private _IMenuItem aboutMenuItem = new _IMenuItem("关于...", "A");
+	private _IMenuItem setMenuItem = new _IMenuItem("路由设置", "M");
 	private _IMenuItem printMenuItem = new _IMenuItem("打印", "P");
 	private _IMenuItem exportMenuItem = new _IMenuItem("导出", "E");
 
@@ -132,7 +133,7 @@ public class SysMenuItem {
 		iMenuButtonList.add(new IMenuButton("窗口", winMenu));
 
 		Menu helpMenu = new Menu();
-		helpMenu.setItems(aboutMenuItem, separator, printMenuItem, exportMenuItem);
+		helpMenu.setItems(aboutMenuItem,setMenuItem, separator, printMenuItem, exportMenuItem);
 		iMenuButtonList.add(new IMenuButton("帮助", helpMenu));
 
 	}
@@ -156,6 +157,7 @@ public class SysMenuItem {
 		rearrangeWins._registerClickHandler("S");
 		closeAllWins._registerClickHandler("L");
 		aboutMenuItem._registerClickHandler("ABOUT");
+		setMenuItem._registerClickHandler("SET");
 		printMenuItem._registerClickHandler("PRINT");
 		exportMenuItem._registerClickHandler("EXPORT");
 	}

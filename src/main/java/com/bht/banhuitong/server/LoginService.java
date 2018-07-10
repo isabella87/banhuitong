@@ -31,4 +31,6 @@ public interface LoginService extends RemoteService {
 	String getP2psrvImageByte() throws IllegalArgumentException;
 	
 	boolean loginOut()throws IllegalArgumentException;
+	
+	boolean setHttpServiceRootUrl(Map<String,String> paramMap) throws IllegalArgumentException;
 }

@@ -83,6 +83,7 @@ public class LoginWindow extends Window {
 		yzmItem.setTitle("验证码");
 		yzmItem.setRequired(true);
 
+		errorLabel.setWidth(80);
 		errorLabel.setHeight(20);
 		errorLabel.setStyleName("serverResponseLabelError");
 
@@ -144,19 +145,17 @@ public class LoginWindow extends Window {
 
 		yzmLayout.addMembers(yzmForm, imgLayout);
 
-		Label spaceLabel = new Label();
-
-		spaceLabel.setWidth(100);
 		HLayout buttonLayout = new HLayout();
 		buttonLayout.setMembersMargin(20);
-		buttonLayout.setWidth(200);
+		buttonLayout.setWidth(300);
 		buttonLayout.setHeight(30);
-		buttonLayout.addMembers(spaceLabel, cancelButton, okButton);
+//		buttonLayout.setAlign(Alignment.CENTER);
+		buttonLayout.addMembers(errorLabel,cancelButton, okButton);
 
 		form.setFields(usernameItem, passwordItem);
 		this.addItem(form);
 		this.addItem(yzmLayout);
-		this.addItem(errorLabel);
+//		this.addItem(errorLabel);
 		this.addItem(buttonLayout);
 		this.draw();
 
