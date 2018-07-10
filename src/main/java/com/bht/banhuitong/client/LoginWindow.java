@@ -86,7 +86,7 @@ public class LoginWindow extends Window {
 		yzmItem.setRequired(true);
 
 		DynamicForm yzmForm = new DynamicForm();
-		yzmForm.setHeight(30);
+		yzmForm.setHeight(textItemHeight);
 		yzmForm.setWidth(180);
 		yzmForm.setPadding(0);
 		yzmForm.setLayoutAlign(VerticalAlignment.TOP);
@@ -100,11 +100,11 @@ public class LoginWindow extends Window {
 		final HLayout imgLayout = new HLayout();
 		imgLayout.setMembersMargin(4);
 		imgLayout.setWidth(70);
-		imgLayout.setHeight(30);
+		imgLayout.setHeight(textItemHeight);
 		imgLayout.setLayoutAlign(Alignment.LEFT);
 
 		final Canvas canvas = new Canvas();
-		canvas.setHeight(30);
+		canvas.setHeight(textItemHeight);
 		canvas.setWidth(70);
 		canvas.addChild(img);
 
