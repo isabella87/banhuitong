@@ -76,6 +76,7 @@ public class SysMenuItem {
 		closeAllWins.setEnabled(false);
 
 		aboutMenuItem.setEnabled(false);
+		setMenuItem.setEnabled(false);
 		printMenuItem.setEnabled(false);
 		exportMenuItem.setEnabled(false);
 	}
@@ -100,6 +101,7 @@ public class SysMenuItem {
 		closeAllWins.setEnabled(true);
 
 		aboutMenuItem.setEnabled(true);
+		setMenuItem.setEnabled(true);
 		printMenuItem.setEnabled(true);
 		exportMenuItem.setEnabled(true);
 	}

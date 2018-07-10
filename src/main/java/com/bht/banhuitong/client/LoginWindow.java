@@ -3,6 +3,7 @@ package com.bht.banhuitong.client;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bht.banhuitong.client.common.OkAndCancelBL;
 import com.bht.banhuitong.server.LoginService;
 import com.bht.banhuitong.server.LoginServiceAsync;
 import com.google.gwt.core.client.GWT;
@@ -11,9 +12,7 @@ import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.Canvas;
-import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Img;
-import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.Window;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
@@ -31,10 +30,13 @@ public class LoginWindow extends Window {
 	private final LoginServiceAsync loginService = GWT.create(LoginService.class);
 	private static Img img = null;
 	protected static String loginName;
-	private Label errorLabel = new Label();
 	final TextItem usernameItem = new TextItem("user-name");
 	final PasswordItem passwordItem = new PasswordItem("password");
 	final TextItem yzmItem = new TextItem("captcha-code");
+	OkAndCancelBL okAndCancelBL = new OkAndCancelBL(true,this);
+	
+	private int textItemWidth = 220;
+	private int textItemHeight = 30;
 	
 	public static LoginWindow instance;
 
@@ -68,49 +70,20 @@ public class LoginWindow extends Window {
 		form.setPadding(10);
 		form.setLayoutAlign(VerticalAlignment.BOTTOM);
 		form.setEdgeMarginSize(10);
-		usernameItem.setHeight(30);
-		usernameItem.setWidth(220);
+		usernameItem.setHeight(textItemHeight);
+		usernameItem.setWidth(textItemWidth);
 		usernameItem.setTitle("用户名");
 		usernameItem.setRequired(true);
 
-		passwordItem.setHeight(30);
-		passwordItem.setWidth(220);
+		passwordItem.setHeight(textItemHeight);
+		passwordItem.setWidth(textItemWidth);
 		passwordItem.setTitle("密码");
 		passwordItem.setRequired(true);
 
-		yzmItem.setHeight(30);
-		yzmItem.setWidth(110);
+		yzmItem.setHeight(textItemHeight);
+		yzmItem.setWidth(textItemWidth/2);
 		yzmItem.setTitle("验证码");
 		yzmItem.setRequired(true);
-
-		errorLabel.setWidth(80);
-		errorLabel.setHeight(20);
-		errorLabel.setStyleName("serverResponseLabelError");
-
-		IButton okButton = new IButton("确认");
-		okButton.setWidth(50);
-		okButton.setHeight(25);
-		okButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				validateLogin();
-			}
-		});
-
-		IButton cancelButton = new IButton("取消");
-		cancelButton.setWidth(50);
-		cancelButton.setHeight(25);
-
-		cancelButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				MainFrame.menuLayout.setDisabled(true);
-				SysMenuItem.getInstance().disableIMenuItem();
-				destroy();
-			}
-		});
 
 		DynamicForm yzmForm = new DynamicForm();
 		yzmForm.setHeight(30);
@@ -145,19 +118,20 @@ public class LoginWindow extends Window {
 
 		yzmLayout.addMembers(yzmForm, imgLayout);
 
-		HLayout buttonLayout = new HLayout();
-		buttonLayout.setMembersMargin(20);
-		buttonLayout.setWidth(300);
-		buttonLayout.setHeight(30);
-//		buttonLayout.setAlign(Alignment.CENTER);
-		buttonLayout.addMembers(errorLabel,cancelButton, okButton);
-
 		form.setFields(usernameItem, passwordItem);
+		
 		this.addItem(form);
 		this.addItem(yzmLayout);
-//		this.addItem(errorLabel);
-		this.addItem(buttonLayout);
+		this.addItem(okAndCancelBL.init());
 		this.draw();
+		
+		okAndCancelBL.getOkButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				validateLogin();
+			}
+		});
 
 		imgLayout.addClickHandler(new ClickHandler() {
 
@@ -167,8 +141,8 @@ public class LoginWindow extends Window {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						errorLabel.setContents("获取验证码失败！");
-						errorLabel.redraw();
+						okAndCancelBL.getErrorLabel().setContents("获取验证码失败！");
+						okAndCancelBL.getErrorLabel().redraw();
 						SC.say(caught.getMessage());
 					}
 
@@ -185,8 +159,8 @@ public class LoginWindow extends Window {
 							imgLayout.redraw();
 							redraw();
 						} else {
-							errorLabel.setContents("获取验证码失败！");
-							errorLabel.redraw();
+							okAndCancelBL.getErrorLabel().setContents("获取验证码失败！");
+							okAndCancelBL.getErrorLabel().redraw();
 						}
 					}
 				});
@@ -216,11 +190,11 @@ public class LoginWindow extends Window {
 			@Override
 			public void onSuccess(String result) {
 				if (result == null || result.isEmpty()) {
-					errorLabel.setContents("获取验证码失败！");
-					errorLabel.redraw();
+					okAndCancelBL.getErrorLabel().setContents("获取验证码失败！");
+					okAndCancelBL.getErrorLabel().redraw();
 				} else {
 					img.setSrc(result);
-					;
+					
 					img.setHeight(28);
 					img.redraw();
 				}
@@ -237,15 +211,15 @@ public class LoginWindow extends Window {
 				LoginWindow.getInstance().init();
 			} else if (Integer.valueOf(errorCode) == 4 || Integer.valueOf(errorCode) == 5
 					|| Integer.valueOf(errorCode) == 6) {
-				errorLabel.setContents(BaseFrame.exceMap.get(Integer.valueOf(errorCode)));
+				okAndCancelBL.getErrorLabel().setContents(BaseFrame.exceMap.get(Integer.valueOf(errorCode)));
 
 			} else {
 				SC.say(BaseFrame.exceMap.get(Integer.valueOf(errorCode)));
 			}
 		} else {
-			errorLabel.setContents("网络连接异常！");
+			okAndCancelBL.getErrorLabel().setContents("网络连接异常！");
 		}
-		errorLabel.redraw();
+		okAndCancelBL.getErrorLabel().redraw();
 	}
 	
 	private void validateLogin() {
@@ -273,8 +247,8 @@ public class LoginWindow extends Window {
 					destroy();
 
 				} else {
-					errorLabel.setContents("登陆失败！");
-					errorLabel.redraw();
+					okAndCancelBL.getErrorLabel().setContents("登陆失败！");
+					okAndCancelBL.getErrorLabel().redraw();
 				}
 			}
 
