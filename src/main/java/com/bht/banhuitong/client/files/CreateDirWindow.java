@@ -2,14 +2,13 @@ package com.bht.banhuitong.client.files;
 
 import com.bht.banhuitong.client.BaseFrame;
 import com.bht.banhuitong.client.BasePortlet;
+import com.bht.banhuitong.client.common.OkAndCancelBL;
 import com.bht.banhuitong.server.FileService;
 import com.bht.banhuitong.server.FileServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.util.SC;
-import com.smartgwt.client.widgets.IButton;
-import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.Window;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
@@ -17,15 +16,14 @@ import com.smartgwt.client.widgets.events.CloseClickEvent;
 import com.smartgwt.client.widgets.events.CloseClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.TextItem;
-import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
 public class CreateDirWindow extends Window {
 
 	private static final FileServiceAsync fileService = GWT.create(FileService.class);
 
-	private Label errorLabel = new Label();
-
+	OkAndCancelBL okAndCancelBL = new OkAndCancelBL(true,this);
+	
 	private String pName;
 	private String allPath;
 
@@ -65,11 +63,7 @@ public class CreateDirWindow extends Window {
 		textItem.setTitle("节点名称");
 		textItem.setDefaultValue("");
 		
-		IButton okButton = new IButton("确认");
-		okButton.setWidth(60);
-		okButton.setHeight(25);
-
-		okButton.addClickHandler(new ClickHandler() {
+		okAndCancelBL.getOkButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -92,40 +86,20 @@ public class CreateDirWindow extends Window {
 							
 							SC.say("创建成功！");
 						} else {
-							errorLabel.setContents("创建失败！");
+							okAndCancelBL.getErrorLabel().setContents("创建失败！");
 						}
 					}
 				});
 			}
 		});
 
-		/*Label spaceLable = new Label();
-		spaceLable.setWidth(220);
-		spaceLable.setHeight(20);*/
-
-		errorLabel.setWidth(175);
-		errorLabel.setHeight(20);
-		errorLabel.setStyleName("serverResponseLabelError");
-		HLayout buttonLayout = new HLayout();
-		buttonLayout.setMembersMargin(20);
-		buttonLayout.setWidth(300);
-		buttonLayout.setHeight(30);
-		buttonLayout.addMembers(errorLabel, okButton);
-
 		form.setItems(pTextItem, textItem);
 
 		VLayout vLayout = new VLayout();
 		vLayout.setHeight(100);
-		vLayout.addMembers(form, buttonLayout);
+		vLayout.addMembers(form, okAndCancelBL.init());
 
-		HLayout hLayout = new HLayout();
-		hLayout.setLeft(20);
-		hLayout.setHeight(100);
-		hLayout.setWidth(300);
-
-		hLayout.addMembers(vLayout);
-
-		this.addItem(hLayout);
+		this.addItem(vLayout);
 		this.draw();
 	}
 }

@@ -33,7 +33,7 @@ public class LoginWindow extends Window {
 	final TextItem usernameItem = new TextItem("user-name");
 	final PasswordItem passwordItem = new PasswordItem("password");
 	final TextItem yzmItem = new TextItem("captcha-code");
-	OkAndCancelBL okAndCancelBL = new OkAndCancelBL(true,this);
+	private OkAndCancelBL okAndCancelBL ;
 	
 	private int textItemWidth = 220;
 	private int textItemHeight = 30;
@@ -48,7 +48,8 @@ public class LoginWindow extends Window {
 	}
 
 	public void init() {
-
+		this.okAndCancelBL = new OkAndCancelBL(true,this);
+		
 		this.setCanFocus(true);
 		this.setAutoSize(true);
 		this.setTitle("登录");

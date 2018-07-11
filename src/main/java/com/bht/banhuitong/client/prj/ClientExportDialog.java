@@ -76,7 +76,7 @@ public class ClientExportDialog extends Dialog implements
 		IButton button = new IButton();
 		button.setWidth(130);
 		button.setAlign(Alignment.CENTER);
-		button.setTitle("Done");
+		button.setTitle("关闭");
 		final Dialog dialog = this;
 		
 		button.addClickHandler(new ClickHandler() {
