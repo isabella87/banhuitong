@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bht.banhuitong.client.files.FileModulePortlet;
+import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
 import com.bht.banhuitong.client.prj.ExcavateXmlDataPortlet;
 import com.bht.banhuitong.client.prj.GraphicStatisticPortlet;
-import com.bht.banhuitong.client.prj.DatabaseModulePortlet;
 import com.bht.banhuitong.client.prj.MainPrjPortlet;
 import com.bht.banhuitong.client.prj.MainPrjPortlet2;
 import com.smartgwt.client.widgets.menu.IMenuButton;
@@ -124,12 +124,13 @@ public class SysMenuItem {
 
 		Menu statisticMenu = new Menu();
 		statisticMenu.setItems(prj1, prj2, separator, statistic);
+		
 		iMenuButtonList.add(new IMenuButton("数据分析", statisticMenu));
 		
 		Menu fileMenu = new Menu();
 		fileMenu.setItems(fileMenuItem, separator, progressBarMenu);
 		iMenuButtonList.add(new IMenuButton("文件", fileMenu));
-
+		
 		Menu winMenu = new Menu();
 		winMenu.setItems(cascadeWins, horizontalWins, verticalWins, rearrangeWins, separator, closeAllWins);
 		iMenuButtonList.add(new IMenuButton("窗口", winMenu));
@@ -137,7 +138,7 @@ public class SysMenuItem {
 		Menu helpMenu = new Menu();
 		helpMenu.setItems(aboutMenuItem,setMenuItem, separator, printMenuItem, exportMenuItem);
 		iMenuButtonList.add(new IMenuButton("帮助", helpMenu));
-
+		
 	}
 
 	public void registerClickHandlers() {
