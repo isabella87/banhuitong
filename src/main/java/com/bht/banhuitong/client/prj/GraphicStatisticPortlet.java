@@ -24,9 +24,9 @@ public class GraphicStatisticPortlet extends BasePortlet {
 		String url = GWT.getHostPageBaseURL() + "frameset?__report=report.rptdesign&__showtitle=false&__title=loan amt";
 
 		Frame frame = new Frame(url);
-
+		frame.setStyleName("birtFrame");
 		frame.setSize("99.9%", "99.7%");
-
+		
 		this.addItem(frame);
 	}
 
