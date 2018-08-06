@@ -166,7 +166,7 @@ public class MainPrjPortlet2 extends BasePortlet{
 		final TextItem searchKeyItem = new TextItem();
 		searchKeyItem.setTitle("关键字");
 		
-		ScrollPanel sPanel = new ScrollPanel();
+		/*ScrollPanel sPanel = new ScrollPanel();
 		sPanel.setHeight("68px");
 		sPanel.setWidth("700px");
 		sPanel.setAlwaysShowScrollBars(true);
@@ -174,7 +174,7 @@ public class MainPrjPortlet2 extends BasePortlet{
 		scrollCanvas.setWidth100();
 		scrollCanvas.setHeight(60);
 		scrollCanvas.addChild(sPanel);
-		
+		*/
 		DynamicForm searchForm = new DynamicForm();
 		searchForm.setWidth(1200);
 		searchForm.setHeight(50);
@@ -183,7 +183,7 @@ public class MainPrjPortlet2 extends BasePortlet{
 		searchForm.setFields(timeTypeItem,startDateItem,endDateItem,prjTypeItem,prjStatusItem,searchKeyTypeItem,searchKeyItem);
 		
 		searchPanel.addMembers(searchForm,searchDataButton);
-		sPanel.add(searchPanel);
+//		sPanel.add(searchPanel);
 		
         this.addMember(searchPanel);
         this.addItem(countryGrid);

@@ -30,8 +30,11 @@ h1 {
 }
 
 .birtFrame {
-	html{overflow:hidden;}//隐藏整个页面的滚动条
-}
+	html{
+	overflow-x:hidden;
+	overflow-y:hidden;
+	scroll:no;	
+}//隐藏整个页面的滚动条
 
 .main-div-size {
 	min-height:800px;
