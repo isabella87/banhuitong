@@ -2,6 +2,8 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer 版本 4.6.0.v201606072122 内部版本 &lt;@BUILD@></property>
     <property name="units">in</property>
+    <method name="initialize"><![CDATA[var count=0;]]></method>
+    <method name="onPrepare"><![CDATA[var count=0;]]></method>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -430,6 +432,10 @@ order by datepoint]]></xml-property>
             </group>
             <detail>
                 <row id="12">
+                    <method name="onCreate"><![CDATA[count++;
+if(count % 2 != 0){
+	style.setBackgroundColor("silver");
+}]]></method>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
