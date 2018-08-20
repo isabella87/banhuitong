@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer 版本 4.6.0.v201606072122 内部版本 &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <script-data-source name="investorSumAmtDs" id="34"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="investorSumAmtDataSet" id="35">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">AU_ID</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">NAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">ID_TYPE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">DATEPOINT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">SUM_AMT</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">AU_ID</property>
+                    <text-property name="displayName">用户AU_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NAME</property>
+                    <text-property name="displayName">名称</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ID_TYPE</property>
+                    <text-property name="displayName">用户类型</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DATEPOINT</property>
+                    <text-property name="displayName">最后投资日期</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SUM_AMT</property>
+                    <text-property name="displayName">有效投资余额</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">AU_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">ID_TYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">DATEPOINT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">SUM_AMT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">investorSumAmtDs</property>
+            <method name="open"><![CDATA[importPackage(Packages.com.bht.banhuitong.client.scriptds)
+
+investorInfoList =new DataFactory().getInvestorSumAmtInfoList();
+
+iterator = investorInfoList.iterator();
+]]></method>
+            <method name="fetch"><![CDATA[if(iterator.hasNext() == false ){
+	return false;
+}
+var investorInfo = iterator.next();
+
+row[1] = investorInfo.getAuId();
+row[2] = investorInfo.getName();
+row[3] = investorInfo.getIdType();
+row[4] = investorInfo.getDatepoint();
+row[5] = investorInfo.getSumAmt();
+
+return true;
+]]></method>
+            <method name="close"><![CDATA[investorLists = null;
+iterator = null;
+investorInfo = null;]]></method>
+        </script-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="4">
+            <column id="5"/>
+            <row id="6">
+                <cell id="7"/>
+            </row>
+            <row id="8">
+                <cell id="9">
+                    <table id="10">
+                        <property name="dataSet">investorSumAmtDataSet</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">AU_ID</property>
+                                <text-property name="displayName">用户AU_ID</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["AU_ID"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">NAME</property>
+                                <text-property name="displayName">名称</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ID_TYPE</property>
+                                <text-property name="displayName">用户类型</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ID_TYPE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DATEPOINT</property>
+                                <text-property name="displayName">最后投资日期</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DATEPOINT"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">SUM_AMT</property>
+                                <text-property name="displayName">有效投资余额</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["SUM_AMT"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <column id="29"/>
+                        <column id="30"/>
+                        <column id="31"/>
+                        <column id="32"/>
+                        <column id="33"/>
+                        <header>
+                            <row id="11">
+                                <cell id="12">
+                                    <label id="44">
+                                        <text-property name="text">用户AU_ID</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="13">
+                                    <label id="46">
+                                        <text-property name="text">名称</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="14">
+                                    <label id="48">
+                                        <text-property name="text">用户类型</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="15">
+                                    <label id="50">
+                                        <text-property name="text">最后投资日期</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="16">
+                                    <label id="52">
+                                        <text-property name="text">有效投资余额</text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="17">
+                                <cell id="18">
+                                    <data id="45">
+                                        <property name="textAlign">center</property>
+                                        <property name="resultSetColumn">AU_ID</property>
+                                    </data>
+                                </cell>
+                                <cell id="19">
+                                    <data id="47">
+                                        <property name="textAlign">center</property>
+                                        <property name="resultSetColumn">NAME</property>
+                                    </data>
+                                </cell>
+                                <cell id="20">
+                                    <data id="49">
+                                        <property name="textAlign">center</property>
+                                        <property name="resultSetColumn">ID_TYPE</property>
+                                    </data>
+                                </cell>
+                                <cell id="21">
+                                    <data id="51">
+                                        <property name="textAlign">center</property>
+                                        <property name="resultSetColumn">DATEPOINT</property>
+                                    </data>
+                                </cell>
+                                <cell id="22">
+                                    <data id="53">
+                                        <property name="textAlign">center</property>
+                                        <property name="resultSetColumn">SUM_AMT</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                        <footer>
+                            <row id="23">
+                                <cell id="24"/>
+                                <cell id="25"/>
+                                <cell id="26"/>
+                                <cell id="27"/>
+                                <cell id="28"/>
+                            </row>
+                        </footer>
+                    </table>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

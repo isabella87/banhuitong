@@ -1,5 +1,6 @@
 package com.bht.banhuitong.common;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,8 +13,14 @@ public class DateUtils {
 	
 	private static final SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	public static Date parseDate(String s) throws Exception{
-		return ft.parse(s);
+	public static Date parseDate(String s){
+		try {
+			return ft.parse(s);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static Date parseDate(String s, String format) throws Exception{

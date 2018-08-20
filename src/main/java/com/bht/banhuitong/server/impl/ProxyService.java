@@ -10,23 +10,24 @@ import org.apache.log4j.Logger;
 import com.bht.banhuitong.common.DateUtils;
 
 /**
- * 业务操作动态代理，用于在调用真实业务操作方法前和之后记录业务操作日志
- * （可以在此处对参数进行统一加密处理）
+ * 业务操作动态代理，用于在调用真实业务操作方法前和之后记录业务操作日志 （可以在此处对参数进行统一加密处理）
+ * 
  * @author Isabella
  *
  */
 public class ProxyService implements InvocationHandler {
 
 	public final static Logger busiLogger = Logger.getLogger("busiLogger");
-	
+
 	private Object obj;
-	
-	public ProxyService(Object object){
+
+	public ProxyService(Object object) {
 		this.obj = object;
 	}
-	
+
 	/**
 	 * 调用业务操作方法之前记录操作日志
+	 * 
 	 * @param args
 	 * @param method
 	 */
@@ -40,25 +41,29 @@ public class ProxyService implements InvocationHandler {
 		sb.append("\"USER\":").append("\"").append("admin").append("\",");
 		sb.append("\"TARGET\":").append("\"").append("").append("\",");
 		sb.append("\"DETAIL\":").append("\"").append("----PARAMETERS----");
-		for(Object o:args) {
-			if (o instanceof Map) {
-				Map<String, String> p = (Map<String, String>) o;
+		if (args != null) {
+			for (Object o : args) {
 
-				int i = 0;
-				for (String key : p.keySet()) {
-					sb.append((i==0?"":",")+key).append("=").append("\"").append(p.get(key)).append("\"");
-					i++;
+				if (o instanceof Map) {
+					Map<String, String> p = (Map<String, String>) o;
+
+					int i = 0;
+					for (String key : p.keySet()) {
+						sb.append((i == 0 ? "" : ",") + key).append("=").append("\"").append(p.get(key)).append("\"");
+						i++;
+					}
 				}
 			}
 		}
-		
+
 		sb.append("------------\"}");
-		
+
 		busiLogger.debug(sb.toString());
 	}
-	
+
 	/**
 	 * 调用业务操作方法之后记录操作日志
+	 * 
 	 * @param args
 	 * @param method
 	 */
@@ -72,28 +77,30 @@ public class ProxyService implements InvocationHandler {
 		sb.append("\"USER\":").append("\"").append("admin").append("\",");
 		sb.append("\"TARGET\":").append("\"").append("").append("\",");
 		sb.append("\"DETAIL\":").append("\"").append("----PARAMETERS----");
-		for(Object o:args) {
-			if (o instanceof Map) {
-				Map<String, String> p = (Map<String, String>) o;
+		if (args != null) {
+			for (Object o : args) {
+				if (o instanceof Map) {
+					Map<String, String> p = (Map<String, String>) o;
 
-				int i = 0;
-				for (String key : p.keySet()) {
-					sb.append((i==0?"":",")+key).append("=").append("\"").append(p.get(key)).append("\"");
-					i++;
+					int i = 0;
+					for (String key : p.keySet()) {
+						sb.append((i == 0 ? "" : ",") + key).append("=").append("\"").append(p.get(key)).append("\"");
+						i++;
+					}
 				}
 			}
 		}
-		
+
 		sb.append("------------\"}");
-		
+
 		busiLogger.debug(sb.toString());
 	}
-	
+
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		beforeMethod(args,method);
-		Object o = method.invoke(obj,args);
-		afterMethod(args,method);
+		beforeMethod(args, method);
+		Object o = method.invoke(obj, args);
+		afterMethod(args, method);
 		return o;
 	}
 

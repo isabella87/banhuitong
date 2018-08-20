@@ -59,7 +59,17 @@
     <servlet-name>prjServlet</servlet-name>
     <url-pattern>/banhuitong/action/prj</url-pattern>
   </servlet-mapping>
-   
+  
+  <servlet>
+    <servlet-name>investorServlet</servlet-name>
+    <servlet-class>com.bht.banhuitong.server.impl.InvestorServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>investorServlet</servlet-name>
+    <url-pattern>/banhuitong/action/investor</url-pattern>
+  </servlet-mapping> 
+  
    <servlet>
     <servlet-name>dbModelServlet</servlet-name>
     <servlet-class>com.bht.banhuitong.server.impl.DbModelServiceImpl</servlet-class>
