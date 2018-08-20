@@ -122,9 +122,9 @@ public class GraphicStatisticPortlet extends BasePortlet {
 						DataFactory.setInvestorSumAmtInfoList(result);
 						List<InvestorInfo> list = DataFactory.getInvestorSumAmtInfoList(investorInfo.getList());
 						
-						SC.say("size="+list.size()+",result[1].get(\"NAME\")="+list.get(1).getName()+",result[1].get(\"DATEPOINT\")="+list.get(1).getDatepoint());
+//						SC.say("size="+list.size()+",result[1].get(\"NAME\")="+list.get(1).getName()+",result[1].get(\"DATEPOINT\")="+list.get(1).getDatepoint());
 						// TODO GWT 与js 交互，将数据再页面加载前存入页面
-//						final String url = GWT.getHostPageBaseURL() + "frameset?__report=investor_sum_amt_report.rptdesign&__showtitle=false&__title=investorSumAmt&__toolbar=false";
+						final String url = GWT.getHostPageBaseURL() + "frameset?__report=investor_sum_amt_report.rptdesign&__showtitle=false&__title=investorSumAmt&__toolbar=false";
 
 						frame.setUrl(url);
 					}
