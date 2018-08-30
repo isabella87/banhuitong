@@ -91,11 +91,14 @@
             <property name="dataSource">investorSumAmtDs</property>
             <method name="open"><![CDATA[importPackage(Packages.com.bht.banhuitong.client.scriptds)
 
-investorInfoList =new DataFactory().getInvestorSumAmtInfoList();
+instance = new DataFactory().getLazyInstance();
+
+investorInfoList =instance.getInvestorSumAmtInfoList();
 
 iterator = investorInfoList.iterator();
 ]]></method>
-            <method name="fetch"><![CDATA[if(iterator.hasNext() == false ){
+            <method name="fetch"><![CDATA[
+if(iterator.hasNext() == false ){
 	return false;
 }
 var investorInfo = iterator.next();

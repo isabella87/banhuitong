@@ -6,6 +6,7 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.8.1//EN"
   "http://gwtproject.org/doctype/2.8.1/gwt-module.dtd">
 <module rename-to='banhuitong'>
+
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.google.gwt.core.Core"/>

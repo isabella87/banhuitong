@@ -13,9 +13,39 @@ import java.util.Map;
  */
 public class DataFactory {
 
-	public static List<Map<String, String>> investorSumAmtInfoList = new ArrayList<>();
-	public static void setInvestorSumAmtInfoList(List<Map<String, String>> list) {
+//	private List<Map<String, String>> investorSumAmtInfoList = Collections.synchronizedList(new ArrayList<Map<String, String>>());
+	private List<Map<String, String>> investorSumAmtInfoList = new ArrayList<Map<String, String>>();
+	
+	public static volatile String strData;  //用以解决以上List数据线程不安全的临时方案(Collections.synchronizedList在gwt中不支持)。 其数据格式为“字段名1=值1,字段名2=值2},字段名1=值1,字段名2=值2”
+	
+	public void setInvestorSumAmtInfoList(List<Map<String, String>> list) {
 		investorSumAmtInfoList = list;
+	}
+	
+	private static DataFactory instance = null;	
+	
+	public DataFactory getLazyInstance() {
+		if(null == instance ) {
+			instance = new DataFactory();
+		}
+		return instance;
+	}
+	
+	private List<Map<String, String>> getListDataByStr(){
+		List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
+		if(null != strData) {
+		for (String s : strData.split("},")) {
+			Map<String, String> map = new HashMap<String, String>();
+			for (String ss : s.split(",")) {
+					String[] item = ss.split("=");
+					String key = item[0].trim();
+					String value = item[1].trim();
+					map.put(key, value);
+				}
+			listData.add(map);
+		}
+		}
+		return listData;
 	}
 	/**
 	 * 返回数据转换成实体类，或者直接用map集合
@@ -23,7 +53,7 @@ public class DataFactory {
 	public List getInvestorSumAmtInfoList() 
 	{
 		List<InvestorInfo> result = new ArrayList<InvestorInfo>();
-		for(Map<String,String> map:investorSumAmtInfoList) {
+		for(Map<String,String> map:getListDataByStr()) {
 			InvestorInfo investorInfo = new InvestorInfo();
 			investorInfo.setAuId(map.get("AU_ID"));
 			investorInfo.setName(map.get("NAME"));
@@ -47,26 +77,9 @@ public class DataFactory {
 		
 		return result;
 	}
-	
-	public static List getInvestorSumAmtInfoList(List<InvestorInfo> list) {
-		
-		return list;
+
+	public void setStrData(String str) {
+		strData = str;
 	}
 	
-	public static void main(String[] args) {
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("AU_ID", "1");
-		map.put("NAME", "shiliu");
-		map.put("ID_TYPE", "个人");
-		map.put("DATEPOINT", "2018-11-12 12:34:59");
-		map.put("SUM_AMT", "1010");
-		
-		
-		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
-		list.add(map);
-		
-		DataFactory.setInvestorSumAmtInfoList(list);
-		List lll = new DataFactory().getInvestorSumAmtInfoList();
-		System.out.println(lll);
-	}
 }

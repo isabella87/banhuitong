@@ -14,7 +14,6 @@ import com.bht.banhuitong.server.InvestorServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Frame;
-import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
@@ -119,14 +118,24 @@ public class GraphicStatisticPortlet extends BasePortlet {
 					public void onSuccess(List<Map<String, String>> result) {
 						InvestorInfo investorInfo = new InvestorInfo();
 						investorInfo.setList(result);
-						DataFactory.setInvestorSumAmtInfoList(result);
-						List<InvestorInfo> list = DataFactory.getInvestorSumAmtInfoList(investorInfo.getList());
+//						String strData = "" ;
+						StringBuffer sb = new StringBuffer();
+						for(Map<String,String> map: result) {
+							for(String key:map.keySet()) {
+								sb.append(key).append("=").append(map.get(key)).append(",");
+							}
+							sb.append("},");
+						}
+						DataFactory.strData=sb.toString();
+						new DataFactory().getLazyInstance().setInvestorSumAmtInfoList(result);
+//						List<InvestorInfo> list = new DataFactory().getLazyInstance().getInvestorSumAmtInfoList(investorInfo.getList());
 						
 //						SC.say("size="+list.size()+",result[1].get(\"NAME\")="+list.get(1).getName()+",result[1].get(\"DATEPOINT\")="+list.get(1).getDatepoint());
 						// TODO GWT 与js 交互，将数据再页面加载前存入页面
 						final String url = GWT.getHostPageBaseURL() + "frameset?__report=investor_sum_amt_report.rptdesign&__showtitle=false&__title=investorSumAmt&__toolbar=false";
 
 						frame.setUrl(url);
+						
 					}
 				});
 			}

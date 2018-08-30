@@ -108,4 +108,27 @@ git push -u origin master
 	1）对通过httpclient中获取的数据，通过解析返回信息中是否含有error来设置异常，并做抛出处理。
 	2）本系统中的异常描述，通过在配置config.properties文件中增加“exception code and desc”记录；
 
-	
+​	
+
+
+
+Xshell中sftp上传下载文件使用命令：
+
+1，在属性中配置默认下载路径，也可以用lcd 命令配置临时下载文件保存目录；
+
+​		lcd  F:\shell_download
+
+2，x下载文件：
+
+​		get   filename
+
+​		get  –r  “要下载的文件夹” （绝对路径）
+
+3，上传文件，可以直接拖放。也可以用以下命令：
+
+put  path/filename.txt
+
+Put  -r  path/文件夹
+
+
+
