@@ -7,13 +7,12 @@ import java.util.Map;
 
 import com.bht.banhuitong.client.BasePortlet;
 import com.bht.banhuitong.client.MainFrame;
-import com.bht.banhuitong.client.scriptds.DataFactory;
-import com.bht.banhuitong.client.scriptds.InvestorInfo;
-import com.bht.banhuitong.server.InvestorService;
-import com.bht.banhuitong.server.InvestorServiceAsync;
+import com.bht.banhuitong.server.AccountService;
+import com.bht.banhuitong.server.AccountServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Frame;
+import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
@@ -26,7 +25,7 @@ import com.smartgwt.client.widgets.layout.HLayout;
 public class GraphicStatisticPortlet extends BasePortlet {
 	public static String portletTitleName = "数据分析 -报表分析";
 	private GraphicStatisticPortlet portletInstance;
-	private final InvestorServiceAsync investorService = GWT.create(InvestorService.class);
+	private final AccountServiceAsync accountService = GWT.create(AccountService.class);
 	
 	public GraphicStatisticPortlet getInstance() {
 		if (portletInstance == null) {
@@ -43,6 +42,9 @@ public class GraphicStatisticPortlet extends BasePortlet {
 
 		IButton searchDataButton = new IButton("搜索");  
         searchDataButton.setLeft(0);  
+        
+        IButton loadReportButton = new IButton("加载报表");  
+        loadReportButton.setLeft(0);  
         
         final ComboBoxItem timeTypeItem = new ComboBoxItem("dateTime"); 
         timeTypeItem.setTitle("时间类型");
@@ -90,7 +92,7 @@ public class GraphicStatisticPortlet extends BasePortlet {
 		searchForm.setNumCols(8);
 		searchForm.setFields(timeTypeItem,startDateItem,endDateItem,prjTypeItem,prjStatusItem,searchKeyTypeItem,searchKeyItem);
 		
-		searchPanel.addMembers(searchForm,searchDataButton);
+		searchPanel.addMembers(searchForm,searchDataButton,loadReportButton);
 //		sPanel.add(searchPanel);
 		
         this.addMember(searchPanel);
@@ -107,7 +109,7 @@ public class GraphicStatisticPortlet extends BasePortlet {
 			public void onClick(ClickEvent event) {
 				Map<String,String> paramMap = new HashMap<String,String>();
 				
-				investorService.queryInvestorInfoList(paramMap, new AsyncCallback<List<Map<String, String>>>(){
+				accountService.exportDataToExcel(paramMap, new AsyncCallback<List<Map<String, String>>>(){
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -116,7 +118,12 @@ public class GraphicStatisticPortlet extends BasePortlet {
 
 					@Override
 					public void onSuccess(List<Map<String, String>> result) {
-						InvestorInfo investorInfo = new InvestorInfo();
+						if(result == null ||result.isEmpty() ) {
+							SC.say("没有符合条件的数据！！！");
+						}else {
+							SC.say("数据准备就绪：共"+result.size()+"条！");
+						}
+						/*InvestorInfo investorInfo = new InvestorInfo();
 						investorInfo.setList(result);
 //						String strData = "" ;
 						StringBuffer sb = new StringBuffer();
@@ -126,19 +133,30 @@ public class GraphicStatisticPortlet extends BasePortlet {
 							}
 							sb.append("},");
 						}
-						DataFactory.strData=sb.toString();
-						new DataFactory().getLazyInstance().setInvestorSumAmtInfoList(result);
+						DataFactory.strData=sb.toString();*/
+						
 //						List<InvestorInfo> list = new DataFactory().getLazyInstance().getInvestorSumAmtInfoList(investorInfo.getList());
 						
 //						SC.say("size="+list.size()+",result[1].get(\"NAME\")="+list.get(1).getName()+",result[1].get(\"DATEPOINT\")="+list.get(1).getDatepoint());
 						// TODO GWT 与js 交互，将数据再页面加载前存入页面
-						final String url = GWT.getHostPageBaseURL() + "frameset?__report=investor_sum_amt_report.rptdesign&__showtitle=false&__title=investorSumAmt&__toolbar=false";
-
-						frame.setUrl(url);
+						
+//						SC.say("数据准备就绪：共"+new DataFactory().getLazyInstance().getInvestorSumAmtInfoList().size()+"条！");
 						
 					}
 				});
 			}
+		});
+		
+		loadReportButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				final String url = GWT.getHostPageBaseURL() + "frameset?__report=luban_yl.rptdesign&__showtitle=false&__title=investorSumAmt&__toolbar=false";
+
+				frame.setUrl(url);
+			}
+			
 		});
 		
 		this.addItem(frame);

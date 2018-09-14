@@ -41,7 +41,7 @@ public class ExcelUtil {
 		this.data = data;
 
 		this.wb = new HSSFWorkbook();
-		this.sheet = wb.createSheet(sheetName);
+		this.sheet = wb.createSheet(sheetName.isEmpty()? "sheet":sheetName);
 		this.cellStyleTitle = wb.createCellStyle();
 		this.cellStyle = wb.createCellStyle();
 

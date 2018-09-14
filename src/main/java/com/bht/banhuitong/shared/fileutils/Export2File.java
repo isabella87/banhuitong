@@ -38,13 +38,13 @@ public class Export2File {
 	 * @param data
 	 * @return
 	 */
-	public String export(String rootPath, String moduleAndServiceno, String exportFileSytle,
+	public String export(String sheetName,String rootPath, String moduleAndServiceno, String exportFileSytle,
 			List<Map<String, String>> data) {
 		this.rootPath = rootPath;
 		this.exportFileSytle = exportFileSytle;
 		String filename = initFileName(moduleAndServiceno);
 
-		ExcelUtil excelUtil = new ExcelUtil(moduleAndServiceno,data);
+		ExcelUtil excelUtil = new ExcelUtil(moduleAndServiceno.isEmpty()? sheetName:moduleAndServiceno,data);
 		excelUtil.outputExcel(fileAllPath);
 		
 		return filename;
@@ -70,7 +70,10 @@ public class Export2File {
 		data.add(mapData);
 		data.add(mapData2);
 
-		new Export2File().export("d:\\exportdata", "_2_2", "xls", data);
+		new Export2File().export("sheetName","d:\\exportdata\\report", "", "xls", data);
+		
+//		new Export2File().export(Configuration.getString(Configuration.REPORT_PATH), "", "xls", data);
+		
 		System.out.println("done");
 	}
 }

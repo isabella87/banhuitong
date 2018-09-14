@@ -1,0 +1,136 @@
+package com.bht.banhuitong.util;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+/**
+ * EXCEL报表工具类.
+ */
+public class ExcelExportUtil {
+
+	private HSSFWorkbook wb;
+	private HSSFSheet sheet;
+
+	private List<Map<String, String>> data;
+	private List<String> titleNames;
+	private final String TITLE = "_title";
+	private final int TITLE_ROW = 0;
+
+	private Map<String, HSSFCellStyle> cellStyleMap = new HashMap<>();
+
+	HSSFCellStyle textCellStyle;
+	HSSFCellStyle dateTimeCellStyle;
+	HSSFCellStyle dateCellStyle;
+	HSSFCellStyle numberCellStyle;
+	HSSFCellStyle floatCellStyle;
+
+	/**
+	 * @param sheetName
+	 * @param tableModel
+	 */
+	public ExcelExportUtil(String sheetName, List<Map<String, String>> data) {
+		this.data = data;
+
+		this.wb = new HSSFWorkbook();
+		this.sheet = wb.createSheet(sheetName);
+
+		init();
+	}
+
+	private void init() {
+
+		cellStyleMap.put(TITLE, ExcelColumnStyle.titleStyle(wb, null));
+
+		createTitleRow();
+
+		for (int i = 0; i < data.size(); i++) {
+			createDataRow(i + 1);
+		}
+	}
+
+	public void createTitleRow() {
+		titleNames = new ArrayList<String>();
+		for (String key : data.get(0).keySet()) {
+			titleNames.add(key);
+		}
+		// 定义第一行
+		HSSFRow row = sheet.createRow(TITLE_ROW);
+
+		// 冻结首行
+		sheet.createFreezePane(titleNames.size(), TITLE_ROW);
+
+		for (int i = 0; i < titleNames.size(); ++i) {
+
+			textCellStyle = ExcelColumnStyle.textStyle(wb, textCellStyle);
+			cellStyleMap.put(titleNames.get(i), textCellStyle);
+
+			HSSFCell cell = row.createCell(i);
+			cell.setCellStyle(cellStyleMap.get(TITLE));
+			cell.getSheet().setColumnWidth(i, 160);
+			cell.setCellValue(titleNames.get(i));
+		}
+	}
+
+	/**
+	 * 此处数据行从excel的第二行开始，rowNo值从1开始
+	 *
+	 * @param rowNo
+	 */
+	public void createDataRow(int rowNo) {
+		HSSFRow row = sheet.createRow(TITLE_ROW + rowNo);
+
+		for (int i = 0; i < titleNames.size(); ++i) {
+			HSSFCell cell = row.createCell(i);
+			cell.setCellStyle(cellStyleMap.get(TITLE));
+			String value = data.get(rowNo).get(titleNames.get(i));
+			if (value == null || value.isEmpty()) {
+				cell.setCellValue("");
+			} else {
+				cell.setCellValue(value.toString());
+			}
+		}
+
+	}
+
+	/**
+	 * 输入EXCEL文件
+	 *
+	 * @param fileName
+	 *            文件名
+	 */
+	public void outputExcel(String fileName) {
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(new File(fileName));
+			wb.write(fos);
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("loginName", "admin");
+		map.put("realName", "lilei");
+		map.put("mobile", "18217868796");
+		data.add(map);
+		new ExcelExportUtil("sheet", data).outputExcel("aaa" + ".xls");
+	}
+}

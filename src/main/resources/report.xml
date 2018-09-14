@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<reportlist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="report_schme.xsd">
+
+	<reportItem>
+		<auId>434102</auId>
+		<loginName>lb7688t</loginName>
+		<realName>lb7688t</realName>
+		<mobile>18307057688</mobile>
+		<desc></desc>
+	</reportItem>
+
+	<reportItem>
+		<auId>434103</auId>
+		<loginName>duo549715346</loginName>
+		<realName>duo549715346</realName>
+		<mobile>18291984880</mobile>
+		<desc></desc>
+	</reportItem>
+	
+</reportlist>

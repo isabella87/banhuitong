@@ -19,4 +19,6 @@ public interface AccountService extends RemoteService {
 	@BusinessAnnotation(serviceno=2,recordLog= true)
 	List<Map<String, String>> getAccountInfo() throws Exception;
 	
+	@BusinessAnnotation(serviceno=3,recordLog= true)
+	List<Map<String, String>> exportDataToExcel(Map<String,String> paramMap) throws Exception;
 }

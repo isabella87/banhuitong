@@ -19,6 +19,20 @@ import com.bht.banhuitong.db.service.AccountDbService;
 public class AccountDbServiceImpl extends BaseDbService implements AccountDbService{
 	private final static Logger logger = Logger.getLogger(AccountDbServiceImpl.class);
 
+	public List<Map<String,String>> getPullInDataByCon(final Map<String,String> param){
+		
+		String sql = "select aur.au_id 用户ID,aur.login_name 登录名,aur.mobile 手机号,api.REAL_NAME 姓名\r\n" + 
+				" from ACC_USER_REG aur\r\n" + 
+				" join ACC_PERSON_INFO api on api.au_id = aur.au_id \r\n" + 
+				" where src = 10 and to_char(REG_TIME,'yyyy-mm-dd') < '2018-09-07' " + 
+				" order by REG_TIME asc";
+		try {
+			return queryUtil.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public List<Map<String,String>> getAccountInfoByLoginName(final String loginName){
 		

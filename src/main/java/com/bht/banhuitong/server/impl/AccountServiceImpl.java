@@ -8,9 +8,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import static com.bht.banhuitong.filter.SecurityFilter.userSessionMap;
 
+import com.bht.banhuitong.config.Configuration;
 import com.bht.banhuitong.db.service.impl.AccountDbServiceImpl;
 import com.bht.banhuitong.security.AuthenticationToken;
 import com.bht.banhuitong.server.AccountService;
+import com.bht.banhuitong.shared.fileutils.Export2File;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -59,6 +61,19 @@ public class AccountServiceImpl extends RemoteServiceServlet implements AccountS
 			logger.debug("NAME:" + map.get("NAME"));
 		}
 		return results;
+	}
+
+	@Override
+	public List<Map<String, String>> exportDataToExcel(Map<String,String> paramMap) throws Exception {
+		// TODO Auto-generated method stub
+		AccountDbServiceImpl accountDbService = new AccountDbServiceImpl();
+		
+		List<Map<String,String>> data = accountDbService.getPullInDataByCon(paramMap);
+				//复写excel文件
+		if(data != null && !data.isEmpty()) {
+			new Export2File().export("luban_yl",Configuration.getString(Configuration.REPORT_PATH), "", "xls", data);
+		}
+		return data;
 	}
 			
 }
