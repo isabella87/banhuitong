@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -306,6 +307,19 @@ public class ExcelUtil {
 		}
 	}
 
+	public boolean backup(String filePath) {
+		File file = new File(filePath);
+		if(file.exists() && file.isFile()) {
+			String newName = new java.sql.Timestamp(new Date().getTime()).toString();
+			newName = newName.replace("-", "").replace(":", "").replace(".", "").replace(" ", "");
+			
+			String oldName = file.getName();
+		
+			filePath = filePath.replace(oldName, newName)+ oldName.substring(oldName.lastIndexOf("."));
+			file.renameTo(new File(filePath));
+		}
+		return true;
+	}
 	/**
 	 * 输入EXCEL文件
 	 * 

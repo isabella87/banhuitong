@@ -160,7 +160,7 @@ public class FileServiceImpl extends RemoteServiceServlet implements FileService
 		String filepath = Configuration.rootPath + File.separator + "module" + module + File.separator + "serviceno"
 				+ serviceno;
 
-		String fileAllPath = new Export2File().export(endName,filepath, endName, "xls", data); // 以要求格式文件将数据保存在服务端
+		String fileAllPath = new Export2File(null).export(endName,filepath, endName, "xls", data); // 以要求格式文件将数据保存在服务端
 
 		return fileAllPath.substring(Configuration.rootPath.length() + 1);
 	}

@@ -71,7 +71,7 @@ public class AccountServiceImpl extends RemoteServiceServlet implements AccountS
 		List<Map<String,String>> data = accountDbService.getPullInDataByCon(paramMap);
 				//复写excel文件
 		if(data != null && !data.isEmpty()) {
-			new Export2File().export("luban_yl",Configuration.getString(Configuration.REPORT_PATH), "", "xls", data);
+			new Export2File("luban_yl").export("luban_yl",Configuration.getString(Configuration.REPORT_PATH), "", "xls", data);
 		}
 		return data;
 	}

@@ -37,7 +37,7 @@
     <property name="imageDPI">96</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.excel" name="excel_lbyl" id="45">
-            <property name="URI">C:/Users/Administrator/Desktop/files/report/20180914.xls</property>
+            <property name="URI">C:/Users/Administrator/Desktop/files/report/luban_yl.xls</property>
             <property name="INCLCOLUMNNAME">yes</property>
             <property name="INCLTYPELINE">no</property>
         </oda-data-source>
@@ -131,7 +131,7 @@
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select "用户ID", "登录名", "手机号", "姓名" from "/C:/Users/Administrator/Desktop/files/report/20180914.xls" : {"用户ID","用户ID",STRING;"登录名","登录名",STRING;"手机号","手机号",STRING;"姓名","姓名",STRING}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select "用户ID", "登录名", "手机号", "姓名" from "/C:/Users/Administrator/Desktop/files/report/luban_yl.xls" : {"用户ID","用户ID",STRING;"登录名","登录名",STRING;"手机号","手机号",STRING;"姓名","姓名",STRING}]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>

@@ -10,14 +10,25 @@ import java.util.Map;
 
 public class Export2File {
 
+	private String fileName;
+
 	private String fileAllPath;
 	private String rootPath = "d:\\exportdata";
 
 	private String exportFileSytle;// 为xls等
 
+	public Export2File(String fileName) {
+		this.fileName = fileName;
+	}
+
 	public String initFileName(String endName) {
-		String filename = new java.sql.Timestamp(new Date().getTime()).toString();
-		filename = filename.replace("-", "").replace(":", "").replace(".", "").replace(" ", "");
+		String filename = "";
+		if (fileName != null && !fileName.isEmpty()) {
+			filename = fileName;
+		} else {
+			filename = new java.sql.Timestamp(new Date().getTime()).toString();
+			filename = filename.replace("-", "").replace(":", "").replace(".", "").replace(" ", "");
+		}
 		File file = new File(rootPath);
 		file.mkdirs();
 		filename = filename + endName + "." + exportFileSytle;
@@ -29,24 +40,29 @@ public class Export2File {
 		}
 		return fileAllPath;
 	}
-	
+
 	/**
 	 * 导出exl
+	 * 
 	 * @param rootPath
 	 * @param moduleAndServiceno
 	 * @param exportFileSytle
 	 * @param data
 	 * @return
 	 */
-	public String export(String sheetName,String rootPath, String moduleAndServiceno, String exportFileSytle,
+	public String export(String sheetName, String rootPath, String moduleAndServiceno, String exportFileSytle,
 			List<Map<String, String>> data) {
 		this.rootPath = rootPath;
 		this.exportFileSytle = exportFileSytle;
 		String filename = initFileName(moduleAndServiceno);
 
-		ExcelUtil excelUtil = new ExcelUtil(moduleAndServiceno.isEmpty()? sheetName:moduleAndServiceno,data);
-		excelUtil.outputExcel(fileAllPath);
+		ExcelUtil excelUtil = new ExcelUtil(moduleAndServiceno.isEmpty() ? sheetName : moduleAndServiceno, data);
 		
+		// 判断之前是否有该文件，如果有，则将原来的文件保存为备份文件，再复写该文件；如果没有，则直接写该文件
+		excelUtil.backup(fileAllPath);
+		
+		excelUtil.outputExcel(fileAllPath);
+
 		return filename;
 	}
 
@@ -70,10 +86,11 @@ public class Export2File {
 		data.add(mapData);
 		data.add(mapData2);
 
-		new Export2File().export("sheetName","d:\\exportdata\\report", "", "xls", data);
-		
-//		new Export2File().export(Configuration.getString(Configuration.REPORT_PATH), "", "xls", data);
-		
+		new Export2File(null).export("sheetName", "d:\\exportdata\\report", "", "xls", data);
+
+		// new Export2File().export(Configuration.getString(Configuration.REPORT_PATH),
+		// "", "xls", data);
+
 		System.out.println("done");
 	}
 }
