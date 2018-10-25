@@ -1,4 +1,4 @@
-# banhuitong
+# banhuitong (maven + gwt)
 
 # 一，准备阶段：
 
