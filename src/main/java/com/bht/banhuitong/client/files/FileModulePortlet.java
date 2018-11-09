@@ -59,6 +59,7 @@ public class FileModulePortlet extends BasePortlet {
 	/**
 	 * 初始化界面
 	 */
+	@Override
 	public void init() {
 
 		HLayout mainLayout = new HLayout();

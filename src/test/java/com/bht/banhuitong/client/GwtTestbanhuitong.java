@@ -23,7 +23,8 @@ public class GwtTestbanhuitong extends GWTTestCase {
   /**
    * Must refer to a valid module that sources this class.
    */
-  public String getModuleName() {
+  @Override
+public String getModuleName() {
     return "com.bht.banhuitong.banhuitongJUnit";
   }
 
@@ -56,12 +57,14 @@ public class GwtTestbanhuitong extends GWTTestCase {
 
     // Send a request to the server.
     loginService.getExcepStr( new AsyncCallback<String>() {
-      public void onFailure(Throwable caught) {
+      @Override
+	public void onFailure(Throwable caught) {
         // The request resulted in an unexpected error.
         fail("Request failure: " + caught.getMessage());
       }
 
-      public void onSuccess(String result) {
+      @Override
+	public void onSuccess(String result) {
         // Verify that the response is correct.
 //        assertTrue(result.startsWith("Hello, GWT User!"));
     	  assertTrue(result==null);

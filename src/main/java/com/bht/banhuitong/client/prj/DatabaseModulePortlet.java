@@ -87,6 +87,7 @@ public class DatabaseModulePortlet extends BasePortlet {
 		super(portletTitleName);
 	}
 
+	@Override
 	public void init() {
 
 		HLayout mainLayout = new HLayout();
@@ -667,6 +668,7 @@ public class DatabaseModulePortlet extends BasePortlet {
 		return listRecords;
 	}
 
+	@Override
 	public ListGridRecord createRecord(Map<String, String> mapItem, int i, Map<String, String> fieldItems) {
 		ListGridRecord record = new ListGridRecord();
 		record.setAttribute("id", ++i);

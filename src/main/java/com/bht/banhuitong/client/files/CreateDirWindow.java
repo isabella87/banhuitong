@@ -42,6 +42,7 @@ public class CreateDirWindow extends Window {
 		this.setAutoCenter(true);
 		this.centerInPage();
 		this.addCloseClickHandler(new CloseClickHandler() {
+			@Override
 			public void onCloseClick(CloseClickEvent event) {
 				destroy();
 			}

@@ -24,6 +24,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
@@ -61,7 +62,7 @@ public class HttpClient {
 
 		// Create HTTP.
 		final org.apache.http.client.HttpClient http = HttpClientBuilder.create().setUserAgent("")
-				.setRetryHandler(StandardHttpRequestRetryHandler.INSTANCE)
+				.setRetryHandler(DefaultHttpRequestRetryHandler.INSTANCE)
 				.setRedirectStrategy(DefaultRedirectStrategy.INSTANCE).build();
 
 		// Create get.
@@ -129,7 +130,7 @@ public class HttpClient {
 		for (String key : paramMap.keySet()) {
 			paramList.add(new BasicNameValuePair(key, paramMap.get(key)));
 		}
-		BasicNameValuePair[] parms = (BasicNameValuePair[]) paramList.toArray(new BasicNameValuePair[paramList.size()]);
+		BasicNameValuePair[] parms = paramList.toArray(new BasicNameValuePair[paramList.size()]);
 		return parms;
 	}
 
@@ -178,7 +179,7 @@ public class HttpClient {
 
 		// Create HTTP.
 		final org.apache.http.client.HttpClient http = HttpClientBuilder.create().setUserAgent("")
-				.setRetryHandler(StandardHttpRequestRetryHandler.INSTANCE)
+				.setRetryHandler(DefaultHttpRequestRetryHandler.INSTANCE)
 				.setRedirectStrategy(DefaultRedirectStrategy.INSTANCE).build();
 
 		// Create get.

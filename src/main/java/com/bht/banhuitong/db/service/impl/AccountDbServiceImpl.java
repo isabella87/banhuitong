@@ -34,6 +34,7 @@ public class AccountDbServiceImpl extends BaseDbService implements AccountDbServ
 		return null;
 	}
 	
+	@Override
 	public List<Map<String,String>> getAccountInfoByLoginName(final String loginName){
 		
 		String sql = "select aur.login_name,aur.mobile ,nvl(api.real_name,aci.org_name) name from acc_user_reg aur \r\n" + 
@@ -51,6 +52,7 @@ public class AccountDbServiceImpl extends BaseDbService implements AccountDbServ
 		
 	}
 	
+@Override
 public List<Map<String,String>> getAccountInfoByAuId(final long auId){
 		
 		String sql = "select aur.login_name,aur.mobile ,nvl(api.real_name,aci.org_name) name from acc_user_reg aur \r\n" + 
@@ -67,6 +69,7 @@ public List<Map<String,String>> getAccountInfoByAuId(final long auId){
 		
 	}
 
+@Override
 public List<Map<String,String>> getBgAccountInfoByUname(final String uname){
 	
 	String sql = "select mu.u_name login_name,mu.u_enabled ,mu.is_locked \r\n"
@@ -82,6 +85,7 @@ public List<Map<String,String>> getBgAccountInfoByUname(final String uname){
 	
 }
 	
+	@Override
 	public long checkLogin(final String loginName,final String pwd) {
 		String sql = "select au_id from acc_user_reg where login_name='"+loginName+"' and password = '"+hashPassword(pwd) +"'";
 		try {
@@ -97,6 +101,7 @@ public List<Map<String,String>> getBgAccountInfoByUname(final String uname){
 		return 0;
 	}
 	
+	@Override
 	public String checkBgLogin(final String loginName,final String pwd) {
 		String sql = "select u_name from my_user where u_enabled = 1 and is_locked = 0 and u_name='"+loginName+"' and u_pwd = '"+hashPassword(pwd) +"'";
 		try {

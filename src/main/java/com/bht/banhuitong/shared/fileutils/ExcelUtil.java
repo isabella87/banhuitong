@@ -18,6 +18,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
@@ -66,23 +68,23 @@ public class ExcelUtil {
 		// 创建单元格样式
 		HSSFCellStyle cellStyleTitle = wb.createCellStyle();
 		// 指定单元格居中对齐
-		cellStyleTitle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		cellStyleTitle.setAlignment(CellStyle.ALIGN_CENTER);
 		// 指定单元格垂直居中对齐
-		cellStyleTitle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		cellStyleTitle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		// 指定当单元格内容显示不下时自动换行
 		cellStyleTitle.setWrapText(true);
 		// ------------------------------------------------------------------
 		HSSFCellStyle cellStyle = wb.createCellStyle();
 		// 指定单元格居中对齐
-		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
 		// 指定单元格垂直居中对齐
-		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		// 指定当单元格内容显示不下时自动换行
 		cellStyle.setWrapText(true);
 
 		// 设置单元格字体
 		HSSFFont font = wb.createFont();
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		font.setFontName("宋体");
 		font.setFontHeight((short) 200);
 		cellStyleTitle.setFont(font);
@@ -116,13 +118,13 @@ public class ExcelUtil {
 		// 定义单元格格式，添加单元格表样式，并添加到工作簿
 		HSSFCellStyle cellStyle = wb.createCellStyle();
 		// 设置单元格水平对齐类型
-		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 指定单元格居中对齐
-		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 指定单元格垂直居中对齐
+		cellStyle.setAlignment(CellStyle.ALIGN_CENTER); // 指定单元格居中对齐
+		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);// 指定单元格垂直居中对齐
 		cellStyle.setWrapText(true);// 指定单元格自动换行
 
 		// 设置单元格字体
 		HSSFFont font = wb.createFont();
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		font.setFontName("宋体");
 		font.setFontHeight((short) 600);
 		cellStyle.setFont(font);
@@ -192,13 +194,13 @@ public class ExcelUtil {
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, colSum));
 
 		HSSFCellStyle cellStyle = wb.createCellStyle();
-		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 指定单元格居中对齐
-		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 指定单元格垂直居中对齐
+		cellStyle.setAlignment(CellStyle.ALIGN_CENTER); // 指定单元格居中对齐
+		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);// 指定单元格垂直居中对齐
 		cellStyle.setWrapText(true);// 指定单元格自动换行
 
 		// 设置单元格字体
 		HSSFFont font = wb.createFont();
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		font.setFontName("宋体");
 		font.setFontHeight((short) 250);
 		cellStyle.setFont(font);
@@ -221,20 +223,20 @@ public class ExcelUtil {
 		row2.setHeight((short) 600);
 
 		HSSFCellStyle cellStyle = wb.createCellStyle();
-		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 指定单元格居中对齐
-		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 指定单元格垂直居中对齐
+		cellStyle.setAlignment(CellStyle.ALIGN_CENTER); // 指定单元格居中对齐
+		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);// 指定单元格垂直居中对齐
 		cellStyle.setWrapText(true);// 指定单元格自动换行
 
 		// 单元格字体
 		HSSFFont font = wb.createFont();
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		font.setFontName("宋体");
 		font.setFontHeight((short) 250);
 		cellStyle.setFont(font);
 
 		// 设置单元格背景色
 		cellStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-		cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
 		HSSFCell cell3 = null;
 
@@ -279,13 +281,13 @@ public class ExcelUtil {
 	public void createLastSumRow(int colSum, String[] cellValue) {
 
 		HSSFCellStyle cellStyle = wb.createCellStyle();
-		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 指定单元格居中对齐
-		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 指定单元格垂直居中对齐
+		cellStyle.setAlignment(CellStyle.ALIGN_CENTER); // 指定单元格居中对齐
+		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);// 指定单元格垂直居中对齐
 		cellStyle.setWrapText(true);// 指定单元格自动换行
 
 		// 单元格字体
 		HSSFFont font = wb.createFont();
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		font.setFontName("宋体");
 		font.setFontHeight((short) 250);
 		cellStyle.setFont(font);

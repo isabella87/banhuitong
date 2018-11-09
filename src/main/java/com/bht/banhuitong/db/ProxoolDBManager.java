@@ -19,6 +19,7 @@ public class ProxoolDBManager implements IDBManager {
 		}
 	}
 
+	@Override
 	public void closeConnection(Connection conn) {
 		try {
 			conn.setAutoCommit(oldAutoCommit);
@@ -27,6 +28,7 @@ public class ProxoolDBManager implements IDBManager {
 		}
 	}
 
+	@Override
 	public Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {
@@ -43,10 +45,12 @@ public class ProxoolDBManager implements IDBManager {
 		return conn;
 	}
 
+	@Override
 	public void beginTransaction(Connection conn) {
 		;
 	}
 
+	@Override
 	public void commit(Connection conn) {
 		try {
 			conn.commit();
@@ -54,6 +58,7 @@ public class ProxoolDBManager implements IDBManager {
 		}
 	}
 
+	@Override
 	public void rollback(Connection conn) {
 		try {
 			conn.rollback();

@@ -127,6 +127,7 @@ public class MainPrjPortlet extends BasePortlet {
 		super(portletTitleName);
 	}
 
+	@Override
 	public void init() {
 		final ListGrid listGrid = new ListGrid();
 
@@ -310,6 +311,7 @@ public class MainPrjPortlet extends BasePortlet {
 				BaseFrame.hBar.setPercentDone(hBarValue);
 
 				new Timer() {
+					@Override
 					public void run() {
 						hBarValue += 1;
 						if (hBarValue >= 100) {

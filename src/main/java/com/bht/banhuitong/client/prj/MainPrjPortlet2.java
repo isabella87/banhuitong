@@ -14,10 +14,8 @@ import com.bht.banhuitong.server.PrjServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.smartgwt.client.types.SelectionAppearance;
 import com.smartgwt.client.util.SC;
-import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
@@ -114,6 +112,7 @@ public class MainPrjPortlet2 extends BasePortlet{
 		super(portletTitleName);
 	}
 	
+	@Override
 	public void init() {
 		final ListGrid countryGrid = new ListGrid();  
 		countryGrid.setHeight100(); 
@@ -189,7 +188,8 @@ public class MainPrjPortlet2 extends BasePortlet{
         this.addItem(countryGrid);
 		
 		searchDataButton.addClickHandler(new ClickHandler() {  
-            public void onClick(ClickEvent event) {  
+            @Override
+			public void onClick(ClickEvent event) {  
             	final Map<String,String> paramMap = new HashMap<String,String>();
             	if (timeTypeItem.getValueAsString() != null) {
 					if (timeTypeItem.getValueAsString().equals("0")) {
@@ -225,7 +225,8 @@ public class MainPrjPortlet2 extends BasePortlet{
 				BaseFrame.hBar.setPercentDone(hBarValue);
 				
 				new Timer() {  
-		             public void run() {  
+		             @Override
+					public void run() {  
 		            	 hBarValue += 1; 
 		            	 if (hBarValue >= 100) {  
 		                	 hBarValue = 100; 

@@ -40,6 +40,7 @@ public class UploadWindow extends Window {
 		this.setAutoCenter(true);
 		this.centerInPage();
 		this.addCloseClickHandler(new CloseClickHandler() {
+			@Override
 			public void onCloseClick(CloseClickEvent event) {
 				destroy();
 			}
@@ -67,11 +68,13 @@ public class UploadWindow extends Window {
 		formpanel.setWidget(fileUpload);
 
 		okButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent sender) {
 				formpanel.submit();
 			}
 		});
 		formpanel.addSubmitHandler(new SubmitHandler() {
+			@Override
 			public void onSubmit(SubmitEvent event) {
 				if (fileUpload.getFilename().length() == 0) {
 					errorLabel.setContents("请选择一个文件上传！");
@@ -81,6 +84,7 @@ public class UploadWindow extends Window {
 			}
 		});
 		formpanel.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				destroy();
 				SC.say("上传成功！");

@@ -137,6 +137,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	/**
 	 * 获取验证码
 	 */
+	@Override
 	public String getImageByte() {
 
 		byte[] result = null;
@@ -159,6 +160,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		
 	}
 	
+	@Override
 	public String getP2psrvImageByte() {
 
 		byte[] result = null;

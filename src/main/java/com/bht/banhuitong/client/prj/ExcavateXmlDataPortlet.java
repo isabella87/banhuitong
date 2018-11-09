@@ -27,6 +27,7 @@ public class ExcavateXmlDataPortlet extends BasePortlet{
 		super(portletTitleName);
 	}
 
+	@Override
 	public void init() {
 
 		final ListGrid countryGrid = new ListGrid();  

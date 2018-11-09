@@ -36,6 +36,7 @@ public class ExportDialog extends Dialog implements
 
 	private static final FileServiceAsync fileService = GWT.create(FileService.class);
 	
+	@Override
 	public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
 		this.removeItem(this.form);
 		this.markForDestroy();

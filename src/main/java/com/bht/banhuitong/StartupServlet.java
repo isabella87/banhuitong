@@ -16,6 +16,7 @@ public class StartupServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final static Logger logger = Logger.getLogger(StartupServlet.class);
+	@Override
 	public void init() throws ServletException{
 		Configuration.rootPath = getServletContext().getRealPath("/files");
 		new DBPool().readParams();

@@ -30,6 +30,7 @@ public class ClientExportDialog extends Dialog implements
 
 	private ListGrid grid;
 
+	@Override
 	public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
 		this.removeItem(this.form);
 		this.markForDestroy();

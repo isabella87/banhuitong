@@ -311,7 +311,8 @@ public class BaseFrame {
 		hBar.setPercentDone(hBarValue);
 		
 		 new Timer() {  
-             public void run() {  
+             @Override
+			public void run() {  
             	 hBarValue += 1 + (int) (1 * Math.random());  
                  if (hBarValue > 100) {  
                 	 hBarValue = 100; 

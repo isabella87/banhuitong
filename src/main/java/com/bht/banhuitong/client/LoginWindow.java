@@ -59,6 +59,7 @@ public class LoginWindow extends Window {
 		this.setAutoCenter(true);
 		this.centerInPage();
 		this.addCloseClickHandler(new CloseClickHandler() {
+			@Override
 			public void onCloseClick(CloseClickEvent event) {	
 				MainFrame.menuLayout.setDisabled(true);
 				SysMenuItem.getInstance().disableIMenuItem();

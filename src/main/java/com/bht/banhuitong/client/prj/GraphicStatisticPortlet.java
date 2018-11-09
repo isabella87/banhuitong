@@ -38,6 +38,7 @@ public class GraphicStatisticPortlet extends BasePortlet {
 		super(portletTitleName);
 	}
 
+	@Override
 	public void init() {
 
 		IButton searchDataButton = new IButton("搜索");  
