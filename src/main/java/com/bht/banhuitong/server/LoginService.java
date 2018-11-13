@@ -33,4 +33,6 @@ public interface LoginService extends RemoteService {
 	boolean loginOut()throws IllegalArgumentException;
 	
 	boolean setHttpServiceRootUrl(Map<String,String> paramMap) throws IllegalArgumentException;
+	
+	boolean checkLicence(Map<String,String> paramMap) throws IllegalArgumentException;
 }

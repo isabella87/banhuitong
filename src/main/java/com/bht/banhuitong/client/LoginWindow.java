@@ -241,6 +241,12 @@ public class LoginWindow extends Window {
 
 			@Override
 			public void onSuccess(String result) {
+				/*更改返回信息含义，
+				 * false:用户名或者密码输入失败；
+				 * true:用户名密码输入正确，且在试用期或者已验证注册码；
+				 * 0：用户名密码输入正确，未验证注册码且已过试用期
+				 */
+				
 				if (result.equals("true")) {
 					MainFrame.menuLayout.setDisabled(false);
 					loginName = tempLoginName;
@@ -248,7 +254,11 @@ public class LoginWindow extends Window {
 					SysMenuItem.getInstance().enableIMenuItem();
 					destroy();
 
-				} else {
+				} else if(result.equals("0")){
+					loginName = tempLoginName;
+					
+					new LicenceWindow(true).init();
+				}else {
 					okAndCancelBL.getErrorLabel().setContents("登陆失败！");
 					okAndCancelBL.getErrorLabel().redraw();
 				}

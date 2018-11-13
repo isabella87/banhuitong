@@ -71,7 +71,13 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		AccountDbServiceImpl accountDbService = new AccountDbServiceImpl();
 		String userId = accountDbService.checkBgLogin(loginName, pwd);
 		if (userId!=null &&! userId.isEmpty() && addUserSessionId(userId)) {
-			return "true";
+			//TODO 查看是否验证过注册码信息，如果没有成功验证过，则返回字符串“0”，否则返回“true”
+			if(true) {//此处true为未成功验证过注册码，应调整成从数据库获取具体信息
+				return "true";
+			}else {
+				return "0";
+			}
+
 		} else {
 			throw new IllegalArgumentException(CommonMethod.initExceptionDesc(6));
 		}
@@ -197,6 +203,13 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 					throw new IllegalArgumentException(CommonMethod.initExceptionDesc(7));
 				}
 		Urls.ROOT_URL = paramMap.get("root-url");
+		return true;
+	}
+
+	@Override
+	public boolean checkLicence(Map<String, String> paramMap) throws IllegalArgumentException {
+		// TODO 确认该注册码是否正确，如果正确将注册表中更改是否成功验证过注册码的字段信息
+		String licence = paramMap.get("licence");
 		return true;
 	}
 

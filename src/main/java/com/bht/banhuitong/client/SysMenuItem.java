@@ -47,6 +47,7 @@ public class SysMenuItem {
 
 	private _IMenuItem aboutMenuItem = new _IMenuItem("关于...", "A");
 	private _IMenuItem setMenuItem = new _IMenuItem("路由设置", "M");
+	private _IMenuItem licenceMenuItem = new _IMenuItem("设置注册码", "Z");
 	private _IMenuItem printMenuItem = new _IMenuItem("打印", "P");
 	private _IMenuItem exportMenuItem = new _IMenuItem("导出", "E");
 
@@ -77,6 +78,7 @@ public class SysMenuItem {
 
 		aboutMenuItem.setEnabled(false);
 		setMenuItem.setEnabled(false);
+		licenceMenuItem.setEnabled(false);
 		printMenuItem.setEnabled(false);
 		exportMenuItem.setEnabled(false);
 	}
@@ -102,6 +104,7 @@ public class SysMenuItem {
 
 		aboutMenuItem.setEnabled(true);
 		setMenuItem.setEnabled(true);
+		licenceMenuItem.setEnabled(true);
 		printMenuItem.setEnabled(true);
 		exportMenuItem.setEnabled(true);
 	}
@@ -136,7 +139,7 @@ public class SysMenuItem {
 		iMenuButtonList.add(new IMenuButton("窗口", winMenu));
 
 		Menu helpMenu = new Menu();
-		helpMenu.setItems(aboutMenuItem,setMenuItem, separator, printMenuItem, exportMenuItem);
+		helpMenu.setItems(aboutMenuItem,setMenuItem,licenceMenuItem, separator, printMenuItem, exportMenuItem);
 		iMenuButtonList.add(new IMenuButton("帮助", helpMenu));
 		
 	}
@@ -161,6 +164,7 @@ public class SysMenuItem {
 		closeAllWins._registerClickHandler("L");
 		aboutMenuItem._registerClickHandler("ABOUT");
 		setMenuItem._registerClickHandler("SET");
+		licenceMenuItem._registerClickHandler("LICENCE");
 		printMenuItem._registerClickHandler("PRINT");
 		exportMenuItem._registerClickHandler("EXPORT");
 	}
