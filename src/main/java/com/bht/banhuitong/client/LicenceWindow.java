@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VerticalAlignment;
+import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.Window;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -57,7 +58,7 @@ public class LicenceWindow extends Window {
 			}
 		});
 		DynamicForm form = new DynamicForm();
-		form.setHeight(60);
+		form.setHeight(30);
 		form.setWidth(300);
 		form.setPadding(10);
 		form.setLayoutAlign(VerticalAlignment.BOTTOM);
@@ -67,29 +68,28 @@ public class LicenceWindow extends Window {
 		licenceTextItem.setTitle("注册码验证");
 		licenceTextItem.setWidth(200);
 
-		Label label1 = new Label("请联系官网客服，购买注册码。");
+		Label label1 = new Label("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请拨打电话：400 851 1888，购买注册码。");
 		label1.setHeight(30);
-		Label label2 = new Label("官网地址：");
+		Label label2 = new Label("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;或，访问以下官网地址，联系线上客服。");
 		label2.setHeight(30);
-		Hyperlink hl = new Hyperlink();
-		hl.setText("https://www.banbank.com/");
-		Label label3 = new Label("或,拨打以下号码联系客服获取注册码：400 851 1888");
+		Label label3 = new Label("&nbsp;&nbsp;&nbsp;&nbsp;（请右击复制后在360浏览器极速模式下打开）");
 		label3.setHeight(30);
+		Hyperlink hl = new Hyperlink();
+		hl.setHeight("20");
+		hl.setHTML("</br></br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://www.banbank.com/' target='_blank' >https://www.banbank.com/</a>");
 		
+		Canvas calvas = new Canvas();
+		calvas.setHeight(30);
+		calvas.addChild(hl);
 		
-		DynamicForm formHl = new DynamicForm();
-		formHl.setHeight(30);
-//		formHl.setWidth(300);
-//		formHl.setPadding(10);
-		formHl.setLayoutAlign(Alignment.LEFT);
-		formHl.setEdgeMarginSize(10);
+//		calvas.linkHTML("https://www.banbank.com/", "https://www.banbank.com/","_blank");
 		
-		formHl.addChild(hl);
+		form.setFields(licenceTextItem);
 		
 		VLayout vlayout = new VLayout();
-		vlayout.setHeight(200);
+		vlayout.setHeight(150);
 		vlayout.setWidth(300);
-		vlayout.addMembers(form,label1,label2,formHl,label3);
+		vlayout.addMembers(form,label1,label2,label3,calvas);
 		
 		okAndCancelBL.getOkButton().addClickHandler(new ClickHandler() {
 
