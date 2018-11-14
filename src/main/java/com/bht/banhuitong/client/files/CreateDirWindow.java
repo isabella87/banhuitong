@@ -22,7 +22,7 @@ public class CreateDirWindow extends Window {
 
 	private static final FileServiceAsync fileService = GWT.create(FileService.class);
 
-	OkAndCancelBL okAndCancelBL = new OkAndCancelBL(true,this);
+	OkAndCancelBL okAndCancelBL = new OkAndCancelBL(false,true,this);
 	
 	private String pName;
 	private String allPath;

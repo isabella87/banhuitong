@@ -13,6 +13,9 @@ import com.smartgwt.client.widgets.layout.HLayout;
 public class OkAndCancelBL {
 	private Label errorLabel = new Label();
 	private IButton okButton = new IButton("确认");
+	
+	private IButton cancelButton = new IButton("取消");
+	
 	public Label getErrorLabel() {
 		return errorLabel;
 	}
@@ -20,8 +23,10 @@ public class OkAndCancelBL {
 	public IButton getOkButton() {
 		return okButton;
 	}
-
-	private IButton cancelButton = new IButton("取消");
+	
+	public IButton getCancelButton() {
+		return cancelButton;
+	}
 
 	private int layoutWidth = 300;
 	private int layoutHeight = 30;
@@ -30,9 +35,11 @@ public class OkAndCancelBL {
 	private int errorMsgWidth = 70;
 	private int errorMsgHeight = 20;
 	private boolean errorMsgFlag = false;
+	private boolean disableAllByCancel = false;
 	private Window parentWin;
 
-	public <T> OkAndCancelBL(boolean errorMsgFlag, T window) {
+	public <T> OkAndCancelBL(boolean disableAllByCancel,boolean errorMsgFlag, T window) {
+		this.disableAllByCancel = disableAllByCancel;
 		this.errorMsgFlag = errorMsgFlag;
 		this.parentWin = (Window) window;
 	}
@@ -49,7 +56,7 @@ public class OkAndCancelBL {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if(errorMsgFlag) {
+				if(disableAllByCancel) {
 					MainFrame.menuLayout.setDisabled(true);
 					SysMenuItem.getInstance().disableIMenuItem();
 				}	

@@ -29,7 +29,7 @@ public class ServiceRouteInfoWindow extends Window {
 
 	private final LoginServiceAsync loginService = GWT.create(LoginService.class);
 
-	OkAndCancelBL okAndCancelBL = new OkAndCancelBL(false, this);
+	OkAndCancelBL okAndCancelBL = new OkAndCancelBL(false,false, this);
 
 	public void init() {
 
@@ -80,7 +80,6 @@ public class ServiceRouteInfoWindow extends Window {
 					@Override
 					public void onSuccess(Boolean result) {
 						destroy();
-
 					}
 
 				});

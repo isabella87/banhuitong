@@ -8,7 +8,10 @@ import com.bht.banhuitong.server.LoginService;
 import com.bht.banhuitong.server.LoginServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VerticalAlignment;
+import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.Window;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
@@ -16,6 +19,7 @@ import com.smartgwt.client.widgets.events.CloseClickEvent;
 import com.smartgwt.client.widgets.events.CloseClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.TextItem;
+import com.smartgwt.client.widgets.layout.VLayout;
 
 /**
  * 注册码验证框（此功能试用于 C/S 端，B/S 端不建议试用）
@@ -29,7 +33,7 @@ public class LicenceWindow extends Window {
 
 	private final LoginServiceAsync loginService = GWT.create(LoginService.class);
 
-	OkAndCancelBL okAndCancelBL = new OkAndCancelBL(true, this);
+	OkAndCancelBL okAndCancelBL = new OkAndCancelBL(false,true, this);
 	
 	private Boolean srcLogin ;
 	
@@ -53,7 +57,7 @@ public class LicenceWindow extends Window {
 			}
 		});
 		DynamicForm form = new DynamicForm();
-		form.setHeight(40);
+		form.setHeight(60);
 		form.setWidth(300);
 		form.setPadding(10);
 		form.setLayoutAlign(VerticalAlignment.BOTTOM);
@@ -63,8 +67,30 @@ public class LicenceWindow extends Window {
 		licenceTextItem.setTitle("注册码验证");
 		licenceTextItem.setWidth(200);
 
-		form.setFields(licenceTextItem);
-
+		Label label1 = new Label("请联系官网客服，购买注册码。");
+		label1.setHeight(30);
+		Label label2 = new Label("官网地址：");
+		label2.setHeight(30);
+		Hyperlink hl = new Hyperlink();
+		hl.setText("https://www.banbank.com/");
+		Label label3 = new Label("或,拨打以下号码联系客服获取注册码：400 851 1888");
+		label3.setHeight(30);
+		
+		
+		DynamicForm formHl = new DynamicForm();
+		formHl.setHeight(30);
+//		formHl.setWidth(300);
+//		formHl.setPadding(10);
+		formHl.setLayoutAlign(Alignment.LEFT);
+		formHl.setEdgeMarginSize(10);
+		
+		formHl.addChild(hl);
+		
+		VLayout vlayout = new VLayout();
+		vlayout.setHeight(200);
+		vlayout.setWidth(300);
+		vlayout.addMembers(form,label1,label2,formHl,label3);
+		
 		okAndCancelBL.getOkButton().addClickHandler(new ClickHandler() {
 
 			@Override
@@ -98,7 +124,7 @@ public class LicenceWindow extends Window {
 			}
 		});
 
-		this.addItem(form);
+		this.addItem(vlayout);
 		this.addItem(okAndCancelBL.init());
 		this.draw();
 	}

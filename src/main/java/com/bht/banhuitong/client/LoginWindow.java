@@ -48,7 +48,7 @@ public class LoginWindow extends Window {
 	}
 
 	public void init() {
-		this.okAndCancelBL = new OkAndCancelBL(true,this);
+		this.okAndCancelBL = new OkAndCancelBL(true,true,this);
 		
 		this.setCanFocus(true);
 		this.setAutoSize(true);
