@@ -18,11 +18,11 @@
 
     <!-- GWT needs at least java 1.6 -->
     <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
-    <catalina.home>C:\tomcat</catalina.home>
+    <catalina.home>C:\Tomcat 9.0</catalina.home>
     
 	<maven.resources.overwrite>true</maven.resources.overwrite>  
 	
@@ -161,15 +161,21 @@
 	    <artifactId>log4j</artifactId>
 	    <version>1.2.17</version>
 	</dependency>
-    
-    <!-- https://mvnrepository.com/artifact/com.google.code.kaptcha/kaptcha -->
-	<dependency>
-	    <groupId>com.google.code.kaptcha</groupId>
-	    <artifactId>kaptcha</artifactId>
-	    <version>2.3</version>
-	</dependency>
-    
-    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi 3.17-->
+
+	  <!-- https://mvnrepository.com/artifact/com.google.code/kaptcha -->
+	  <!--<dependency>
+		  <groupId>com.google.code</groupId>
+		  <artifactId>kaptcha</artifactId>
+		  <version>2.3.0</version>
+	  </dependency>-->
+
+	  <dependency>
+		  <groupId>com.moonsinfo</groupId>
+		  <artifactId>kaptcha</artifactId>
+		  <version>2.3.2</version>
+	  </dependency>
+
+	  <!-- https://mvnrepository.com/artifact/org.apache.poi/poi 3.17-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -269,8 +275,22 @@
 		<scope>system</scope>
 		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/armory2-service.jar</systemPath>
 	</dependency> -->
-	
-	<dependency>
+
+	  <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	  <dependency>
+		  <groupId>mysql</groupId>
+		  <artifactId>mysql-connector-java</artifactId>
+		  <version>8.0.17</version>
+	  </dependency>
+
+	  <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+	  <dependency>
+		  <groupId>org.postgresql</groupId>
+		  <artifactId>postgresql</artifactId>
+		  <version>42.2.6</version>
+	  </dependency>
+
+	  <dependency>
 		<groupId>oracle</groupId>
 		<artifactId>oracle</artifactId>
 		<version>1.0.0</version>

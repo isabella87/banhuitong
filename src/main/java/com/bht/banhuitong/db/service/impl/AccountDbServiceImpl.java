@@ -73,7 +73,7 @@ public List<Map<String,String>> getAccountInfoByAuId(final long auId){
 public List<Map<String,String>> getBgAccountInfoByUname(final String uname){
 	
 	String sql = "select mu.u_name login_name,mu.u_enabled ,mu.is_locked \r\n"
-			+ "from my_user mu \r\n" + 
+			+ "from my_user mu \r\n" +
 			"where mu.u_name = '" + uname +"'";
 	
 	try {
@@ -137,4 +137,9 @@ public List<Map<String,String>> getBgAccountInfoByUname(final String uname){
 
         return getEncoder().encodeToString(hash(disturb(s, salt)));
     }
+
+    /*        9rQmu3GQypuXDRvBFWosowjX48Y=     */
+    public static void main(String[] args){
+    	System.out.println(hashPassword("123456"));
+	}
 }

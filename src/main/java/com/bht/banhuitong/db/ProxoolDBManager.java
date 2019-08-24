@@ -34,7 +34,9 @@ public class ProxoolDBManager implements IDBManager {
 		try {
 			// Class.forName("org.logicalcobwebs.proxool.ProxoolDriver");
 			// Class.forName("net.sourceforge.jtds.jdbc.Driver");
+
 			conn = DriverManager.getConnection(alias);
+			//conn = DriverManager.getConnection(dburl);
 			/*
 			 * oldAutoCommit=conn.getAutoCommit(); conn.setAutoCommit(autoCommit);
 			 */
